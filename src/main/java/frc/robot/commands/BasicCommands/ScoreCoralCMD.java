@@ -6,49 +6,66 @@ package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Tilter;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants;
 
 public class ScoreCoralCMD extends Command {
   
-  public Tilter tilter;
-  public Shooter shooter;
+  public Coral coral;
   public Elevator elevator;
   public Boolean endBoolean;
+  public StateMachine stateMachine;
 
-  public ScoreCoralCMD(Tilter tilter, Shooter shooter, Elevator elevator) {
-    this.tilter = tilter;
-    this.shooter = shooter;
+  public ScoreCoralCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
+    this.coral = coral;
     this.elevator = elevator;
-    addRequirements(tilter, shooter, elevator);
+    this.stateMachine = stateMachine;
+    addRequirements(coral, elevator);
   }
 
   @Override
   public void initialize() 
   {
     endBoolean = false;
+    if (stateMachine.getScoreHeight() == 0)
+      elevator.GoToHeight(Constants.Elevator.elevatorFirst);
+    else if (stateMachine.getScoreHeight() == 1)
+      elevator.GoToHeight(Constants.Elevator.elevatorSecond);
+    else if (stateMachine.getScoreHeight() == 2)
+      elevator.GoToHeight(Constants.Elevator.elevatorThird);
+    else if (stateMachine.getScoreHeight() == 3)
+      elevator.GoToHeight(Constants.Elevator.elevatorFourth);
+  }
+
+  @Override
+  public void execute()
+  {
+    if (elevator.atSetpoint())
+      coral.RunIntake(-5);
+
   }
 
   @Override
   public void end(boolean interrupted) 
   {
-    shooter.StopAllMotors();
+    coral.StopIntake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() 
   {
-    if(shooter.IsShooterAboveRPM() && tilter.atSetpoint())
+    if(coral.IsShooterAboveRPM() && tilter.atSetpoint())
     {
       if (!endBoolean)
       {
-        shooter.MoveFeederDistance(10);
+        coral.MoveFeederDistance(10);
         endBoolean = true;
       }
       return false;
     }
-    else if(shooter.FeederDone() && endBoolean)
+    else if(coral.FeederDone() && endBoolean)
     {
       return true;
     }
