@@ -5,14 +5,14 @@
 package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
 public class ZeroGyro extends Command {
  
-  public SwerveSubsystem swerveSubsystem;
+  public CommandSwerveDrivetrain swerveSubsystem;
   /** Creates a new AmpScoreCMD. */
-  public ZeroGyro(SwerveSubsystem m_SwerveSubsystem){
+  public ZeroGyro(CommandSwerveDrivetrain m_SwerveSubsystem){
     // Use addRequirements() here to declare subsystem dependencies.
     swerveSubsystem = m_SwerveSubsystem;
     

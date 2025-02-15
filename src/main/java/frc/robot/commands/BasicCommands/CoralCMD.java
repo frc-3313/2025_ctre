@@ -30,9 +30,13 @@ public class CoralCMD extends Command
   public void initialize() 
   {
     
-    if(!coral.coralFullyAcquired())
+    if(coral.coralFullyAcquired())
     {
       coral.StopIntake();
+    }
+    else
+    {
+      coral.RunIntake(.4);
     }
   }
 
@@ -40,14 +44,9 @@ public class CoralCMD extends Command
   @Override
   public void execute() 
   {
-    if(!coral.coralPartiallyAcquired())
-    {
-      coral.RunIntake(.4);
-    }
     if(coral.coralFullyAcquired())
     {
       coral.StopIntake();
-     
     }
   }
 
@@ -65,10 +64,7 @@ public class CoralCMD extends Command
   public boolean isFinished() {
     if(coral.coralFullyAcquired())
     {
-     
-      
-        return true;
-     
+      return true;
     }
     else
     {

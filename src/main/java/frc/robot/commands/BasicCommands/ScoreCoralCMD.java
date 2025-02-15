@@ -9,9 +9,12 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
 
-public class ScoreCoralCMD extends Command {
+public class ScoreCoralCMD extends Command 
+{
   
+  public Timer timer;
   public Coral coral;
   public Elevator elevator;
   public Boolean endBoolean;
@@ -27,6 +30,8 @@ public class ScoreCoralCMD extends Command {
   @Override
   public void initialize() 
   {
+    timer = new Timer();
+    timer.start();
     endBoolean = false;
     if (stateMachine.getScoreHeight() == 0)
       elevator.GoToHeight(Constants.Elevator.elevatorFirst);
@@ -43,34 +48,27 @@ public class ScoreCoralCMD extends Command {
   {
     if (elevator.atSetpoint())
       coral.RunIntake(-5);
-
   }
 
   @Override
   public void end(boolean interrupted) 
   {
     coral.StopIntake();
+    elevator.GoToHeight(Constants.Elevator.elvBottomPosition);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() 
   {
-    if(coral.IsShooterAboveRPM() && tilter.atSetpoint())
-    {
-      if (!endBoolean)
-      {
-        coral.MoveFeederDistance(10);
-        endBoolean = true;
-      }
-      return false;
-    }
-    else if(coral.FeederDone() && endBoolean)
+    if (timer.hasElapsed(1))
     {
       return true;
     }
-    else{
-      return false;
+    if(!coral.coralFullyAcquired() && !timer.isRunning())
+    {
+      timer.start();
     }
+    return false;
   }
 }
