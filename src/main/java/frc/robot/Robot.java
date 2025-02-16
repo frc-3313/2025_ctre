@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.util.datalog.*;
 import com.ctre.phoenix6.SignalLogger;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -16,8 +18,13 @@ public class Robot extends TimedRobot {
 // Set the logger to log to the first flashdrive plugged in
 
 // Explicitly start the logger
-  public Robot() {
+ public Robot() {
     m_robotContainer = new RobotContainer();
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
+    DriverStation.silenceJoystickConnectionWarning(true);
+    SignalLogger.setPath("/media/sda1/");
+    SignalLogger.start();
   }
 
   @Override
@@ -52,8 +59,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    SignalLogger.setPath("/media/sda1/");
-    SignalLogger.start();
     
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

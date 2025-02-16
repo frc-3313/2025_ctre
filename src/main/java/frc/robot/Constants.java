@@ -6,7 +6,6 @@ package frc.robot;
 
 //import com.pathplanner.lib.util.PIDConstants;
 
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -55,8 +54,6 @@ public final class Constants
   public static final class Algea
   {
       //INTAKE
-      
-      
       public static final int IntakeMotor_ID = 26;
       
       DigitalInput IntakeBeam = new DigitalInput(0);
@@ -73,6 +70,24 @@ public final class Constants
       public static final double Third = 30;//TODO
       public static final double Fourth = 40;//TODO
       public static final double elvHighest = 65; //max height 71.854980
+  }
+  public static class ElevatorCalibrations 
+  {
+
+    //All of the PID and Feedforward gains for the MotionMagic Motion profiler.
+    public static final double kElevatorkG = 0.19;
+    public static final double kElevatorkS = 0.02; // 0.145?
+    public static final double kElevatorkV = 0.0;
+    public static final double kElevatorkA = 0.0;
+    public static final double kElevatorkP = 0.3;
+    public static final double kElevatorkD = 0.0;
+
+    // Motion Magic Configs for the MotionMagicConfigs class for the Elevator
+    public static final double kMaxSpeedMotionMagic = 60.0;
+
+    public static final double kMaxAccelerationMotionMagic = 300.0;
+    public static final double kMaxElevatorCurrentPerMotor = 40;
+
   }
   public static final class Coral
   {

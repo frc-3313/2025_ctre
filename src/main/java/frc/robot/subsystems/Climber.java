@@ -17,8 +17,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-public class Climber extends SubsystemBase {
-  
+
+public class Climber extends SubsystemBase 
+{  
 
   private TalonFX climberMotor1;//kraken
   private Servo grabMotor;//servo

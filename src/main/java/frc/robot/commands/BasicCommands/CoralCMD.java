@@ -4,11 +4,9 @@
 
 package frc.robot.commands.BasicCommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Coral;
-import frc.robot.Constants;
 
 public class CoralCMD extends Command 
 {

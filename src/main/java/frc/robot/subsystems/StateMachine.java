@@ -5,7 +5,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class StateMachine extends SubsystemBase 
@@ -42,5 +41,12 @@ public class StateMachine extends SubsystemBase
     scoreRight = true;
     scoreLeft = false;
   }
-  
+  public boolean getScoreRight()
+  {
+    return scoreRight;
+  }
+  public boolean getScoreLeft()
+  {
+    return scoreLeft;
+  }
 }
