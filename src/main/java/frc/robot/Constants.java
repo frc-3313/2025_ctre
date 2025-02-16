@@ -52,39 +52,33 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
   //// SUBSYSTEM CONSTANTS ////
-  public static final class Intake
+  public static final class Algea
   {
       //INTAKE
       
       
-      public static final int IntakeMotor_ID = 23;
+      public static final int IntakeMotor_ID = 26;
       
       DigitalInput IntakeBeam = new DigitalInput(0);
   }   
   public static final class Elevator
   {
       //ELEVATOR
-      public static final int ElevatorMotor1_ID = 22;
+      public static final int ElevatorMotor1_ID = 27;
       public static final int Elevator_ENCODER_ID = 2;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double elvBottomPosition = 0; 
-      public static final double elevatorFirst = 10;//FIXME
-      public static final double elevatorSecond = 20;//TODO
-      public static final double elevatorThird = 30;//TODO
-      public static final double elevatorFourth = 40;//TODO
-      public static final double elvHighest = 74;
+      public static final double BottomPosition = 0; 
+      public static final double First = 10;//FIXME
+      public static final double Second = 20;//TODO
+      public static final double Third = 30;//TODO
+      public static final double Fourth = 40;//TODO
+      public static final double elvHighest = 65; //max height 71.854980
   }
-  public static final class Shooter
+  public static final class Coral
   {
       //SHOOTER
-      public static final int ShooterMotor1_ID = 24;
-      public static final int FeederMotor_ID = 26;
-      public static final double FeederBackDistance = -3;
-      public static final double fastShotSpeed = .7;
-      public static final double midShotSpeed = .6;
-      public static final double ampShotSpeed = .45;
-      
-      public static final double sourceIntakeSpeed = -.5;
+      public static final int IntakeMotor_ID = 23;
+
   }
   public static final class Climber
   {   

@@ -24,7 +24,7 @@ public class ElevatorGoPosition extends Command {
   @Override
   public void initialize() 
   {
-
+    elevator.GoToHeight(position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +32,7 @@ public class ElevatorGoPosition extends Command {
   public void execute() 
   {
     
-      elevator.GoToHeight(position);
+      
   }
 
   // Called once the command ends or is interrupted.
@@ -46,9 +46,6 @@ public class ElevatorGoPosition extends Command {
   @Override
   public boolean isFinished() 
   {
-    if(elevator.atSetpoint())
       return true;
-    else  
-      return false;
   }
 }

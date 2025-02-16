@@ -18,7 +18,7 @@ public class Coral extends SubsystemBase
 {
 
   //Intake Motor Setup
-  private final TalonFX intakeMotor = new TalonFX(Constants.Intake.IntakeMotor_ID, Constants.CANIVORE);
+  private final TalonFX intakeMotor = new TalonFX(Constants.Coral.IntakeMotor_ID, Constants.CANIVORE);
   private DigitalInput coralPartiallyAcquired = new DigitalInput(1);
   private DigitalInput coralFullyAcquired = new DigitalInput(2);
 
