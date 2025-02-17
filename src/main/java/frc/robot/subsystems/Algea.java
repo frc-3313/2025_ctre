@@ -19,7 +19,7 @@ public class Algea extends SubsystemBase
 
   //Intake Motor Setup
   private final TalonFX intakeMotor = new TalonFX(Constants.Algea.IntakeMotor_ID, Constants.CANIVORE);
-  private DigitalInput algeaAcquired = new DigitalInput(0);
+  private DigitalInput algeaAcquired = new DigitalInput(2);
 
   public Algea() 
   {

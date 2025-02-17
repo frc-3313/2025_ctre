@@ -27,15 +27,7 @@ public class CoralCMD extends Command
   @Override
   public void initialize() 
   {
-    
-    if(coral.coralFullyAcquired())
-    {
-      coral.StopIntake();
-    }
-    else
-    {
-      coral.RunIntake(.4);
-    }
+      coral.RunIntake(-.15);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +36,7 @@ public class CoralCMD extends Command
   {
     if(coral.coralFullyAcquired())
     {
-      coral.StopIntake();
+      coral.RunIntake(-0.04);
     }
   }
 
@@ -60,7 +52,7 @@ public class CoralCMD extends Command
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(coral.coralFullyAcquired())
+    if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())
     {
       return true;
     }

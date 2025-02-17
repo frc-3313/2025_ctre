@@ -62,10 +62,9 @@ public final class Constants
   {
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
-      public static final int Elevator_ENCODER_ID = 2;
       public static final int ElevatorMotor2_ID = 28;
       public static final double BottomPosition = 0; 
-      public static final double First = 10;//FIXME
+      public static final double First = 0;//FIXME
       public static final double Second = 20;//TODO
       public static final double Third = 30;//TODO
       public static final double Fourth = 40;//TODO
@@ -75,18 +74,18 @@ public final class Constants
   {
 
     //All of the PID and Feedforward gains for the MotionMagic Motion profiler.
-    public static final double kElevatorkG = 0.19;
-    public static final double kElevatorkS = 0.02; // 0.145?
-    public static final double kElevatorkV = 0.0;
-    public static final double kElevatorkA = 0.0;
-    public static final double kElevatorkP = 0.3;
-    public static final double kElevatorkD = 0.0;
+    public static final double kElevatorkG = 0;
+    public static final double kElevatorkS = 0.25; // 0.145?
+    public static final double kElevatorkV = 0.12; 
+    public static final double kElevatorkA = 0.01;
+    public static final double kElevatorkP = 4.8;
+    public static final double kElevatorkD = 0.10000000149011612;
+    public static final double kElevatorkI = 0.00;
 
     // Motion Magic Configs for the MotionMagicConfigs class for the Elevator
-    public static final double kMaxSpeedMotionMagic = 60.0;
-
-    public static final double kMaxAccelerationMotionMagic = 300.0;
-    public static final double kMaxElevatorCurrentPerMotor = 40;
+    public static final double kMaxSpeedMotionMagic = 2.0;//cruise velocity
+    public static final double kMaxAccelerationMotionMagic = 4.0;//300
+    public static final double kMaxElevatorCurrentPerMotor = 800;
 
   }
   public static final class Coral

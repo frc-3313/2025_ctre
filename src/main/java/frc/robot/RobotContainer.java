@@ -31,7 +31,7 @@ public class RobotContainer {
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final Coral coral = new Coral();
-    //private final Elevator elevator = new Elevator();
+    private final Elevator elevator = new Elevator();
     private final StateMachine stateMachine = new StateMachine();
     private final Algea algea = new Algea();
     private final Climber climber = new Climber();
@@ -80,10 +80,10 @@ public class RobotContainer {
 
         //commands for manipulator
         manipulator.a().onTrue(new CoralCMD(coral));
-        //manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
+        manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
         manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
-        //manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
 
         //commands for driver
@@ -96,9 +96,10 @@ public class RobotContainer {
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         /*driveController.a().onTrue(new limelight());*/
-        //manipulator.povDown().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.BottomPosition));
-        //manipulator.povRight().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.First));
-        //manipulator.povUp().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.Second));
+        manipulator.povDown().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.BottomPosition));
+        manipulator.povRight().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.First));
+        
+        manipulator.povUp().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.Second));
 
     }
 

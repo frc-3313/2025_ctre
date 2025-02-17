@@ -33,21 +33,21 @@ public class ScoreCoralCMD extends Command
     timer = new Timer();
     timer.start();
     endBoolean = false;
-    if (stateMachine.getScoreHeight() == 0)
+   if (stateMachine.getScoreHeight() == 0)
       elevator.GoToHeight(Constants.Elevator.First);
     else if (stateMachine.getScoreHeight() == 1)
       elevator.GoToHeight(Constants.Elevator.Second);
     else if (stateMachine.getScoreHeight() == 2)
       elevator.GoToHeight(Constants.Elevator.Third);
     else if (stateMachine.getScoreHeight() == 3)
-      elevator.GoToHeight(Constants.Elevator.Fourth);
+      elevator.GoToHeight(Constants.Elevator.Fourth); 
   }
 
   @Override
   public void execute()
   {
-    if (elevator.atSetpoint())
-      coral.RunIntake(-5);
+    //if(elevator.atSetpoint())
+    coral.RunIntake(-.4);
   }
 
   @Override
@@ -69,6 +69,8 @@ public class ScoreCoralCMD extends Command
     {
       timer.start();
     }
+    if(!coral.coralFullyAcquired())
+      return true;
     return false;
   }
 }
