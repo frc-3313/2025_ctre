@@ -6,19 +6,24 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Elevator extends SubsystemBase {
 
-  private final TalonFX masterMotor = new TalonFX(Constants.Elevator.ElevatorMotor1_ID);
-  private final TalonFX slaveMotor = new TalonFX(Constants.Elevator.ElevatorMotor2_ID);
+  private final TalonFX masterMotor = new TalonFX(Constants.Elevator.ElevatorMotor1_ID, Constants.CANIVORE);
+  private final TalonFX slaveMotor = new TalonFX(Constants.Elevator.ElevatorMotor2_ID, Constants.CANIVORE);
   private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
-
+  private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+  private double newTargetPosition = 0;
   public Elevator() 
   {
     TalonFXConfiguration masterConfig = new TalonFXConfiguration();
@@ -36,10 +41,10 @@ public class Elevator extends SubsystemBase {
     masterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     masterConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Elevator.MAX_HEIGHT;
     masterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    masterConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Elevator.MIN_HEIGHT;
+    masterConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -5;
     
     masterMotor.getConfigurator().apply(masterConfig);
-    
+
     masterMotor.setNeutralMode(NeutralModeValue.Brake);
     slaveMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -56,8 +61,8 @@ public class Elevator extends SubsystemBase {
     {
       targetPos = Constants.Elevator.MIN_HEIGHT;      
     }
-    motionMagic.Position = targetPos;
-    masterMotor.setControl(motionMagic);
+    newTargetPosition = targetPos;
+    masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
   }
 
   public double getCurrentPosition()
@@ -70,8 +75,20 @@ public class Elevator extends SubsystemBase {
     masterMotor.stopMotor();
   }
 
+  public boolean atSetpoint()
+  {
+    if(masterMotor.getPosition().getValueAsDouble() > newTargetPosition - 3 &&
+    masterMotor.getPosition().getValueAsDouble() < newTargetPosition + 3 )
+      return true;
+    else 
+      return false;
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Elevator set", m_request.Position);
+    SmartDashboard.putNumber("Elevator current", getCurrentPosition());
+    
   }
 
   @Override

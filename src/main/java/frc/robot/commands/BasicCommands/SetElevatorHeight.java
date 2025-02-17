@@ -31,6 +31,9 @@ public class SetElevatorHeight extends Command {
 
   @Override
   public boolean isFinished() {
-    return true;
+    if(elevator.atSetpoint())
+      return true;
+    else  
+      return false;
   }
 }

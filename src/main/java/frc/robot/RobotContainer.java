@@ -87,8 +87,12 @@ public class RobotContainer {
         manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
 
         //FIX ME
-        manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
-        manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.First));
+
+        manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Fourth));
+        manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.BottomPosition));
+        manipulator.povLeft().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
+        manipulator.povRight().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Third));
+
 
         //commands for driver
         driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
@@ -100,10 +104,10 @@ public class RobotContainer {
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         /*driveController.a().onTrue(new limelight());*/
-        manipulator.povDown().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.BottomPosition));
-        manipulator.povRight().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.First));
+        //manipulator.povDown().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.BottomPosition));
+        //manipulator.povRight().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.First));
         
-        manipulator.povUp().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.Second));
+        //manipulator.povUp().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.Second));
 
     }
 

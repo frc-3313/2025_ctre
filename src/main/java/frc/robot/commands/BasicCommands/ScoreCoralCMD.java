@@ -58,14 +58,14 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    if (timer.hasElapsed(1))
+    /*if (timer.hasElapsed(1))
     {
       return true;
     }
     if(!coral.coralFullyAcquired() && !timer.isRunning())
     {
       timer.start();
-    }
+    }*/
     if(!coral.coralFullyAcquired())
       return true;
     return false;

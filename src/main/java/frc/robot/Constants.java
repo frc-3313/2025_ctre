@@ -54,23 +54,23 @@ public final class Constants
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double BottomPosition = 0; 
-      public static final double First = 0;//FIXME
-      public static final double Second = 20;//TODO
-      public static final double Third = 30;//TODO
-      public static final double Fourth = 40;//TODO
-      public static final double elvHighest = 65; //max height 71.854980
+      public static final double BottomPosition = 0.5; 
+      public static final double First = 14;//FIXME
+      public static final double Second = 21.6;//TODO
+      public static final double Third = 43;//TODO
+      public static final double Fourth = 71;//TODO
+      public static final double elvHighest = 71.2; //max height 71.854980
 
       public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID
       public static final int SLAVE_MOTOR_ID = 11;  // Update with actual CAN ID
 
       //PID & Motion Magic Constants
       public static final double kP = 4.8;
-      public static final double kI = 0;
+      public static final double kI = 0.00001;
       public static final double kD = 0.1;
 
-      public static final double CRUISE_VELOCITY = 5000;  // Units per 100ms
-      public static final double ACCELERATION = 6000;     // Units per 100ms²
+      public static final double CRUISE_VELOCITY = 2000;  // Units per 100ms
+      public static final double ACCELERATION = 480;     // Units per 100ms²
 
       //Soft Limits
       public static final double MIN_HEIGHT = 0.0;
@@ -86,7 +86,7 @@ public final class Constants
   public static final class Climber
   {   
       //Climber
-      public static final int ClimberMotor1_ID = 27;
+      public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 1;
       public static final double zeroDegrees = 150;
       public static final double stowPosition = 140;  //255; 
