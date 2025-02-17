@@ -86,6 +86,10 @@ public class RobotContainer {
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
 
+        //FIX ME
+        manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
+        manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.First));
+
         //commands for driver
         driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));

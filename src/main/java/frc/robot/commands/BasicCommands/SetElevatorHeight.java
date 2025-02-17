@@ -5,28 +5,32 @@
 package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Elevator;
 
-public class aimCommand extends Command {
-  /** Creates a new aimCommand. */
-  public aimCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class SetElevatorHeight extends Command {
+
+  private final Elevator elevator;
+  private final double targetHeight;
+
+  public SetElevatorHeight(Elevator elevator, double targetHeight) {
+    this.elevator = elevator;
+    this.targetHeight = targetHeight;
+    addRequirements(elevator);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    elevator.setHeight(targetHeight);
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

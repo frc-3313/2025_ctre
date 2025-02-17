@@ -29,7 +29,6 @@ public class ReturnToNormal extends InstantCommand {
   @Override
   public void initialize() 
   {
-    elevator.GoToHeight(Constants.Elevator.BottomPosition);
     coral.StopIntake();
     algea.StopIntake();
   }

@@ -9,15 +9,6 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
- * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
- * not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants
 {
 
@@ -69,25 +60,23 @@ public final class Constants
       public static final double Third = 30;//TODO
       public static final double Fourth = 40;//TODO
       public static final double elvHighest = 65; //max height 71.854980
+
+      public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID
+      public static final int SLAVE_MOTOR_ID = 11;  // Update with actual CAN ID
+
+      //PID & Motion Magic Constants
+      public static final double kP = 4.8;
+      public static final double kI = 0;
+      public static final double kD = 0.1;
+
+      public static final double CRUISE_VELOCITY = 5000;  // Units per 100ms
+      public static final double ACCELERATION = 6000;     // Units per 100ms²
+
+      //Soft Limits
+      public static final double MIN_HEIGHT = 0.0;
+      public static final double MAX_HEIGHT = 30000.0;
   }
-  public static class ElevatorCalibrations 
-  {
-
-    //All of the PID and Feedforward gains for the MotionMagic Motion profiler.
-    public static final double kElevatorkG = 0;
-    public static final double kElevatorkS = 0.25; // 0.145?
-    public static final double kElevatorkV = 0.12; 
-    public static final double kElevatorkA = 0.01;
-    public static final double kElevatorkP = 4.8;
-    public static final double kElevatorkD = 0.10000000149011612;
-    public static final double kElevatorkI = 0.00;
-
-    // Motion Magic Configs for the MotionMagicConfigs class for the Elevator
-    public static final double kMaxSpeedMotionMagic = 2.0;//cruise velocity
-    public static final double kMaxAccelerationMotionMagic = 4.0;//300
-    public static final double kMaxElevatorCurrentPerMotor = 800;
-
-  }
+  
   public static final class Coral
   {
       //SHOOTER

@@ -30,17 +30,14 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
-    timer = new Timer();
-    timer.start();
-    endBoolean = false;
-   if (stateMachine.getScoreHeight() == 0)
-      elevator.GoToHeight(Constants.Elevator.First);
-    else if (stateMachine.getScoreHeight() == 1)
-      elevator.GoToHeight(Constants.Elevator.Second);
-    else if (stateMachine.getScoreHeight() == 2)
-      elevator.GoToHeight(Constants.Elevator.Third);
-    else if (stateMachine.getScoreHeight() == 3)
-      elevator.GoToHeight(Constants.Elevator.Fourth); 
+  //  if (stateMachine.getScoreHeight() == 0)
+  //     elevator.GoToHeight(Constants.Elevator.First);
+  //   else if (stateMachine.getScoreHeight() == 1)
+  //     elevator.GoToHeight(Constants.Elevator.Second);
+  //   else if (stateMachine.getScoreHeight() == 2)
+  //     elevator.GoToHeight(Constants.Elevator.Third);
+  //   else if (stateMachine.getScoreHeight() == 3)
+  //     elevator.GoToHeight(Constants.Elevator.Fourth); 
   }
 
   @Override
@@ -54,7 +51,7 @@ public class ScoreCoralCMD extends Command
   public void end(boolean interrupted) 
   {
     coral.StopIntake();
-    elevator.GoToHeight(Constants.Elevator.BottomPosition);
+    //elevator.GoToHeight(Constants.Elevator.BottomPosition);
   }
 
   // Returns true when the command should end.
