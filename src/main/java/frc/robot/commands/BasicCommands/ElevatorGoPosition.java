@@ -7,7 +7,6 @@ package frc.robot.commands.BasicCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
-
 public class ElevatorGoPosition extends Command {
   public Elevator elevator;
   public double position;
@@ -23,7 +22,7 @@ public class ElevatorGoPosition extends Command {
   @Override
   public void initialize() 
   {
-    elevator.GoToHeight(position);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
