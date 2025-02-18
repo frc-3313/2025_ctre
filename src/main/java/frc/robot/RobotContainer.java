@@ -85,31 +85,28 @@ public class RobotContainer {
         manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
+        manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
+        manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
+        manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
+        manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
 
         //FIX ME
 
+        /*
         manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Fourth));
         manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.BottomPosition));
-        manipulator.povLeft().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
-        manipulator.povRight().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Third));
+        manipulator.povRight().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
+        manipulator.povLeft().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Third));
+        */
 
 
         //commands for driver
         driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
-        driveController.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
-        driveController.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
-        driveController.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
-        driveController.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         /*driveController.a().onTrue(new limelight());*/
-        //manipulator.povDown().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.BottomPosition));
-        //manipulator.povRight().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.First));
-        
-        //manipulator.povUp().onTrue(new ElevatorGoPosition(elevator, Constants.Elevator.Second));
-
-    }
+     }
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
