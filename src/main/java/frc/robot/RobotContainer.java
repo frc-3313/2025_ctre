@@ -92,7 +92,8 @@ public class RobotContainer {
 
         //FIX ME
 
-        /*
+        /* switched manipulator dpad from direct to height to state machine
+
         manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Fourth));
         manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.BottomPosition));
         manipulator.povRight().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
