@@ -60,11 +60,6 @@ public class RobotContainer {
             )
         );
 
-        driveController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        driveController.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))
-        ));
-
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -73,7 +68,7 @@ public class RobotContainer {
         driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        driveController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        //driveController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -81,8 +76,8 @@ public class RobotContainer {
         //commands for manipulator
         manipulator.a().onTrue(new CoralCMD(coral));
         manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
-        manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
-        manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
+        //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
+        //manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
         manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
@@ -101,8 +96,8 @@ public class RobotContainer {
 
 
         //commands for driver
-        driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
-        driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
+        //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
+        //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         driveController.start().onTrue(new ZeroGyro(drivetrain));
@@ -112,8 +107,10 @@ public class RobotContainer {
         driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
         driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
         driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
-        driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
-        driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
+        driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 36));
+        driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 324));
+        // driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
+        // driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
         /*driveController.a().onTrue(new limelight());*/
      }
 
