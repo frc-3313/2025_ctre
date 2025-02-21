@@ -89,6 +89,7 @@ public class RobotContainer {
         manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
         manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
         manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
+        manipulator.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 90));
 
         //FIX ME
 

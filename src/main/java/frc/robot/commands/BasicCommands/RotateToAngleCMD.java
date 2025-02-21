@@ -25,12 +25,14 @@ public class RotateToAngleCMD extends Command {
     @Override
     public void initialize() {
         thetaController.setSetpoint(targetAngle); // Set target heading
+        System.out.println("targetAngle set " + targetAngle);
     }
 
     @Override
     public void execute() {
         double currentAngle = drivetrain.getState().Pose.getRotation().getRadians(); // Get current heading
         double speed = thetaController.calculate(currentAngle); // PID calculates rotational speed
+        System.out.println("currentAngle " + currentAngle + "\tspeed: " + speed);
 
         // Apply the calculated rotation speed
         drivetrain.setControl(new SwerveRequest.SysIdSwerveRotation().withRotationalRate(speed));
@@ -38,11 +40,14 @@ public class RotateToAngleCMD extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(thetaController.getPositionError()) < Math.toRadians(2.0); // Stop if within 2 degrees
+        var positionError = thetaController.getPositionError();
+        System.out.println("Position error: " + positionError);
+        return Math.abs(positionError) < Math.toRadians(2.0); // Stop if within 2 degrees
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.setControl(new SwerveRequest.SysIdSwerveRotation().withRotationalRate(0)); // Stop rotation
+        System.out.println("We did it! RotateToAngleCMD finished!");
     }
 }

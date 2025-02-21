@@ -77,8 +77,8 @@ public class Elevator extends SubsystemBase {
 
   public boolean atSetpoint()
   {
-    if(masterMotor.getPosition().getValueAsDouble() > newTargetPosition - 3 &&
-    masterMotor.getPosition().getValueAsDouble() < newTargetPosition + 3 )
+    if(masterMotor.getPosition().getValueAsDouble() > newTargetPosition - 1 &&
+    masterMotor.getPosition().getValueAsDouble() < newTargetPosition + 1 )
       return true;
     else 
       return false;

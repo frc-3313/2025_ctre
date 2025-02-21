@@ -36,7 +36,7 @@ public class CoralCMD extends Command
   {
     if(coral.coralFullyAcquired())
     {
-      coral.RunIntake(-0.04);
+      coral.RunIntake(-0.08);
     }
   }
 

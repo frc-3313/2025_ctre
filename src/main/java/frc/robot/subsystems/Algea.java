@@ -18,27 +18,27 @@ public class Algea extends SubsystemBase
 {
 
   //Intake Motor Setup
-  private final TalonFX intakeMotor = new TalonFX(Constants.Algea.IntakeMotor_ID, Constants.CANIVORE);
+ // private final TalonFX intakeMotor = new TalonFX(Constants.Algea.IntakeMotor_ID, Constants.CANIVORE);
   private DigitalInput algeaAcquired = new DigitalInput(2);
 
   public Algea() 
   {
-    var TalonFXConfiguration = new TalonFXConfiguration();
-    var motorConfigs = new MotorOutputConfigs();
-    motorConfigs.NeutralMode = NeutralModeValue.Brake;
-    intakeMotor.getConfigurator().apply(TalonFXConfiguration);
+    // var TalonFXConfiguration = new TalonFXConfiguration();
+    // var motorConfigs = new MotorOutputConfigs();
+    // motorConfigs.NeutralMode = NeutralModeValue.Brake;
+    //intakeMotor.getConfigurator().apply(TalonFXConfiguration);
     
 
   }
 
   public void RunIntake(double speed)
   {
-    intakeMotor.set(speed);
+   // intakeMotor.set(speed);
    
   }
   public void StopIntake()
   {
-    intakeMotor.set(0);
+    //intakeMotor.set(0);
   }
 
 
@@ -46,16 +46,16 @@ public class Algea extends SubsystemBase
   public void periodic() 
   {
     
-    if(intakeMotor.getVelocity().getValueAsDouble() > 10)
-    {
-      SmartDashboard.putBoolean("Intake running", true);
-    }
-    else
-    {
-      SmartDashboard.putBoolean("Intake running", false);
-    }
+    // if(intakeMotor.getVelocity().getValueAsDouble() > 10)
+    // {
+    //   SmartDashboard.putBoolean("Intake running", true);
+    // }
+    // else
+    // {
+    //   SmartDashboard.putBoolean("Intake running", false);
+    // }
 
-    SmartDashboard.putBoolean("algea acquired", algeaAcquired());
+    // SmartDashboard.putBoolean("algea acquired", algeaAcquired());
     
   }
 

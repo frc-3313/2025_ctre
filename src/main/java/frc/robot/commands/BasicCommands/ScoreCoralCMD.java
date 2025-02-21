@@ -30,20 +30,24 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
-  //  if (stateMachine.getScoreHeight() == 0)
-  //     elevator.GoToHeight(Constants.Elevator.First);
-  //   else if (stateMachine.getScoreHeight() == 1)
-  //     elevator.GoToHeight(Constants.Elevator.Second);
-  //   else if (stateMachine.getScoreHeight() == 2)
-  //     elevator.GoToHeight(Constants.Elevator.Third);
-  //   else if (stateMachine.getScoreHeight() == 3)
-  //     elevator.GoToHeight(Constants.Elevator.Fourth); 
+   if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())
+    {
+      if (stateMachine.getScoreHeight() == 0)
+      elevator.setHeight(Constants.Elevator.First);
+    else if (stateMachine.getScoreHeight() == 1)
+      elevator.setHeight(Constants.Elevator.Second);
+    else if (stateMachine.getScoreHeight() == 2)
+      elevator.setHeight(Constants.Elevator.Third);
+    else if (stateMachine.getScoreHeight() == 3)
+      elevator.setHeight(Constants.Elevator.Fourth); 
+    }
+
   }
 
   @Override
   public void execute()
   {
-    //if(elevator.atSetpoint())
+    if(elevator.atSetpoint())
     coral.RunIntake(-.4);
   }
 
@@ -51,22 +55,22 @@ public class ScoreCoralCMD extends Command
   public void end(boolean interrupted) 
   {
     coral.StopIntake();
-    //elevator.GoToHeight(Constants.Elevator.BottomPosition);
+    //elevator.setHeight(Constants.Elevator.BottomPosition);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() 
   {
-    /*if (timer.hasElapsed(1))
-    {
-      return true;
-    }
-    if(!coral.coralFullyAcquired() && !timer.isRunning())
-    {
-      timer.start();
-    }*/
-    if(!coral.coralFullyAcquired())
+    // if (timer.hasElapsed(1))
+    // {
+    //   return true;
+    // }
+    // if(!coral.coralFullyAcquired() && !timer.isRunning())
+    // {
+    //   timer.start();
+    // }
+    if(!coral.coralFullyAcquired() || coral.coralPartiallyAcquired())
       return true;
     return false;
   }

@@ -31,5 +31,6 @@ public class ReturnToNormal extends InstantCommand {
   {
     coral.StopIntake();
     algea.StopIntake();
+    elevator.setHeight(Constants.Elevator.BottomPosition);
   }
 }
