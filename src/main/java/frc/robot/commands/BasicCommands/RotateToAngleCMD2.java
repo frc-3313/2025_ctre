@@ -21,26 +21,14 @@ public class RotateToAngleCMD2 extends Command {
     }
 
     @Override
-    public void execute() {
-        // Use Phoenix 6's built-in control for heading
-        SwerveRequest.FieldCentric driveRequest = new SwerveRequest.FieldCentric()
-                .withVelocityX(0.0) // No translational movement
-                .withVelocityY(0.0)
-                .withTargetHeading(Rotation2d.fromDegrees(targetAngle)); // Rotate to target
-
-        swerveDrive.setControl(driveRequest);
-    }
+    public void execute() {}
 
     @Override
     public boolean isFinished() {
-        // Check if we've reached the target angle
-        double currentAngle = swerveDrive.getHeading().getDegrees();
-        return Math.abs(targetAngle - currentAngle) < 2.0; // 2-degree threshold
+        return true;
     }
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("Rotation complete.");
-        swerveDrive.setControl(new SwerveRequest.FieldCentric()); // Stop motion
     }
 }

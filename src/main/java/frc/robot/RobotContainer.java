@@ -85,10 +85,16 @@ public class RobotContainer {
         manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
-        manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
-        manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
-        manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
-        manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
+        //manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
+        //manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
+        //manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
+        //manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
+        manipulator.povLeft().onTrue(new Targeting(drivetrain, 270));
+        manipulator.povDown().onTrue(new Targeting(drivetrain, 0));
+        manipulator.povRight().onTrue(new Targeting(drivetrain, 90));
+        manipulator.povUp().onTrue(new Targeting(drivetrain, 180));
+
+
 
         //FIX ME
 
