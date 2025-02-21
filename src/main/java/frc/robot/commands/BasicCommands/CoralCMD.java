@@ -4,6 +4,8 @@
 
 package frc.robot.commands.BasicCommands;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Coral;
@@ -45,6 +47,7 @@ public class CoralCMD extends Command
   public void end(boolean interrupted) 
   {
       coral.StopIntake();
+
       
       SmartDashboard.putBoolean("intake is done", true);
   }

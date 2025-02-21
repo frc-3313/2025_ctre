@@ -84,12 +84,10 @@ public class RobotContainer {
         manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
         manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
-        manipulator.rightBumper().onTrue(new ZeroGyro(drivetrain));
         manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
         manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
         manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
         manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
-        manipulator.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 90));
 
         //FIX ME
 
@@ -107,6 +105,15 @@ public class RobotContainer {
         driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
+        driveController.start().onTrue(new ZeroGyro(drivetrain));
+        driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
+        driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));
+        driveController.x().onTrue(new RotateToAngleCMD(drivetrain, 120));
+        driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
+        driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
+        driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
+        driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
+        driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
         /*driveController.a().onTrue(new limelight());*/
      }
 

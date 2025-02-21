@@ -28,7 +28,7 @@ public class Coral extends SubsystemBase
     var motorConfigs = new MotorOutputConfigs();
     motorConfigs.NeutralMode = NeutralModeValue.Brake;
     intakeMotor.getConfigurator().apply(TalonFXConfiguration);
-    
+    intakeMotor.setNeutralMode(NeutralModeValue.Brake);
 
   }
 
