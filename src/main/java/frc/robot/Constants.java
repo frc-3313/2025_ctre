@@ -58,7 +58,7 @@ public final class Constants
       public static final double First = 10;//FIXME
       public static final double Second = 14;//TODO
       public static final double Third = 36;//TODO
-      public static final double Fourth = 68;//TODO
+      public static final double Fourth = 69.5;//TODO
       public static final double elvHighest = 71.2; //max height 71.854980
 
       public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID
