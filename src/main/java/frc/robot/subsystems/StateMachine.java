@@ -12,7 +12,7 @@ public class StateMachine extends SubsystemBase
   private int scoreHeight;
   private boolean scoreLeft;
   private boolean scoreRight;
-
+  private boolean killCommands;
   //Initialization
 
   public StateMachine() 
@@ -48,5 +48,13 @@ public class StateMachine extends SubsystemBase
   public boolean getScoreLeft()
   {
     return scoreLeft;
+  }
+  public void SetKillCommands(boolean killcommands)
+  {
+    killCommands = killcommands;
+  }
+  public boolean GetKillCommands()
+  {
+    return killCommands;
   }
 }

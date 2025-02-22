@@ -9,18 +9,20 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.StateMachine;
 
 public class CoralCMD extends Command 
 {
   public Coral coral;
-
+  public StateMachine stateMachine;
   
   public boolean timerStarted;
 
-  public CoralCMD(Coral m_coral)
+  public CoralCMD(Coral m_coral,StateMachine stateMachine)
   {
     // Use addRequirements() here to declare subsystem dependencies.
     coral = m_coral;
+    this.stateMachine = stateMachine;
     addRequirements(coral); 
     
   }
@@ -38,7 +40,7 @@ public class CoralCMD extends Command
   {
     if(coral.coralFullyAcquired())
     {
-      coral.RunIntake(-0.08);
+      coral.RunIntake(-0.045);
     }
   }
 
@@ -56,6 +58,10 @@ public class CoralCMD extends Command
   @Override
   public boolean isFinished() {
     if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())
+    {
+      return true;
+    }
+    else if (stateMachine.GetKillCommands()) 
     {
       return true;
     }

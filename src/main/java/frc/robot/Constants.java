@@ -55,9 +55,9 @@ public final class Constants
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
       public static final double BottomPosition = 0.5; 
-      public static final double First = 14;//FIXME
-      public static final double Second = 21.6;//TODO
-      public static final double Third = 43;//TODO
+      public static final double First = 10;//FIXME
+      public static final double Second = 14;//TODO
+      public static final double Third = 36;//TODO
       public static final double Fourth = 71;//TODO
       public static final double elvHighest = 71.2; //max height 71.854980
 

@@ -54,8 +54,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(driveController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -74,11 +74,11 @@ public class RobotContainer {
 
 
         //commands for manipulator
-        manipulator.a().onTrue(new CoralCMD(coral));
+        manipulator.a().whileTrue(getAutonomousCommand())True(new CoralCMD(coral, stateMachine));
         manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
         //manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+        manipulator.x().onTrue(new SetKillCommands(stateMachine, true)(new ReturnToNormal(coral, elevator, algea)).andThen(new SetKillCommands(stateMachine, false)));
         manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
         manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
         manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
@@ -107,8 +107,8 @@ public class RobotContainer {
         driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
         driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
         driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
-        driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 36));
-        driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 324));
+        driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 144));
+        driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 216));
         // driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
         // driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
         /*driveController.a().onTrue(new limelight());*/

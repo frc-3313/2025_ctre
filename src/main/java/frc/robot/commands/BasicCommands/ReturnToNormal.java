@@ -23,6 +23,7 @@ public class ReturnToNormal extends InstantCommand {
     elevator = m_Elevator;
     coral = m_Coral;
     addRequirements(algea, elevator, coral);
+    
   }
 
   // Called when the command is initially scheduled.

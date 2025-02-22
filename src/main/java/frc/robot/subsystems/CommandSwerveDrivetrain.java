@@ -359,7 +359,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public void zeroGyro()
     {
-        Pigeon2 pigeon = super.getPigeon2();
-        pigeon.setYaw(0);
+        var swerveState = super.getState();
+        var pose = swerveState.Pose;
+        var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
+        this.resetPose(newPose);
     }
 }

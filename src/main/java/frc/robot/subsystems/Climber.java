@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Climber extends SubsystemBase 
 {  
 
-  private TalonFX climberMotor1;//kraken
+  //private TalonFX climberMotor1;//kraken
   private Servo grabMotor;//servo
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private final PIDController pid;
@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase
 
   public Climber() 
   {
-    climberMotor1 = new TalonFX(Constants.Climber.ClimberMotor1_ID, Constants.CANIVORE);//kraken
+    //climberMotor1 = new TalonFX(Constants.Climber.ClimberMotor1_ID, Constants.CANIVORE);//kraken
     grabMotor = new Servo(Constants.Climber.GrabMotor_ID);//kraken
     var TalonFXConfiguration = new TalonFXConfiguration();
     var motorConfigs = new MotorOutputConfigs();
@@ -52,12 +52,12 @@ public class Climber extends SubsystemBase
     motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
-    climberMotor1.getConfigurator().apply(TalonFXConfiguration);
+    //climberMotor1.getConfigurator().apply(TalonFXConfiguration);
     
     
 
   //  pidController.setFeedbackDevice(m_encoder);
-    newTargetPosition = climberMotor1.getPosition().getValueAsDouble();
+    //newTargetPosition = climberMotor1.getPosition().getValueAsDouble();
     grabMotor.setAngle(0);
 
     //PID
@@ -93,10 +93,10 @@ public class Climber extends SubsystemBase
     // read PID coefficients from SmartDashboard
     final DynamicMotionMagicVoltage m_request = 
           new DynamicMotionMagicVoltage(0, 80, 400, 4000);
-    climberMotor1.setControl(m_request.withPosition(newTargetPosition));
+    //climberMotor1.setControl(m_request.withPosition(newTargetPosition));
   
       SmartDashboard.putNumber("SetPoint", newTargetPosition);
-      SmartDashboard.putNumber("Climber Encoder", climberMotor1.getPosition().getValueAsDouble());
+     // SmartDashboard.putNumber("Climber Encoder", climberMotor1.getPosition().getValueAsDouble());
 
 
   }
@@ -118,6 +118,7 @@ public class Climber extends SubsystemBase
     return minPowerAtExtended;
   }
   public double getDegrees() {
-    return climberMotor1.getPosition().getValueAsDouble();
+    return 0;
+    //climberMotor1.getPosition().getValueAsDouble();
   }
 }
