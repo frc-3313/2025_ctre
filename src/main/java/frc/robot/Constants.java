@@ -81,6 +81,17 @@ public final class Constants
   {
       //SHOOTER
       public static final int IntakeMotor_ID = 23;
+      //PID & Motion Magic Constants
+      public static final double kP = 4.8;
+      public static final double kI = 0.00001;
+      public static final double kD = 0.1;
+
+      public static final double CRUISE_VELOCITY = 2000;  // Units per 100ms
+      public static final double ACCELERATION = 480;     // Units per 100ms²
+
+      //Soft Limits
+      public static final double MIN_HEIGHT = 0.0;
+      public static final double MAX_HEIGHT = 30000.0;
 
   }
   public static final class Climber

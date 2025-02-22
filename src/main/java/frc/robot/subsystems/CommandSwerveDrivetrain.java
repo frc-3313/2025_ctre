@@ -166,6 +166,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
     }
 
     /**
@@ -198,6 +199,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        pose180();
     }
 
     /**
@@ -381,6 +383,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         var swerveState = super.getState();
         var pose = swerveState.Pose;
         var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
+        this.resetPose(newPose);
+    }
+    public void pose180()
+    {
+        var swerveState = super.getState();
+        var pose = swerveState.Pose;
+        var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(180));
         this.resetPose(newPose);
     }
 }

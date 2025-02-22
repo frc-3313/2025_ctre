@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,10 +22,22 @@ public class Coral extends SubsystemBase
   private final TalonFX intakeMotor = new TalonFX(Constants.Coral.IntakeMotor_ID, Constants.CANIVORE);
   private DigitalInput coralPartiallyAcquired = new DigitalInput(0);
   private DigitalInput coralFullyAcquired = new DigitalInput(1);
+  private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
+
 
   public Coral() 
   {
     var TalonFXConfiguration = new TalonFXConfiguration();
+    // Configure PID values
+    TalonFXConfiguration.Slot0.kP = Constants.Coral.kP;
+    TalonFXConfiguration.Slot0.kI = Constants.Coral.kI;
+    TalonFXConfiguration.Slot0.kD = Constants.Coral.kD;
+    
+    // Configure Motion Magic settings
+    TalonFXConfiguration.MotionMagic.MotionMagicCruiseVelocity = Constants.Coral.CRUISE_VELOCITY;
+    TalonFXConfiguration.MotionMagic.MotionMagicAcceleration = Constants.Coral.ACCELERATION;
+      
+
     var motorConfigs = new MotorOutputConfigs();
     motorConfigs.NeutralMode = NeutralModeValue.Brake;
     intakeMotor.getConfigurator().apply(TalonFXConfiguration);
@@ -40,8 +53,10 @@ public class Coral extends SubsystemBase
   public void StopIntake()
   {
     intakeMotor.set(0);
-  }
+    var targetPos = intakeMotor.getPosition().getValueAsDouble();
+    intakeMotor.setControl(motionMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
 
+  }
 
   @Override
   public void periodic() 
