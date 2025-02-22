@@ -16,6 +16,7 @@ public class StateMachine extends SubsystemBase
   private boolean scoreRight;
   private boolean killCommands;
   private boolean RunIntake;
+  private boolean ElevatorRaieed;
   //Initialization
 
   public StateMachine() 
@@ -72,5 +73,13 @@ public class StateMachine extends SubsystemBase
   {
     return this.runOnce(() -> this.setIntake(intakeBool));
     
+  }
+  public void setElevatorUp(Boolean input)
+  {
+    ElevatorRaieed = input;
+  }
+  public boolean getElevatorUp()
+  {
+    return ElevatorRaieed;
   }
 }

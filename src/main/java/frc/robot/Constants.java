@@ -8,6 +8,9 @@ package frc.robot;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.generated.TunerConstants;
+import edu.wpi.first.math.geometry.Rotation2d;
+import static edu.wpi.first.units.Units.*;
 
 public final class Constants
 {
@@ -30,6 +33,8 @@ public final class Constants
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
     public static final double MAX_SPEED = Units.feetToMeters(14.5);
+    public static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    public static final double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
   }
 
   public static class OperatorConstants

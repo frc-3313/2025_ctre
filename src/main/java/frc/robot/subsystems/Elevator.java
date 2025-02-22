@@ -14,6 +14,7 @@ import com.ctre.phoenix6.controls.Follower;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -23,11 +24,12 @@ public class Elevator extends SubsystemBase {
   private final TalonFX slaveMotor = new TalonFX(Constants.Elevator.ElevatorMotor2_ID, Constants.CANIVORE);
   private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
   private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+  private final StateMachine stateMachine;
   private double newTargetPosition = 0;
-  public Elevator() 
+  public Elevator(StateMachine _StateMachinestateMachine) 
   {
     TalonFXConfiguration masterConfig = new TalonFXConfiguration();
-    
+    stateMachine = _StateMachinestateMachine;
     // Configure PID values
     masterConfig.Slot0.kP = Constants.Elevator.kP;
     masterConfig.Slot0.kI = Constants.Elevator.kI;
@@ -88,6 +90,14 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Elevator set", m_request.Position);
     SmartDashboard.putNumber("Elevator current", getCurrentPosition());
+    if(getCurrentPosition() > 20)
+    {
+      stateMachine.setElevatorUp(true);
+    }
+    else
+    {
+      stateMachine.setElevatorUp(false);
+    }
     
   }
 
