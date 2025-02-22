@@ -74,11 +74,11 @@ public class RobotContainer {
 
 
         //commands for manipulator
-        manipulator.a().whileTrue(getAutonomousCommand())True(new CoralCMD(coral, stateMachine));
+        manipulator.a().onTrue(new CoralCMD(coral, stateMachine));
         manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
         //manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
-        manipulator.x().onTrue(new SetKillCommands(stateMachine, true)(new ReturnToNormal(coral, elevator, algea)).andThen(new SetKillCommands(stateMachine, false)));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
         manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 0));
         manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 1));
         manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));

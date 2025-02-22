@@ -5,7 +5,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class StateMachine extends SubsystemBase 
 {
@@ -13,6 +15,7 @@ public class StateMachine extends SubsystemBase
   private boolean scoreLeft;
   private boolean scoreRight;
   private boolean killCommands;
+  private boolean RunIntake;
   //Initialization
 
   public StateMachine() 
@@ -56,5 +59,18 @@ public class StateMachine extends SubsystemBase
   public boolean GetKillCommands()
   {
     return killCommands;
+  }
+  public void setIntake(boolean RunIntake)
+  {
+    this.RunIntake = RunIntake;
+  }
+  public Trigger runIntake()
+  {
+    return new Trigger(() -> RunIntake);
+  }
+  public Command IntakeCMD(boolean intakeBool)
+  {
+    return this.runOnce(() -> this.setIntake(intakeBool));
+    
   }
 }

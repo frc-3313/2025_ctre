@@ -74,6 +74,6 @@ public class CoralCMD extends Command
   @Override
   public InterruptionBehavior getInterruptionBehavior()
   {
-    return Command.InterruptionBehavior.kCancelIncoming;
+    return Command.InterruptionBehavior.kCancelSelf;
   }
 }
