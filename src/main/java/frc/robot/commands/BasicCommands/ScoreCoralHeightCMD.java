@@ -11,7 +11,7 @@ import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ScoreCoralCMD extends Command 
+public class ScoreCoralHeightCMD extends Command 
 {
   
   public Timer timer;
@@ -20,7 +20,7 @@ public class ScoreCoralCMD extends Command
   public Boolean endBoolean;
   public StateMachine stateMachine;
 
-  public ScoreCoralCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
+  public ScoreCoralHeightCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
     this.coral = coral;
     this.elevator = elevator;
     this.stateMachine = stateMachine;
@@ -30,21 +30,30 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
+   if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())
+    {
+      if (stateMachine.getScoreHeight() == 0)
+      elevator.setHeight(Constants.Elevator.First);
+    else if (stateMachine.getScoreHeight() == 1)
+      elevator.setHeight(Constants.Elevator.Second);
+    else if (stateMachine.getScoreHeight() == 2)
+      elevator.setHeight(Constants.Elevator.Third);
+    else if (stateMachine.getScoreHeight() == 3)
+      elevator.setHeight(Constants.Elevator.Fourth); 
+    }
 
   }
 
   @Override
   public void execute()
   {
-    if((elevator.atSetpoint()))
-    coral.RunIntake(-.4);
+  
   }
 
   @Override
   public void end(boolean interrupted) 
   {
-    coral.StopIntake();
-    elevator.setHeight(Constants.Elevator.BottomPosition);
+    //elevator.setHeight(Constants.Elevator.BottomPosition);
   }
 
   // Returns true when the command should end.
@@ -59,8 +68,7 @@ public class ScoreCoralCMD extends Command
     // {
     //   timer.start();
     // }
-    if(!coral.coralFullyAcquired() || coral.coralPartiallyAcquired())
       return true;
-    return false;
-  }
+
+    }
 }
