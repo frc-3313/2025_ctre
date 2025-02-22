@@ -30,9 +30,9 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final Coral coral = new Coral();
-    private final Elevator elevator = new Elevator();
     private final StateMachine stateMachine = new StateMachine();
+    private final Coral coral = new Coral();
+    private final Elevator elevator = new Elevator(stateMachine);
     private final Algea algea = new Algea();
     private final Climber climber = new Climber();
 
@@ -54,8 +54,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(driveController.getLeftY() * Math.abs(driveController.getLeftY()) * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(driveController.getLeftX()* Math.abs(driveController.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(driveController.getLeftY() * Math.abs(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(driveController.getLeftX()* Math.abs(driveController.getLeftX()) * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );

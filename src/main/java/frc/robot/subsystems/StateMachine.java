@@ -5,9 +5,12 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.generated.TunerConstants;
 
 public class StateMachine extends SubsystemBase 
 {
@@ -16,6 +19,8 @@ public class StateMachine extends SubsystemBase
   private boolean scoreRight;
   private boolean killCommands;
   private boolean RunIntake;
+  private boolean ElevRaised;
+  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   //Initialization
 
   public StateMachine() 
@@ -72,5 +77,24 @@ public class StateMachine extends SubsystemBase
   {
     return this.runOnce(() -> this.setIntake(intakeBool));
     
+  }
+  public double getMaxSpeed()
+  {
+    if(getElevRaised())
+    {
+      return MaxSpeed/2;
+    }
+    else
+    {
+      return MaxSpeed;
+    }
+  }
+  public void setElevRaised(boolean input)
+  {
+    ElevRaised = input;
+  }
+  public boolean getElevRaised()
+  {
+    return ElevRaised;
   }
 }

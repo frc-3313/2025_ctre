@@ -24,8 +24,10 @@ public class Elevator extends SubsystemBase {
   private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
   private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
   private double newTargetPosition = 0;
-  public Elevator() 
+  private final StateMachine stateMachine;
+  public Elevator(StateMachine _stateMachine) 
   {
+    stateMachine = _stateMachine;
     TalonFXConfiguration masterConfig = new TalonFXConfiguration();
     
     // Configure PID values
@@ -88,7 +90,14 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Elevator set", m_request.Position);
     SmartDashboard.putNumber("Elevator current", getCurrentPosition());
-    
+    if(getCurrentPosition() > 30)
+    {
+      stateMachine.setElevRaised(true);
+    }
+    else
+    {
+      stateMachine.setElevRaised(false);
+    }
   }
 
   @Override

@@ -37,7 +37,7 @@ public class ScoreCoralCMD extends Command
   public void execute()
   {
     if((elevator.atSetpoint()))
-    coral.RunIntake(-.4);
+    coral.RunIntake(-.2);
   }
 
   @Override
