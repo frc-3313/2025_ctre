@@ -58,9 +58,8 @@ public class ScoreAlgeaCMD extends Command
   @Override
   public void end(boolean interrupted) 
   {
-      algea.StopIntake();
-      
-      SmartDashboard.putBoolean("intake is done", true);
+    algea.StopIntake();
+    SmartDashboard.putBoolean("intake is done", true);
   }
 
   // Returns true when the command should end.
@@ -68,7 +67,7 @@ public class ScoreAlgeaCMD extends Command
   public boolean isFinished() {
     if(algea.algeaAcquired() && !scoringAlgea)
     {      
-        return true;
+      return true;
     }
     else
     {

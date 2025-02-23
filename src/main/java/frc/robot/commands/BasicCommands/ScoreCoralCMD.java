@@ -36,7 +36,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public void execute()
   {
-    if((elevator.atSetpoint()))
+    if(elevator.atSetpoint())
     coral.RunIntake(-.2);
   }
 
@@ -51,14 +51,6 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    // if (timer.hasElapsed(1))
-    // {
-    //   return true;
-    // }
-    // if(!coral.coralFullyAcquired() && !timer.isRunning())
-    // {
-    //   timer.start();
-    // }
     if(!coral.coralFullyAcquired() || coral.coralPartiallyAcquired())
       return true;
     return false;
