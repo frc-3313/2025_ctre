@@ -54,7 +54,7 @@ public class Coral extends SubsystemBase
   {
     intakeMotor.set(0);
     var targetPos = intakeMotor.getPosition().getValueAsDouble();
-    intakeMotor.setControl(motionMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+    intakeMotor.setControl(motionMagic.withPosition(targetPos-.2).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
 
   }
 
