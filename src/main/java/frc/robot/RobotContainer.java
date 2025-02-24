@@ -68,7 +68,7 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         //------------------------------------- Manipulator -------------------------------------//
-        manipulator.a().onTrue(new CoralCMD(coral, stateMachine));
+        manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
         manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
         //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));

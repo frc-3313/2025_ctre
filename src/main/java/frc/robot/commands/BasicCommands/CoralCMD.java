@@ -16,19 +16,21 @@ public class CoralCMD extends Command
   public Coral coral;
   public StateMachine stateMachine;
   
+  double scoreSpeed;
   public boolean timerStarted;
 
-  public CoralCMD(Coral m_coral,StateMachine stateMachine)
+  public CoralCMD(Coral m_coral,StateMachine stateMachine, double scoreSpeed)
   {
     coral = m_coral;
     this.stateMachine = stateMachine;
+    this.scoreSpeed = scoreSpeed;
     addRequirements(coral); 
   }
 
   @Override
   public void initialize() 
   {
-    coral.RunIntake(-.15);
+    coral.RunIntake(scoreSpeed * -1);
   }
 
   @Override

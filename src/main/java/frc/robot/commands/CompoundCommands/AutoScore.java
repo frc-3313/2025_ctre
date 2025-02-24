@@ -20,7 +20,7 @@ public class AutoScore extends SequentialCommandGroup {
   public AutoScore(StateMachine stateMachine, Coral coral, Elevator elevator) {
     // Add your commands in the addCommands() call, e.g.
     addCommands(
-      new CoralCMD(coral, stateMachine),
+      new CoralCMD(coral, stateMachine, .15),
       new ScoreCoralHeightCMD(coral, elevator, stateMachine),
       new ScoreCoralCMD(coral, elevator, stateMachine)
     );
