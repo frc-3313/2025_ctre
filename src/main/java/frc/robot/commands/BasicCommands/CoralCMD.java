@@ -31,7 +31,7 @@ public class CoralCMD extends Command
   @Override
   public void initialize() 
   {
-      coral.RunIntake(-.15);
+      coral.RunIntake(-10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +40,7 @@ public class CoralCMD extends Command
   {
     if(coral.coralFullyAcquired())
     {
-      coral.RunIntake(-0.045);
+      coral.RunIntake(-5);
     }
   }
 

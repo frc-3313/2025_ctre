@@ -49,7 +49,7 @@ public class Elevator extends SubsystemBase {
 
     masterMotor.setNeutralMode(NeutralModeValue.Brake);
     slaveMotor.setNeutralMode(NeutralModeValue.Brake);
-
+    masterMotor.setPosition(0);
     slaveMotor.setControl(new Follower(Constants.Elevator.ElevatorMotor1_ID, true));
   }
 
