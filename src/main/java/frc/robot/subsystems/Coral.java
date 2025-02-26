@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -23,6 +24,8 @@ public class Coral extends SubsystemBase
   private DigitalInput coralPartiallyAcquired = new DigitalInput(0);
   private DigitalInput coralFullyAcquired = new DigitalInput(1);
   private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
+  private final MotionMagicVelocityDutyCycle motionMagic2 = new MotionMagicVelocityDutyCycle(0);
+
 
 
   public Coral() 
@@ -47,14 +50,15 @@ public class Coral extends SubsystemBase
 
   public void RunIntake(double speed)
   {
-    intakeMotor.set(speed);
+    intakeMotor.setControl(motionMagic2.withVelocity(speed).withSlot(0));
+
+    //intakeMotor.set(speed);
    
   }
   public void StopIntake()
   {
-    intakeMotor.set(0);
     var targetPos = intakeMotor.getPosition().getValueAsDouble();
-    intakeMotor.setControl(motionMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+    intakeMotor.setControl(motionMagic.withPosition(targetPos-.2).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
 
   }
 

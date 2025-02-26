@@ -15,6 +15,7 @@ import choreo.auto.AutoFactory;
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,6 +24,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -31,7 +33,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
-
+import frc.robot.Constants;
+import frc.robot.Helpers.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -43,6 +46,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    private final Field2d field2d = new Field2d();
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -142,7 +146,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        pose180();
     }
 
     /**
@@ -167,7 +170,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        pose180();
 
     }
 
@@ -201,7 +203,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        pose180();
     }
 
     /**
@@ -328,7 +329,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+        updateVisionOdometry();
         SmartDashboard.putNumber("swerve position", this.getState().Pose.getRotation().getDegrees());
+        field2d.setRobotPose(getState().Pose);
+        SmartDashboard.putData("field", field2d);
     }
 
     private void startSimThread() {
@@ -387,11 +391,62 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
         this.resetPose(newPose);
     }
-    public void pose180()
+
+  public void updateVisionOdometry()
+  {
+    boolean useMegaTag2 = true; //set to false to use MegaTag1
+    boolean doRejectUpdate = false;
+    if(useMegaTag2 == false)
     {
-        var swerveState = super.getState();
-        var pose = swerveState.Pose;
-        var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(180));
-        this.resetPose(newPose);
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
+      
+      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+      {
+        if(mt1.rawFiducials[0].ambiguity > .7)
+        {
+          doRejectUpdate = true;
+        }
+        if(mt1.rawFiducials[0].distToCamera > 3)
+        {
+          doRejectUpdate = true;
+        }
+      }
+      if(mt1.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+
+      if(!doRejectUpdate)
+      {
+        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        addVisionMeasurement(
+            mt1.pose,
+            mt1.timestampSeconds);
+      }
     }
+    else if (useMegaTag2 == true)
+    {
+        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
+      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees() -180, 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+      if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+      {
+        System.out.println("reject 1");
+        doRejectUpdate = true;
+      }
+      if(mt2.tagCount == 0)
+      {
+        System.out.println("reject 2");
+
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+    }
+  }
 }

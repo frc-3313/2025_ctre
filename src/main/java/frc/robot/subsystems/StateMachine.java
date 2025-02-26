@@ -82,7 +82,7 @@ public class StateMachine extends SubsystemBase
   {
     if(getElevRaised())
     {
-      return MaxSpeed/2;
+      return MaxSpeed/8;
     }
     else
     {

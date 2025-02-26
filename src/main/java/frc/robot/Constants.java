@@ -35,7 +35,7 @@ public final class Constants
   public static class OperatorConstants
   {
 
-    // Joystick Deadband
+    // Joystick 
     public static final double LEFT_X_DEADBAND  = 0.1;
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
@@ -54,11 +54,11 @@ public final class Constants
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double BottomPosition = 0.5; 
+      public static final double BottomPosition = 0.25; 
       public static final double First = 10;//FIXME
-      public static final double Second = 16;//TODO
-      public static final double Third = 36;//TODO
-      public static final double Fourth = 69.5;//TODO
+      public static final double Second = 18;//TODO
+      public static final double Third = 38;//TODO
+      public static final double Fourth = 71;//TODO
       public static final double elvHighest = 71.2; //max height 71.854980
 
       public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID

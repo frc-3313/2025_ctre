@@ -36,8 +36,16 @@ public class ScoreCoralCMD extends Command
   @Override
   public void execute()
   {
-    if(elevator.atSetpoint())
-    coral.RunIntake(-.2);
+    if((elevator.atSetpoint())){
+      if (stateMachine.getScoreHeight() == 3)
+        {
+          coral.RunIntake(-20);
+        }
+    else {
+      coral.RunIntake(-400);
+
+    }
+
   }
 
   @Override
@@ -51,7 +59,16 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    if(!coral.coralFullyAcquired() || coral.coralPartiallyAcquired())
+
+    // if (timer.hasElapsed(1))
+    // {
+    //   return true;
+    // }
+    // if(!coral.coralFullyAcquired() && !timer.isRunning())
+    // {
+    //   timer.start();
+    // }
+    if(!coral.coralFullyAcquired())
       return true;
     return false;
   }

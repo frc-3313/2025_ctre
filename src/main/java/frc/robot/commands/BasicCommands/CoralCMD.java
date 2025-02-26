@@ -30,7 +30,8 @@ public class CoralCMD extends Command
   @Override
   public void initialize() 
   {
-    coral.RunIntake(scoreSpeed * -1);
+
+      coral.RunIntake(-10);
   }
 
   @Override
@@ -38,7 +39,7 @@ public class CoralCMD extends Command
   {
     if(coral.coralFullyAcquired())
     {
-      coral.RunIntake(-0.045);
+      coral.RunIntake(-5);
     }
   }
 
