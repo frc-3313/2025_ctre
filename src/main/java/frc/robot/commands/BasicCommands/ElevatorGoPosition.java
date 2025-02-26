@@ -6,6 +6,8 @@ package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.StateMachine;
+
 
 public class ElevatorGoPosition extends Command {
   public Elevator elevator;
