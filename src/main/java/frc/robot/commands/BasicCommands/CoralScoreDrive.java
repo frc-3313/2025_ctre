@@ -5,21 +5,28 @@
 package frc.robot.commands.BasicCommands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
+import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.StateMachine;
+import frc.robot.Constants;
 
 public class CoralScoreDrive extends Command {
 
   StateMachine stateMachine;
   CommandSwerveDrivetrain drivetrain;
   CommandXboxController controller;
+  private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
+  .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
+  .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
 
-  double desRot;
+  double desAngle;
 
   //Roation Calculation Variables
   static final double blueReefCenterX = 176.75 * 0.0254;
@@ -33,20 +40,28 @@ public class CoralScoreDrive extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    snapDrive.HeadingController = new PhoenixPIDController(10, 0, 0);
+
+  }
 
   @Override
   public void execute() 
   {
     Pose2d curPose = drivetrain.getState().Pose;
-    desRot = GetRotationAngle(curPose.getX(), curPose.getY());
+    desAngle = GetRotationAngle(curPose.getX(), curPose.getY());
+    desAngle = normalizeAngle(curPose.getRotation().getDegrees(), desAngle);
 
-    SwerveRequest.FieldCentricFacingAngle swerveRequest = new SwerveRequest.FieldCentricFacingAngle()
-      .withTargetDirection(Rotation2d.fromDegrees(desRot))
-      .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed())
-      .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed());
+    drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
+    .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+    .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left)););
+    
+    SmartDashboard.putNumber("DesiredAngle", desAngle);
+    SmartDashboard.putNumber("rotation", drivetrain.getState().Pose.getRotation().getDegrees());
+    SmartDashboard.putNumber("DesiredAngle", desAngle);
+    System.out.println("current rotation:" + drivetrain.getState().Pose.getRotation().getDegrees() + ": Desired :" + desAngle);
 
-    drivetrain.setControl(swerveRequest);
   }
 
   @Override
@@ -58,7 +73,7 @@ public class CoralScoreDrive extends Command {
   }
 
 
-  double GetRotationAngle(double x, double y)
+  private double GetRotationAngle(double x, double y)
   {
     double deltaX = x - blueReefCenterX;
     double deltaY = y - blueReefCenterY;
@@ -69,7 +84,7 @@ public class CoralScoreDrive extends Command {
       angle += 360;
 
     if(angle <= 30 || angle > 330)
-      return 0;
+      return 0.1;
     else if(angle > 30 && angle <= 90)
       return 60;
     else if(angle > 90 && angle <= 150)
@@ -77,8 +92,15 @@ public class CoralScoreDrive extends Command {
     else if(angle > 150 && angle <= 210)
       return 180;
     else if(angle > 210 && angle <= 270)
-      return 240;
+      return -120;
     else
-      return 300;
+      return -60;
+  }
+
+  private double normalizeAngle(double currentAngle, double targetAngle) {
+      double difference = targetAngle - currentAngle;
+      while (difference > 180) difference -= 360;
+      while (difference < -180) difference += 360;
+      return currentAngle + difference;
   }
 }

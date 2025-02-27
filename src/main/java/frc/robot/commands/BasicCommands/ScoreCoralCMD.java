@@ -41,11 +41,10 @@ public class ScoreCoralCMD extends Command
         {
           coral.RunIntake(-20);
         }
-    else {
-      coral.RunIntake(-400);
-
+      else {
+        coral.RunIntake(-400);
+      }
     }
-
   }
 
   @Override
