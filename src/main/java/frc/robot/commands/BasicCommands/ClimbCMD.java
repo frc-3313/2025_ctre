@@ -7,6 +7,8 @@ package frc.robot.commands.BasicCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.StateMachine;
+
 
 public class ClimbCMD extends Command 
 {

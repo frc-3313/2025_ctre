@@ -109,5 +109,7 @@ public final class Constants
   public static final class Limelight
   {
     public static final String FRONT = "limelight-mech";
+    public static final String RIGHT = "limelight-right";
+
   }
 }
