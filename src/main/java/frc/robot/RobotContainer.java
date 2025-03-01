@@ -50,7 +50,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("AutoMode", autoChooser);
         configureBindings();
