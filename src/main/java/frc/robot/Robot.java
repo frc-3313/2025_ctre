@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.ctre.phoenix6.SignalLogger;
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
@@ -19,7 +20,9 @@ public class Robot extends TimedRobot {
 
 // Explicitly start the logger
  public Robot() {
+  
     m_robotContainer = new RobotContainer();
+
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -30,6 +33,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run(); 
+    
   }
 
   @Override

@@ -8,11 +8,12 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.BasicCommands.*;
@@ -21,6 +22,7 @@ import frc.robot.subsystems.*;
 
 @Logged
 public class RobotContainer {
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -28,6 +30,8 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * Constants.OperatorConstants.LEFT_X_DEADBAND).withRotationalDeadband(MaxAngularRate * Constants.OperatorConstants.LEFT_X_DEADBAND) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);        
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final StateMachine stateMachine = new StateMachine();
@@ -40,12 +44,17 @@ public class RobotContainer {
 
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController manipulator = new CommandXboxController(1);
-
+    private final SendableChooser<Command> autoChooser;
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public RobotContainer() {
+        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+
+        SmartDashboard.putData("AutoMode", autoChooser);
         configureBindings();
+
+
     }
 
     private void configureBindings() {
@@ -115,7 +124,15 @@ public class RobotContainer {
         /*driveController.a().onTrue(new limelight());*/
      }
 
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand()
+    {
+        // An example command will be run in autonomous
+        /* Run the path selected from the auto chooser */
+        return autoChooser.getSelected();
     }
 }
