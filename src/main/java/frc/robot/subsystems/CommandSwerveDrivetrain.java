@@ -129,8 +129,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     );
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
-
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
+    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineSteer;
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
@@ -460,5 +461,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             mt2.timestampSeconds);
       }
     }
+  }
+  public double getDriveRange(double input)
+  {
+    double speed = (input - .1 )/.9;
+    return speed * Math.abs(speed);
   }
 }
