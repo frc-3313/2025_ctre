@@ -54,9 +54,9 @@ public class SmartIntake extends Command {
     Pose2d currentPos = drivetrain.getState().Pose;
 
     if(currentPos.getY() > 4.0259)
-      desAngle = -216;
+      desAngle = -234;
     else
-      desAngle = 216;
+      desAngle = 234;
 
   
     
