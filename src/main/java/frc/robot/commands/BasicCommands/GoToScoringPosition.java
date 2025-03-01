@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Helpers.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class GoToScoringPosition extends Command {
@@ -34,10 +35,9 @@ public class GoToScoringPosition extends Command {
   .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
   .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
 
-  public GoToScoringPosition(CommandSwerveDrivetrain drivetrain, double x, double y, double rotation) {
+  public GoToScoringPosition(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
-    this.targetPose = new Pose2d(x, y, Rotation2d.fromDegrees(rotation));
-    
+    this.targetPose = ScoreConditioningCalculator(true);
     this.xController = new PIDController(2.50, 0.0001, 0.0);
     this.yController = new PIDController(2.50, 0.0001, 0.0);
     this.thetaController = new PIDController(2.0, 0.0001, 0.0);
@@ -66,17 +66,17 @@ public class GoToScoringPosition extends Command {
     double yError = targetPose.getY() - currentPose.getY();
     double thetaError = targetPose.getRotation().minus(currentPose.getRotation()).getRadians();
 
-      double xVel = xController.calculate(xError, 0.0);
-      double yVel = yController.calculate(yError, 0.0);
-      double angularVel = thetaController.calculate(thetaError, 0.0);
+    double xVel = xController.calculate(xError, 0.0);
+    double yVel = yController.calculate(yError, 0.0);
+    double angularVel = thetaController.calculate(thetaError, 0.0);
 
-      xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
-      yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
-      angularVel = Math.max(-MAX_ANGULAR_RATE, Math.min(MAX_ANGULAR_RATE, angularVel));
+    xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
+    yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
+    angularVel = Math.max(-MAX_ANGULAR_RATE, Math.min(MAX_ANGULAR_RATE, angularVel));
 
-      drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(90))
-      .withVelocityX(xVel) // Drive forward with negative Y (forward)
-      .withVelocityY(yVel)); // Drive left with negative X (left)););
+    drivetrain.setControl(snapDrive.withTargetDirection(targetPose.getRotation())
+    .withVelocityX(xVel) // Drive forward with negative Y (forward)
+    .withVelocityY(yVel)); // Drive left with negative X (left)););
 
   }
 
@@ -93,5 +93,51 @@ public class GoToScoringPosition extends Command {
     double thetaError = Math.abs(targetPose.getRotation().minus(currentPose.getRotation()).getRadians());
 
     return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE && thetaError < ROTATION_TOLERANCE;
+  }
+
+  Pose2d ScoreConditioningCalculator(boolean left)
+  {
+    double reefX = 4.797; //meters
+    double reefY = 4.386; //meters
+    double radius = 1.6256; //meters
+    double angleoffset = 5;
+
+    double targetX = 0;
+    double targetY = 0;
+
+    if(left)
+    {
+      angleoffset = angleoffset * -1;
+    }
+
+    double tagAngle = 0;
+    // Get the tag ID for the visible April tag
+    double tagId = LimelightHelpers.getFiducialID(Constants.Limelight.FRONT);
+    if(tagId ==  18)
+      tagAngle = 180;
+    else if (tagId == 19)
+      tagAngle = -120;
+    else if(tagId ==  20)
+      tagAngle = -60;
+    else if (tagId == 21)
+      tagAngle = 0;
+    else if (tagId == 22)
+      tagAngle = 60;
+    else if(tagId ==  17)
+      tagAngle = 120;
+    else
+      // Abandon ship!
+      end(true);      
+
+    double deltaangle = tagAngle + angleoffset;
+    
+    targetX = radius * Math.cos(Math.toRadians(deltaangle));
+    targetY = radius * Math.sin(Math.toRadians(deltaangle));
+    
+    targetX = reefX + targetX;
+    targetY = reefY + targetY; 
+    
+    Pose2d targetPos = new Pose2d(targetX, targetY, new Rotation2d(deltaangle));
+    return targetPos;
   }
 }
