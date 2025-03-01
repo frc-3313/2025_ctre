@@ -16,25 +16,24 @@ public class CoralCMD extends Command
   public Coral coral;
   public StateMachine stateMachine;
   
+  double scoreSpeed;
   public boolean timerStarted;
 
-  public CoralCMD(Coral m_coral,StateMachine stateMachine)
+  public CoralCMD(Coral m_coral,StateMachine stateMachine, double scoreSpeed)
   {
-    // Use addRequirements() here to declare subsystem dependencies.
     coral = m_coral;
     this.stateMachine = stateMachine;
+    this.scoreSpeed = scoreSpeed;
     addRequirements(coral); 
-    
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
+
       coral.RunIntake(-10);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
@@ -44,17 +43,13 @@ public class CoralCMD extends Command
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
       coral.StopIntake();
-
-      
       SmartDashboard.putBoolean("intake is done", true);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())

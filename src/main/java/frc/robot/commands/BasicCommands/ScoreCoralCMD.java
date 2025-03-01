@@ -43,10 +43,9 @@ public class ScoreCoralCMD extends Command
         {
           coral.RunIntake(-20);
         }
-    else {
-      coral.RunIntake(-400);
-
-    }
+      else {
+        coral.RunIntake(-400);
+      }
     }
   }
 
@@ -61,6 +60,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
+
     // if (timer.hasElapsed(1))
     // {
     //   return true;
