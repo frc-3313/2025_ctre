@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -61,7 +62,6 @@ public class RobotContainer {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(driveController.getLeftY() * Math.abs(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
                     .withVelocityY(driveController.getLeftX()* Math.abs(driveController.getLeftX()) * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
@@ -76,14 +76,10 @@ public class RobotContainer {
         driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // reset the field-centric heading on left bumper press
-        //driveController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-
         drivetrain.registerTelemetry(logger::telemeterize);
 
-
-        //commands for manipulator
-        manipulator.a().onTrue(new CoralCMD(coral, stateMachine));
+        //------------------------------------- Manipulator -------------------------------------//
+        manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
         manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
         //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
@@ -94,34 +90,28 @@ public class RobotContainer {
         manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
         manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
 
-        //FIX ME
-
-        /* switched manipulator dpad from direct to height to state machine
-
-        manipulator.povUp().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Fourth));
-        manipulator.povDown().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.BottomPosition));
-        manipulator.povRight().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Second));
-        manipulator.povLeft().onTrue(new SetElevatorHeight(elevator, Constants.Elevator.Third));
-        */
-
-
-        //commands for driver
+        //------------------------------------- Driver -------------------------------------//
         //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         driveController.start().onTrue(new ZeroGyro(drivetrain));
-        driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
-        driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));
-        driveController.x().onTrue(new RotateToAngleCMD(drivetrain, 120));
-        driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
-        driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
-        driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
-        driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 144));
-        driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 216));
+        // driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
+        // driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));
+        // driveController.x().onTrue(new RotateToAngleCMD(drivetrain, 120));
+        // driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
+        // driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
+        // driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
+        // driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 144));
+        // driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 216));
         // driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
         // driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
-        /*driveController.a().onTrue(new limelight());*/
+
+        //EXPERIMENTAL
+        driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
+        driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
+        //driveController.x().onTrue(new GoToScoringPosition(drivetrain, 3.048, 4.0259, 180));
+
      }
 
     /**

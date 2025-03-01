@@ -21,7 +21,7 @@ public class ScoreCoralHeightCMD extends Command
   public StateMachine stateMachine;
 
   public ScoreCoralHeightCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
-    this.coral = coral;
+    this.coral = coral; 
     this.elevator = elevator;
     this.stateMachine = stateMachine;
     addRequirements(coral, elevator);
@@ -41,7 +41,6 @@ public class ScoreCoralHeightCMD extends Command
     else if (stateMachine.getScoreHeight() == 3)
       elevator.setHeight(Constants.Elevator.Fourth); 
     }
-
   }
 
   @Override
@@ -51,24 +50,12 @@ public class ScoreCoralHeightCMD extends Command
   }
 
   @Override
-  public void end(boolean interrupted) 
-  {
-    //elevator.setHeight(Constants.Elevator.BottomPosition);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() 
   {
-    // if (timer.hasElapsed(1))
-    // {
-    //   return true;
-    // }
-    // if(!coral.coralFullyAcquired() && !timer.isRunning())
-    // {
-    //   timer.start();
-    // }
-      return true;
-
-    }
+    return true;
+  }
 }

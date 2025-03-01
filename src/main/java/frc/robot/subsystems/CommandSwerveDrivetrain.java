@@ -136,7 +136,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     );
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
+    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
 
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
@@ -340,10 +340,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             });
         }
         updateVisionOdometry();
+
         SmartDashboard.putNumber("swerve position", this.getState().Pose.getRotation().getDegrees());
         field2d.setRobotPose(getState().Pose);
-        SmartDashboard.putData("field", field2d);
+       // SmartDashboard.putData("field", field2d);
+        
     }
+    /*private void LimelightPoseTracker {
+        LimelightResults results = Limelighthelpers.getLatestResults("limelight");
+        double ta = LimelightHelpers.getTA("limelight");
+        double minTargetArea = 5.0;
+
+        if (ta >= minTargetArea) {
+            double[] botPoseOrb = results.targetingResults.botpose_orb;
+            double yaw = botPoseOrb[5];
+        }
+    }*/
 
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
@@ -437,17 +449,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     else if (useMegaTag2 == true)
     {
         SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
       if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
       {
-        System.out.println("reject 1");
         doRejectUpdate = true;
       }
       if(mt2.tagCount == 0)
       {
-        System.out.println("reject 2");
-
         doRejectUpdate = true;
       }
       if(!doRejectUpdate)
