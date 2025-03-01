@@ -5,11 +5,14 @@
 package frc.robot.commands.BasicCommands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
+import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class GoToScoringPosition extends Command {
@@ -27,14 +30,17 @@ public class GoToScoringPosition extends Command {
   private static final double ROTATION_TOLERANCE = Math.toRadians(2); // radians
   private static final double MAX_SPEED = 4.0; // meters/sec
   private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
+  private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
+  .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
+  .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
 
   public GoToScoringPosition(CommandSwerveDrivetrain drivetrain, double x, double y, double rotation) {
     this.drivetrain = drivetrain;
     this.targetPose = new Pose2d(x, y, Rotation2d.fromDegrees(rotation));
     
-    this.xController = new PIDController(1.0, 0.0, 0.0);
-    this.yController = new PIDController(1.0, 0.0, 0.0);
-    this.thetaController = new PIDController(2.0, 0.0, 0.0);
+    this.xController = new PIDController(2.50, 0.0001, 0.0);
+    this.yController = new PIDController(2.50, 0.0001, 0.0);
+    this.thetaController = new PIDController(2.0, 0.0001, 0.0);
     
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
@@ -45,6 +51,8 @@ public class GoToScoringPosition extends Command {
 
   @Override
   public void initialize() {
+    snapDrive.HeadingController = new PhoenixPIDController(10, 0, 0);
+
     xController.reset();
     yController.reset();
     thetaController.reset();
@@ -58,7 +66,6 @@ public class GoToScoringPosition extends Command {
     double yError = targetPose.getY() - currentPose.getY();
     double thetaError = targetPose.getRotation().minus(currentPose.getRotation()).getRadians();
 
-    drivetrain.applyRequest(() -> {
       double xVel = xController.calculate(xError, 0.0);
       double yVel = yController.calculate(yError, 0.0);
       double angularVel = thetaController.calculate(thetaError, 0.0);
@@ -67,11 +74,10 @@ public class GoToScoringPosition extends Command {
       yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
       angularVel = Math.max(-MAX_ANGULAR_RATE, Math.min(MAX_ANGULAR_RATE, angularVel));
 
-      return driveRequest
-        .withVelocityX(xVel)
-        .withVelocityY(yVel)
-        .withRotationalRate(angularVel);
-    });
+      drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(90))
+      .withVelocityX(xVel) // Drive forward with negative Y (forward)
+      .withVelocityY(yVel)); // Drive left with negative X (left)););
+
   }
 
   @Override

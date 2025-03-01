@@ -99,7 +99,7 @@ public class RobotContainer {
         //EXPERIMENTAL
         driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
         driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
-        //driveController.x().onTrue(new GoToScoringPosition(drivetrain, 3.048, 4.0259, 180));
+        driveController.x().onTrue(new GoToScoringPosition(drivetrain, 3.048, 4.0259, 90));
 
      }
 
