@@ -88,13 +88,11 @@ public class RobotContainer {
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
 
-            
-        //------------------------------Change Drive Mode--------------------------------//
         driveController.povLeft().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToSmart()));
         driveController.povRight().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToManual()));
-        
+                    
         if(stateMachine.IsDriveModeSmart()) //Smart Drive Mode
         {
             manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
@@ -103,7 +101,11 @@ public class RobotContainer {
                 new GoToScoringPosition(drivetrain),
                 new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                 new ScoreCoralCMD(coral, elevator, stateMachine)
-            ));
+                ));
+                
+            driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
+
+            //this is a faster method enable of testing the sequential command group
             // manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
             // manipulator.rightTrigger().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
             // manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
