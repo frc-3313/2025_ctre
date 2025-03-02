@@ -60,10 +60,10 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -84,17 +84,6 @@ public class RobotContainer {
         //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
-        driveController.start().onTrue(new ZeroGyro(drivetrain));
-        // driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
-        // driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));
-        // driveController.x().onTrue(new RotateToAngleCMD(drivetrain, 120));
-        // driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
-        // driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
-        // driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
-        // driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 144));
-        // driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 216));
-        // driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
-        // driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
 
         //EXPERIMENTAL
         driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
