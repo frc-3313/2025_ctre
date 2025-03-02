@@ -6,12 +6,17 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import org.opencv.ml.StatModel;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.BasicCommands.*;
@@ -34,7 +39,6 @@ public class RobotContainer {
     private final Elevator elevator = new Elevator(stateMachine);
     private final Algea algea = new Algea();
     private final Climber climber = new Climber();
-
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController driveController = new CommandXboxController(0);
@@ -48,8 +52,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        // Note that X is defined as forward according to WPILib convention,
-        // and Y is defined as to the left according to WPILib convention.
+
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(drivetrain.getDriveRange(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
@@ -66,30 +69,59 @@ public class RobotContainer {
         // driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         drivetrain.registerTelemetry(logger::telemeterize);
-
-        //------------------------------------- Manipulator -------------------------------------//
-        manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
-        manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
-        manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
-        //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
-        //manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
-        manipulator.povDown().onTrue(new SetScoreHeightCMD(stateMachine, 1));
-        //manipulator.povLeft().onTrue(new SetScoreHeightCMD(stateMachine, 0));
-        manipulator.povRight().onTrue(new SetScoreHeightCMD(stateMachine, 2));
-        manipulator.povUp().onTrue(new SetScoreHeightCMD(stateMachine, 3));
-
-        //------------------------------------- Driver -------------------------------------//
+        
+        //------------------------------Both Drive Modes---------------------------------------//
+            //Driver
         //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
-        driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
-        driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
+        
+            //Manipulator
+        manipulator.rightBumper().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreLeft(false)));
+        manipulator.leftBumper().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreLeft(true)));
+        
+        manipulator.povDown().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreHeight(1)));
+        manipulator.povRight().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreHeight(2)));
+        manipulator.povUp().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreHeight(3)));
 
-        //EXPERIMENTAL
-        driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
-        driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
-        driveController.x().onTrue(new GoToScoringPosition(drivetrain));
-
+            
+        //------------------------------Change Drive Mode--------------------------------//
+        driveController.povLeft().onTrue(
+            new InstantCommand(() -> stateMachine.SetDriveToSmart()));
+        driveController.povRight().onTrue(
+            new InstantCommand(() -> stateMachine.SetDriveToManual()));
+        
+        if(stateMachine.IsDriveModeSmart()) //Smart Drive Mode
+        {
+            manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
+            manipulator.rightTrigger().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
+            manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
+                new GoToScoringPosition(drivetrain),
+                new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                new ScoreCoralCMD(coral, elevator, stateMachine)
+            ));
+            // manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
+            // manipulator.rightTrigger().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
+            // manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
+            //     new ParallelCommandGroup(
+            //         new GoToScoringPosition(drivetrain),
+            //         new ScoreCoralHeightCMD(coral, elevator, stateMachine)
+            //     ),
+            //     new ScoreCoralCMD(coral, elevator, stateMachine)
+            // ));
+        }
+        else //Manual Drive Mode
+        {
+                //Manipulator
+            manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
+            manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
+            manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
+            manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+        }
      }
 
     public Command getAutonomousCommand() {
