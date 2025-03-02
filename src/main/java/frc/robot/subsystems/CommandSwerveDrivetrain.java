@@ -129,8 +129,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     );
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
-
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
+    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineSteer;
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
@@ -336,7 +337,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         SmartDashboard.putNumber("swerve position", this.getState().Pose.getRotation().getDegrees());
         field2d.setRobotPose(getState().Pose);
-       // SmartDashboard.putData("field", field2d);
+        SmartDashboard.putData("field", field2d);
         
     }
     /*private void LimelightPoseTracker {
@@ -460,5 +461,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             mt2.timestampSeconds);
       }
     }
+  }
+  public double getDriveRange(double input)
+  {
+    double speed = (input - .1 )/.9;
+    return speed * Math.abs(speed);
   }
 }

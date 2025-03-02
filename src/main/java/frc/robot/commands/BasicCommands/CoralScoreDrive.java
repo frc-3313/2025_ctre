@@ -42,8 +42,8 @@ public class CoralScoreDrive extends Command {
   @Override
   public void initialize() {
 
-    snapDrive.HeadingController = new PhoenixPIDController(10, 0, 0);
-
+    snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
+    snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   @Override
@@ -51,17 +51,10 @@ public class CoralScoreDrive extends Command {
   {
     Pose2d curPose = drivetrain.getState().Pose;
     desAngle = GetRotationAngle(curPose.getX(), curPose.getY());
-    desAngle = normalizeAngle(curPose.getRotation().getDegrees(), desAngle);
 
     drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
     .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
     .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left)););
-    
-    SmartDashboard.putNumber("DesiredAngle", desAngle);
-    SmartDashboard.putNumber("rotation", drivetrain.getState().Pose.getRotation().getDegrees());
-    SmartDashboard.putNumber("DesiredAngle", desAngle);
-    System.out.println("current rotation:" + drivetrain.getState().Pose.getRotation().getDegrees() + ": Desired :" + desAngle);
-
   }
 
   @Override
@@ -80,27 +73,18 @@ public class CoralScoreDrive extends Command {
 
     double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
 
-    if(angle < 0)
-      angle += 360;
-
-    if(angle <= 30 || angle > 330)
-      return 0.1;
+    if(angle > 150 || angle < -150)
+      return 180;
+    else if(angle > -150 && angle <= -90)
+      return -120;
+    else if(angle > -90 && angle <= -30)
+      return -60;
+    else if(angle > -30 && angle <= 30)
+      return 0;
     else if(angle > 30 && angle <= 90)
       return 60;
-    else if(angle > 90 && angle <= 150)
-      return 120;
-    else if(angle > 150 && angle <= 210)
-      return 180;
-    else if(angle > 210 && angle <= 270)
-      return -120;
     else
-      return -60;
+      return 120;
   }
 
-  private double normalizeAngle(double currentAngle, double targetAngle) {
-      double difference = targetAngle - currentAngle;
-      while (difference > 180) difference -= 360;
-      while (difference < -180) difference += 360;
-      return currentAngle + difference;
-  }
 }
