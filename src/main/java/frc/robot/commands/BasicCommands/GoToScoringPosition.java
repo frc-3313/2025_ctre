@@ -97,17 +97,13 @@ public class GoToScoringPosition extends Command {
 
   Pose2d ScoreConditioningCalculator(boolean left)
   {
-    double reefX = 4.797; //meters
-    double reefY = 4.386; //meters
-    double radius = 1.6256; //meters
-    double angleoffset = 5;
-
     double targetX = 0;
     double targetY = 0;
+    double angleoffset = Constants.Coral.angleoffset;
 
     if(left)
     {
-      angleoffset = angleoffset * -1;
+      angleoffset = Constants.Coral.angleoffset * -1;
     }
 
     double tagAngle = 0;
@@ -131,11 +127,11 @@ public class GoToScoringPosition extends Command {
 
     double deltaangle = tagAngle + angleoffset;
     
-    targetX = radius * Math.cos(Math.toRadians(deltaangle));
-    targetY = radius * Math.sin(Math.toRadians(deltaangle));
+    targetX = Constants.Coral.scoreRadius * Math.cos(Math.toRadians(deltaangle));
+    targetY = Constants.Coral.scoreRadius * Math.sin(Math.toRadians(deltaangle));
     
-    targetX = reefX + targetX;
-    targetY = reefY + targetY; 
+    targetX = Constants.Coral.blueReefX + targetX;
+    targetY = Constants.Coral.blueReefY + targetY; 
     
     Pose2d targetPos = new Pose2d(targetX, targetY, new Rotation2d(deltaangle));
     return targetPos;

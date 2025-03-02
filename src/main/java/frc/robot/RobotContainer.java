@@ -72,6 +72,10 @@ public class RobotContainer {
         
         //------------------------------Both Drive Modes---------------------------------------//
             //Driver
+        driveController.povLeft().onTrue(
+            new InstantCommand(() -> stateMachine.SetDriveToSmart()));
+        driveController.povRight().onTrue(
+            new InstantCommand(() -> stateMachine.SetDriveToManual()));
         //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
         
@@ -88,10 +92,6 @@ public class RobotContainer {
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
 
-        driveController.povLeft().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToSmart()));
-        driveController.povRight().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToManual()));
                     
         if(stateMachine.IsDriveModeSmart()) //Smart Drive Mode
         {
@@ -118,7 +118,6 @@ public class RobotContainer {
         }
         else //Manual Drive Mode
         {
-                //Manipulator
             manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
             manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
             manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));

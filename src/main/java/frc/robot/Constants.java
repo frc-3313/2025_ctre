@@ -19,7 +19,6 @@ public final class Constants
 
   /*public static final class AutonConstants
   {
-
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(5, 0, 0);
     public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
   }*/
@@ -88,6 +87,11 @@ public final class Constants
 
       public static final double CRUISE_VELOCITY = 2000;  // Units per 100ms
       public static final double ACCELERATION = 480;     // Units per 100ms²
+
+      public static final double blueReefX = 4.797; //meters
+      public static final double blueReefY = 4.386; //meters
+      public static final double scoreRadius = 1.6256; //meters
+      public static final double angleoffset = 5; //degrees
 
       //Soft Limits
       public static final double MIN_HEIGHT = 0.0;

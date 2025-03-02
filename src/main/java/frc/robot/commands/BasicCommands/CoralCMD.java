@@ -30,7 +30,6 @@ public class CoralCMD extends Command
   @Override
   public void initialize() 
   {
-
       coral.RunIntake(-10);
   }
 
