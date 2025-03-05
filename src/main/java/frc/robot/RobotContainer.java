@@ -65,8 +65,8 @@ public class RobotContainer {
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(drivetrain.getDriveY(-driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-                    .withVelocityY(drivetrain.getDriveX(-driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
+                drive.withVelocityX(drivetrain.getDriveY(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(drivetrain.getDriveX(driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
                     .withRotationalRate(drivetrain.getDriveRot(-driveController.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -106,10 +106,10 @@ public class RobotContainer {
         driveController.x().onTrue(new GoToScoringPosition(drivetrain));
 
         driveController.povLeft().onTrue(new GoToPosNoRot(drivetrain, 1.8288,4.0259));
-        driveController.povUp().onTrue(new GoToPosAndRot(drivetrain, 2.1336, 4.0259, 180));
-        // driveController.povRight().onTrue(new GoToPosNoRot(drivetrain));
-        // driveController.povDown().onTrue(new GoToPosNoRot(drivetrain));
+        driveController.povUp().onTrue(new GoToPosAndRot(drivetrain, 2.1336, 4.0259, 90));
+
      }
+
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");

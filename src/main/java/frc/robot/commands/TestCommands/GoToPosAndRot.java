@@ -6,6 +6,7 @@ package frc.robot.commands.TestCommands;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
+import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,8 +31,8 @@ public class GoToPosAndRot extends Command {
     this.drivetrain = drivetrain;
     this.targetPose = new Pose2d(xPos, yPos, Rotation2d.fromDegrees(rot));
 
-    this.xController = new PIDController(2.0, 0.0, 0.0);
-    this.yController = new PIDController(2.0, 0.0, 0.0);
+    this.xController = new PIDController(4.0, 0.0001, 0.5);
+    this.yController = new PIDController(4.0, 0.0001, 0.5);
 
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
@@ -41,6 +42,8 @@ public class GoToPosAndRot extends Command {
 
   @Override
   public void initialize() {
+    swerveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
+
     swerveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
     yController.reset();
@@ -59,19 +62,23 @@ public class GoToPosAndRot extends Command {
     double maxVelocity = 4.0;
     double clampedXVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, xVelocity));
     double clampedYVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, yVelocity));
+    swerveRequest = swerveRequest
+    .withVelocityX(clampedXVelocity)
+    .withVelocityY(clampedYVelocity)
+    .withTargetDirection(targetPose.getRotation());
 
-    drivetrain.applyRequest(() -> swerveRequest
-        .withVelocityX(clampedXVelocity)
-        .withVelocityY(clampedYVelocity)
-        .withTargetDirection(targetPose.getRotation()));
+    drivetrain.setControl(swerveRequest);
   }
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.applyRequest(() -> new FieldCentricFacingAngle()
+    swerveRequest = new FieldCentricFacingAngle()
       .withVelocityX(0.0)
-      .withVelocityY(0.0));
-  }
+      .withVelocityY(0.0);
+  
+      drivetrain.setControl(swerveRequest);
+    }
+
 
   @Override
   public boolean isFinished() {

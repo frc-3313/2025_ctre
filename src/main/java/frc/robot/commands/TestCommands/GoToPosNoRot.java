@@ -44,6 +44,8 @@ public class GoToPosNoRot extends Command {
 
   @Override
   public void initialize() {
+    //swerveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
+
     swerveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
     yController.reset();
@@ -63,17 +65,22 @@ public class GoToPosNoRot extends Command {
     double clampedXVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, xVelocity));
     double clampedYVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, yVelocity));
 
-    drivetrain.applyRequest(() -> swerveRequest
-        .withVelocityX(clampedXVelocity)
-        .withVelocityY(clampedYVelocity)
-        .withTargetDirection(targetPose.getRotation()));
+    swerveRequest = swerveRequest
+    .withVelocityX(clampedXVelocity)
+    .withVelocityY(clampedYVelocity)
+    .withTargetDirection(targetPose.getRotation());
+
+    drivetrain.setControl(swerveRequest);
   }
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.applyRequest(() -> new FieldCentricFacingAngle()
-      .withVelocityX(0.0)
-      .withVelocityY(0.0));
+    swerveRequest = swerveRequest
+    .withVelocityX(0)
+    .withVelocityY(0)
+    .withTargetDirection(targetPose.getRotation());
+
+    drivetrain.setControl(swerveRequest);
   }
 
   @Override
