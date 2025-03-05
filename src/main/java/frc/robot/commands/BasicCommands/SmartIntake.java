@@ -3,10 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.BasicCommands;
-import javax.sql.rowset.serial.SerialArray;
-import javax.xml.crypto.dsig.SignatureProperty;
-
-import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -61,8 +57,8 @@ public class SmartIntake extends Command {
   
     
       drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
-      .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-      .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
+      .withVelocityX(drivetrain.getDriveY(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+      .withVelocityY(drivetrain.getDriveX(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
       
     SmartDashboard.putNumber("RobotX", currentPos.getX());
     SmartDashboard.putNumber("RobotY", currentPos.getY());

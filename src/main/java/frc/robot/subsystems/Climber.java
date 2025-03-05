@@ -8,11 +8,9 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.subsystems.StateMachine;
 
@@ -28,11 +26,13 @@ public class Climber extends SubsystemBase
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private final PIDController pid;
   private double minPowerAtExtended = 0.00;
+  private StateMachine stateMachine;
 
   private double newTargetPosition;
 
-  public Climber() 
+  public Climber(StateMachine stateMachine) 
   {
+    this.stateMachine = stateMachine;
     //climberMotor1 = new TalonFX(Constants.Climber.ClimberMotor1_ID, Constants.CANIVORE);//kraken
     grabMotor = new Servo(Constants.Climber.GrabMotor_ID);//kraken
     var TalonFXConfiguration = new TalonFXConfiguration();

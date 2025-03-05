@@ -17,7 +17,9 @@ public class ClimbCMD extends Command
   Climber climber;
   double position;
   boolean climberHasStarted;
-  public ClimbCMD(Climber climber, double m_position) {
+  private StateMachine stateMachine;
+  public ClimbCMD(Climber climber, double m_position, StateMachine stateMachine) {
+    this.stateMachine = stateMachine;
     this.climber = climber;
     this.position = m_position;
     addRequirements(climber);

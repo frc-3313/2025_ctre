@@ -52,9 +52,9 @@ public class CoralScoreDrive extends Command {
     Pose2d curPose = drivetrain.getState().Pose;
     desAngle = GetRotationAngle(curPose.getX(), curPose.getY());
 
-    drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
-    .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-    .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left)););
+    drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromRadians(desAngle))
+    .withVelocityX(drivetrain.getDriveY(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+    .withVelocityY(drivetrain.getDriveX(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left)););
   }
 
   @Override

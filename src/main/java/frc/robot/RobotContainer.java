@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -30,20 +31,30 @@ public class RobotContainer {
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final StateMachine stateMachine = new StateMachine();
-    private final Coral coral = new Coral();
+    private final Coral coral = new Coral(stateMachine);
     private final Elevator elevator = new Elevator(stateMachine);
-    private final Algea algea = new Algea();
-    private final Climber climber = new Climber();
+    private final Algea algea = new Algea(stateMachine);
+    private final Climber climber = new Climber(stateMachine);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController manipulator = new CommandXboxController(1);
+    //private final AprilTagFieldLayout fieldLayout;
 
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(stateMachine);
+    
 
     public RobotContainer() {
+        /*try 
+        {
+            fieldLayout = new AprilTagFieldLayout("AprilTagFields.k2025Reefscape");
+        } 
+        catch (Exception e) 
+        {
+            throw new RuntimeException("Failed to load field layout", e);
+        }*/
         configureBindings();
     }
 
@@ -52,9 +63,9 @@ public class RobotContainer {
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(drivetrain.getDriveRange(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-                    .withVelocityY(drivetrain.getDriveRange(driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
-                    .withRotationalRate(drivetrain.getDriveRange(-driveController.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(drivetrain.getDriveY(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(drivetrain.getDriveX(driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
+                    .withRotationalRate(drivetrain.getDriveRot(-driveController.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -99,6 +110,7 @@ public class RobotContainer {
         //EXPERIMENTAL
         driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
         driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
+        //driveController.x().onTrue(new GoToScoringPosition(drivetrain, fieldLayout));
         driveController.x().onTrue(new GoToScoringPosition(drivetrain));
 
      }
