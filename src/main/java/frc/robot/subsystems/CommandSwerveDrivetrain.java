@@ -4,14 +4,14 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.function.Supplier;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.subsystems.StateMachine;
-
-
 import choreo.Choreo.TrajectoryLogger;
 import choreo.auto.AutoFactory;
 import choreo.trajectory.SwerveSample;
@@ -19,7 +19,7 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -34,8 +34,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import com.ctre.phoenix6.hardware.Pigeon2;
-
 import frc.robot.Constants;
 import frc.robot.Helpers.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -50,6 +48,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     private final Field2d field2d = new Field2d();
+    private SlewRateLimiter x_speedLimiter = new SlewRateLimiter(6.0);
+    private SlewRateLimiter y_speedLimiter = new SlewRateLimiter(6.0);
+    private SlewRateLimiter rot_speedLimiter = new SlewRateLimiter(6.0);
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -143,6 +144,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules             Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
@@ -166,6 +168,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules                    Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         SwerveModuleConstants<?, ?, ?>... modules
@@ -197,6 +200,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules                    Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         Matrix<N3, N1> odometryStandardDeviation,
@@ -462,9 +466,57 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
     }
   }
-  public double getDriveRange(double input)
+  public double getDriveX(double input)
   {
-    double speed = (input - .1 )/.9;
-    return speed * Math.abs(speed);
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return x_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return x_speedLimiter.calculate(speed);
+    }
+    else
+        return x_speedLimiter.calculate(0);
+  }
+  public double getDriveY(double input)
+  {
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return y_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return y_speedLimiter.calculate(speed);
+    }
+    else
+        return y_speedLimiter.calculate(0);
+
+  }
+  public double getDriveRot(double input)
+  {
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return rot_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return rot_speedLimiter.calculate(speed);
+    }
+    else
+        return rot_speedLimiter.calculate(0);
+
   }
 }

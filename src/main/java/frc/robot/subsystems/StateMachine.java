@@ -21,11 +21,13 @@ public class StateMachine extends SubsystemBase
   private boolean RunIntake;
   private boolean ElevRaised;
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+  private boolean Manual;
   //Initialization
 
   public StateMachine() 
   {    
     scoreHeight = 0;
+    Manual = false;
   }
 
   public void setScoreHeight(int input)
@@ -96,5 +98,17 @@ public class StateMachine extends SubsystemBase
   public boolean getElevRaised()
   {
     return ElevRaised;
+  }
+  public void setManual(boolean input)
+  {
+    Manual = input;
+  }
+  public boolean getManual()
+  {
+    return Manual;
+  }
+  public Trigger IsManual()
+  {
+    return new Trigger(() -> Manual);
   }
 }
