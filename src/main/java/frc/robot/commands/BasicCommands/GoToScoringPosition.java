@@ -141,7 +141,6 @@ public class GoToScoringPosition extends Command {
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
     
-    Pose2d targetPos = new Pose2d(targetX, targetY, new Rotation2d(Math.toRadians(tagAngle)));
-    return targetPos;
+    return new Pose2d(targetX, targetY, new Rotation2d(Math.toRadians(tagAngle)));
   }
 }
