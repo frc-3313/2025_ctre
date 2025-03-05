@@ -6,11 +6,9 @@ package frc.robot.commands.BasicCommands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
-import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -41,8 +39,6 @@ public class CoralScoreDrive extends Command {
 
   @Override
   public void initialize() {
-
-    snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
   }
 

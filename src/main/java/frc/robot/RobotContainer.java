@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.BasicCommands.*;
+import frc.robot.commands.TestCommands.GoToPosAndRot;
+import frc.robot.commands.TestCommands.GoToPosNoRot;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
 
@@ -85,22 +87,16 @@ public class RobotContainer {
         driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
         driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         driveController.start().onTrue(new ZeroGyro(drivetrain));
-        // driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
-        // driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));
-        // driveController.x().onTrue(new RotateToAngleCMD(drivetrain, 120));
-        // driveController.y().onTrue(new RotateToAngleCMD(drivetrain, 180));
-        // driveController.povLeft().onTrue(new RotateToAngleCMD(drivetrain, 240));
-        // driveController.povRight().onTrue(new RotateToAngleCMD(drivetrain, 300));
-        // driveController.rightTrigger().onTrue(new RotateToAngleCMD(drivetrain, 144));
-        // driveController.leftTrigger().onTrue(new RotateToAngleCMD(drivetrain, 216));
-        // driveController.rightTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, 60));
-        // driveController.leftTrigger().onTrue(new RotateRelativeAngleCMD(drivetrain, -60));
 
         //EXPERIMENTAL
         driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
         driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
         driveController.x().onTrue(new GoToScoringPosition(drivetrain));
 
+        driveController.povLeft().onTrue(new GoToPosNoRot(drivetrain, 1.8288,4.0259));
+        driveController.povUp().onTrue(new GoToPosAndRot(drivetrain, 2.1336, 4.0259, 180));
+        // driveController.povRight().onTrue(new GoToPosNoRot(drivetrain));
+        // driveController.povDown().onTrue(new GoToPosNoRot(drivetrain));
      }
 
     public Command getAutonomousCommand() {

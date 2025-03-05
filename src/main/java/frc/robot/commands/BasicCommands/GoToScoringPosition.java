@@ -4,10 +4,8 @@
 
 package frc.robot.commands.BasicCommands;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
-import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,40 +20,31 @@ public class GoToScoringPosition extends Command {
 
   private final PIDController xController;
   private final PIDController yController;
-  private final PIDController thetaController;
-  
-  private final SwerveRequest.FieldCentric driveRequest = new SwerveRequest.FieldCentric()
-      .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.OpenLoopVoltage);
 
-  private static final double POSITION_TOLERANCE = 0.05; // meters
-  private static final double ROTATION_TOLERANCE = Math.toRadians(2); // radians
-  private static final double MAX_SPEED = 4.0; // meters/sec
-  private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
-  private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
-  .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
-  .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
+  // Tolerance for position (meters) and heading (degrees)
+  private static final double POSITION_TOLERANCE = 0.02;
+  private static final double HEADING_TOLERANCE = Math.toRadians(1);
+  
+  private FieldCentricFacingAngle swerveRequest = new FieldCentricFacingAngle()
+    .withDriveRequestType(DriveRequestType.Velocity);
 
   public GoToScoringPosition(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     this.targetPose = ScoreConditioningCalculator(true);
-    this.xController = new PIDController(2.50, 0.0001, 0.0);
-    this.yController = new PIDController(2.50, 0.0001, 0.0);
-    this.thetaController = new PIDController(2.0, 0.0001, 0.0);
+    this.xController = new PIDController(2, 0.0001, 0.0);
+    this.yController = new PIDController(2, 0.0001, 0.0);
     
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
-    thetaController.setTolerance(ROTATION_TOLERANCE);
 
     addRequirements(drivetrain);
   }
 
   @Override
   public void initialize() {
-    snapDrive.HeadingController = new PhoenixPIDController(10, 0, 0);
-
+    swerveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
     yController.reset();
-    thetaController.reset();
   }
 
   @Override
@@ -64,25 +53,25 @@ public class GoToScoringPosition extends Command {
 
     double xError = targetPose.getX() - currentPose.getX();
     double yError = targetPose.getY() - currentPose.getY();
-    double thetaError = targetPose.getRotation().minus(currentPose.getRotation()).getRadians();
 
     double xVel = xController.calculate(xError, 0.0);
     double yVel = yController.calculate(yError, 0.0);
-    double angularVel = thetaController.calculate(thetaError, 0.0);
 
-    xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
-    yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
-    angularVel = Math.max(-MAX_ANGULAR_RATE, Math.min(MAX_ANGULAR_RATE, angularVel));
+    double maxVelocity = 4.0;
+    double clampedXVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, xVel));
+    double clampedYVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, yVel));
 
-    drivetrain.setControl(snapDrive.withTargetDirection(targetPose.getRotation())
-    .withVelocityX(xVel) // Drive forward with negative Y (forward)
-    .withVelocityY(yVel)); // Drive left with negative X (left)););
-
+    drivetrain.applyRequest(() -> swerveRequest
+        .withVelocityX(clampedXVelocity)
+        .withVelocityY(clampedYVelocity)
+        .withTargetDirection(targetPose.getRotation()));
   }
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+    drivetrain.applyRequest(() -> new FieldCentricFacingAngle()
+      .withVelocityX(0.0)
+      .withVelocityY(0.0));
   }
 
   @Override
@@ -90,15 +79,14 @@ public class GoToScoringPosition extends Command {
     Pose2d currentPose = drivetrain.getState().Pose;
     double xError = Math.abs(targetPose.getX() - currentPose.getX());
     double yError = Math.abs(targetPose.getY() - currentPose.getY());
-    double thetaError = Math.abs(targetPose.getRotation().minus(currentPose.getRotation()).getRadians());
-
-    return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE && thetaError < ROTATION_TOLERANCE;
+    double headingError = Math.abs(targetPose.getRotation().minus(currentPose.getRotation()).getRadians());
+    return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE && headingError < HEADING_TOLERANCE;
   }
 
   Pose2d ScoreConditioningCalculator(boolean left)
   {
-    double reefX = 4.797; //meters
-    double reefY = 4.386; //meters
+    double reefX = 4.48945; //meters
+    double reefY = 4.0259; //meters
     double radius = 1.6256; //meters
     double angleoffset = 5;
 
@@ -137,7 +125,7 @@ public class GoToScoringPosition extends Command {
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
     
-    Pose2d targetPos = new Pose2d(targetX, targetY, new Rotation2d(deltaangle));
+    Pose2d targetPos = new Pose2d(targetX, targetY, Rotation2d.fromDegrees(tagAngle));
     return targetPos;
   }
 }
