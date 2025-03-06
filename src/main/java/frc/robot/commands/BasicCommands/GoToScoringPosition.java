@@ -70,21 +70,22 @@ public class GoToScoringPosition extends Command {
   @Override
   public void execute() {
     Pose2d currentPose = drivetrain.getState().Pose;
+    if(targetPose != null)
+    {
+      double xError = targetPose.getX() - currentPose.getX();
+      double yError = targetPose.getY() - currentPose.getY();
 
-    double xError = targetPose.getX() - currentPose.getX();
-    double yError = targetPose.getY() - currentPose.getY();
+      double xVel = xController.calculate(xError, 0.0);
+      double yVel = yController.calculate(yError, 0.0);
 
-    double xVel = xController.calculate(xError, 0.0);
-    double yVel = yController.calculate(yError, 0.0);
-
-    xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
-    yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
-    System.out.println("degrees :" + targetPose.getRotation());
-    drivetrain.setControl(snapDrive
-    .withVelocityX(xVel)
-    .withVelocityY(yVel)
-    .withTargetDirection(targetPose.getRotation()));
-
+      xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
+      yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
+      System.out.println("degrees :" + targetPose.getRotation());
+      drivetrain.setControl(snapDrive
+      .withVelocityX(xVel)
+      .withVelocityY(yVel)
+      .withTargetDirection(targetPose.getRotation()));
+    }
   }
 
   @Override
@@ -97,7 +98,8 @@ public class GoToScoringPosition extends Command {
     Pose2d currentPose = drivetrain.getState().Pose;
     double xError = Math.abs(targetPose.getX() - currentPose.getX());
     double yError = Math.abs(targetPose.getY() - currentPose.getY());
-
+    if(targetPose == null)
+      return true;
     return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE;
   }
 
@@ -150,7 +152,7 @@ public class GoToScoringPosition extends Command {
       tagAngle = 120;
     else
       // Abandon ship!
-      end(true);      
+      return null;      
     
     double deltaangle = tagAngle + angleoffset;
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
