@@ -6,6 +6,8 @@ package frc.robot.commands.BasicCommands;
 
 import java.util.Optional;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -16,13 +18,16 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.Helpers.*;
 
 public class GoToScoringPosition extends Command {
   private final CommandSwerveDrivetrain drivetrain;
+  private final StateMachine stateMachine;
   private Pose2d targetPose;
 
   private final PIDController xController;
@@ -38,8 +43,9 @@ public class GoToScoringPosition extends Command {
   private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
   .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
 
-  public GoToScoringPosition(CommandSwerveDrivetrain drivetrain) {
+  public GoToScoringPosition(CommandSwerveDrivetrain drivetrain, StateMachine stateMachine) {
     this.drivetrain = drivetrain;
+    this.stateMachine = stateMachine;
     //this.fieldLayout = fieldLayout;
     this.xController = new PIDController(4.0, 0.0001, 0.5);
     this.yController = new PIDController(4.0, 0.0001, 0.5);
@@ -97,10 +103,25 @@ public class GoToScoringPosition extends Command {
 
   Pose2d ScoreConditioningCalculator(boolean left)
   {
-    double reefX = 4.84505; //meters
-    double reefY = 4.02; //meters
+    double reefX; //meters
+    double reefY; //meters
     double radius = 1.60046; //meters1.2
     double angleoffset = 5.66;
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+    {
+      reefX = 4.84505;
+      reefY = 4.02;
+    }
+    else if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      reefX = 4.84505;
+      reefY = 4.02;
+    }
+    else
+    {
+      end(true);
+      return null;
+    }
 
     double targetX = 0;
     double targetY = 0;
