@@ -53,7 +53,7 @@ public class GoToScoringPosition extends Command {
   @Override
   public void initialize() {
     snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
-    this.targetPose = ScoreConditioningCalculator(true);
+    this.targetPose = ScoreConditioningCalculator(false);
 
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
@@ -97,10 +97,10 @@ public class GoToScoringPosition extends Command {
 
   Pose2d ScoreConditioningCalculator(boolean left)
   {
-    double reefX = 4.48945; //meters
-    double reefY = 4.386; //meters
-    double radius = 1.35046; //meters1.65046
-    double angleoffset = 5.662/2;
+    double reefX = 4.84505; //meters
+    double reefY = 4.02; //meters
+    double radius = 1.60046; //meters1.2
+    double angleoffset = 5.66;
 
     double targetX = 0;
     double targetY = 0;
@@ -109,7 +109,6 @@ public class GoToScoringPosition extends Command {
     {
       angleoffset = angleoffset * -1;
     }
-
     double tagAngle = 0;
     // Get the tag ID for the visible April tag
     int tagId = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT);
@@ -133,7 +132,6 @@ public class GoToScoringPosition extends Command {
       end(true);      
     
     double deltaangle = tagAngle + angleoffset;
-    
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
     targetY = radius * Math.sin(Math.toRadians(deltaangle));
     
