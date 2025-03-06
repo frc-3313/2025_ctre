@@ -98,7 +98,7 @@ public class GoToScoringPosition extends Command {
   Pose2d ScoreConditioningCalculator(boolean left)
   {
     double reefX = 4.84505; //meters
-    double reefY = 4.02; //meters
+    double reefY = 4.0259; //meters
     double radius = 1.60046; //meters1.2
     double angleoffset = 5.66;
 
@@ -118,15 +118,15 @@ public class GoToScoringPosition extends Command {
     if(tagId ==  18)
       tagAngle = 180;
     else if (tagId == 19)
-      tagAngle = -120;
+      tagAngle = 120;
     else if(tagId ==  20)
-      tagAngle = -60;
+      tagAngle = 60;
     else if (tagId == 21)
       tagAngle = 0;
     else if (tagId == 22)
-      tagAngle = 60;
+      tagAngle = -60;
     else if(tagId ==  17)
-      tagAngle = 120;
+      tagAngle = -120;
     else
       // Abandon ship!
       end(true);      
