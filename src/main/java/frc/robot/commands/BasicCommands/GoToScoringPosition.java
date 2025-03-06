@@ -59,7 +59,7 @@ public class GoToScoringPosition extends Command {
   @Override
   public void initialize() {
     snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
-    this.targetPose = ScoreConditioningCalculator(false);
+    this.targetPose = ScoreConditioningCalculator();
 
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
@@ -103,7 +103,7 @@ public class GoToScoringPosition extends Command {
     return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE;
   }
 
-  Pose2d ScoreConditioningCalculator(boolean left)
+  Pose2d ScoreConditioningCalculator()
   {
     double reefX; //meters
     double reefY; //meters
@@ -129,7 +129,7 @@ public class GoToScoringPosition extends Command {
     double targetX = 0;
     double targetY = 0;
 
-    if(left)
+    if(stateMachine.getScoreLeft())
     {
       angleoffset = angleoffset * -1;
     }

@@ -13,6 +13,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.BasicCommands.*;
@@ -80,7 +81,7 @@ public class RobotContainer {
 
         //------------------------------------- Manipulator -------------------------------------//
         manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
-        manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
+        //manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
         manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
         //manipulator.b().onTrue(new ScoreAlgeaCMD(algea, .5));
         //manipulator.y().onTrue(new ScoreAlgeaCMD(algea, -.5));
@@ -111,8 +112,11 @@ public class RobotContainer {
         driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
         //driveController.b().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
         //driveController.x().onTrue(new GoToScoringPosition(drivetrain, fieldLayout));
-        driveController.x().onTrue(new GoToScoringPosition(drivetrain, stateMachine));
-
+        manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
+                new GoToScoringPosition(drivetrain, stateMachine),
+                new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                new ScoreCoralCMD(coral, elevator, stateMachine)
+                ));
      }
 
     public Command getAutonomousCommand() {

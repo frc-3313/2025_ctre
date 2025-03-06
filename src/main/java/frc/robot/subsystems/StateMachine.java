@@ -16,7 +16,6 @@ public class StateMachine extends SubsystemBase
 {
   private int scoreHeight;
   private boolean scoreLeft;
-  private boolean scoreRight;
   private boolean killCommands;
   private boolean RunIntake;
   private boolean ElevRaised;
@@ -43,18 +42,13 @@ public class StateMachine extends SubsystemBase
   public void setScoreLeft()
   {
     scoreLeft = true;
-    scoreRight = false;
   } 
 
   public void setScoreRight()
   {
-    scoreRight = true;
     scoreLeft = false;
   }
-  public boolean getScoreRight()
-  {
-    return scoreRight;
-  }
+  
   public boolean getScoreLeft()
   {
     return scoreLeft;
