@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import javax.lang.model.util.ElementScanner14;
@@ -15,12 +16,15 @@ import frc.robot.subsystems.StateMachine;
 import choreo.Choreo.TrajectoryLogger;
 import choreo.auto.AutoFactory;
 import choreo.trajectory.SwerveSample;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
@@ -58,6 +62,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
+    public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
     /** Swerve request to apply during field-centric path following */
     private final SwerveRequest.ApplyFieldSpeeds m_pathApplyFieldSpeeds = new SwerveRequest.ApplyFieldSpeeds();
@@ -459,6 +464,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
       if(!doRejectUpdate)
       {
+        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
+        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
+        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+        Pose2d pose = mt2.pose;
+        // Check if a valid target is detected
+        if (tv) 
+        {
+
+            // Get the target's known pose
+            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+
+        }
         setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
         addVisionMeasurement(
             mt2.pose,

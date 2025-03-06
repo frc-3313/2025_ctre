@@ -4,6 +4,7 @@
 
 package frc.robot.commands.BasicCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.StateMachine;
@@ -24,9 +25,13 @@ public class ClimbGrabPositionCMD extends Command
   @Override
   public void initialize()
   {
-    climber.GoToHeight(position);
-    // elevator.setMotorAmp(80);
-    climber.setMaxSpeeds(.3, -.1);
+    if (DriverStation.getMatchTime() <= 15.0) 
+    {
+      climber.GoToHeight(position);
+      // elevator.setMotorAmp(80);
+      climber.setMaxSpeeds(.3, -.1);
+    }
+
     
   }
 
@@ -46,6 +51,11 @@ public class ClimbGrabPositionCMD extends Command
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (DriverStation.getMatchTime() > 15.0) 
+    {
+      return true;
+    }
     return climber.atSetpoint();
+    
   }
 }

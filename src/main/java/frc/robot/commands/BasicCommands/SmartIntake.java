@@ -9,6 +9,7 @@ import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -48,11 +49,20 @@ public class SmartIntake extends Command {
   public void execute() 
   {
     Pose2d currentPos = drivetrain.getState().Pose;
-
-    if(currentPos.getY() > 4.0259)
-      desAngle = -234;
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      if(currentPos.getY() > 4.0259)
+        desAngle = 54;
+      else
+        desAngle = -54;
+    }
     else
-      desAngle = 234;
+    {    
+      if(currentPos.getY() > 4.0259)
+        desAngle = -234;
+      else
+        desAngle = 234;
+    }
 
   
     
