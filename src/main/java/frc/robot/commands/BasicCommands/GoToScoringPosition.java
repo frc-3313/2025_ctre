@@ -18,12 +18,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.Helpers.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.Helpers.*;
 
 public class GoToScoringPosition extends Command {
   private final CommandSwerveDrivetrain drivetrain;
-  private final Pose2d targetPose;
+  private Pose2d targetPose;
 
   private final PIDController xController;
   private final PIDController yController;
@@ -36,17 +36,14 @@ public class GoToScoringPosition extends Command {
   private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
   //private final AprilTagFieldLayout fieldLayout;
   private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
-  .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
   .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
 
   public GoToScoringPosition(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     //this.fieldLayout = fieldLayout;
-    this.targetPose = ScoreConditioningCalculator(true);
-    this.xController = new PIDController(2.50, 0.0001, 0.0);
-    this.yController = new PIDController(2.50, 0.0001, 0.0);
+    this.xController = new PIDController(4.0, 0.0001, 0.5);
+    this.yController = new PIDController(4.0, 0.0001, 0.5);
 
-    
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
 
@@ -55,10 +52,13 @@ public class GoToScoringPosition extends Command {
 
   @Override
   public void initialize() {
-    snapDrive.HeadingController = new PhoenixPIDController(2, 0, 0.1);
+    snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
+    this.targetPose = ScoreConditioningCalculator(true);
+
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
     yController.reset();
+    
   }
 
   @Override
@@ -73,11 +73,11 @@ public class GoToScoringPosition extends Command {
 
     xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
     yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
-
-    drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(0))
-    .withVelocityX(drivetrain.getDriveY(xVel)) // Drive forward with negative Y (forward)
-    .withVelocityY(drivetrain.getDriveX(yVel))); // Drive left with negative X (left)););
-    System.out.println("target rotation" + targetPose.getRotation().getDegrees() + ":" + drivetrain.getState().Pose.getRotation().getDegrees());
+    System.out.println("degrees :" + targetPose.getRotation());
+    drivetrain.setControl(snapDrive
+    .withVelocityX(xVel)
+    .withVelocityY(yVel)
+    .withTargetDirection(targetPose.getRotation()));
 
   }
 
@@ -99,8 +99,8 @@ public class GoToScoringPosition extends Command {
   {
     double reefX = 4.48945; //meters
     double reefY = 4.386; //meters
-    double radius = 1.65046; //meters
-    double angleoffset = 5.662;
+    double radius = 1.35046; //meters1.65046
+    double angleoffset = 5.662/2;
 
     double targetX = 0;
     double targetY = 0;
@@ -114,11 +114,10 @@ public class GoToScoringPosition extends Command {
     // Get the tag ID for the visible April tag
     int tagId = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT);
     //Optional<Pose3d> tagPose = fieldLayout.getTagPose(tagId);
-
     //fieldLayout.getTagPose(tagId);
     //System.out.println("tagPose: " + Units.radiansToDegrees(tagPose.get().getRotation().getAngle()));
     if(tagId ==  18)
-      tagAngle = 0;
+      tagAngle = 180;
     else if (tagId == 19)
       tagAngle = -120;
     else if(tagId ==  20)
@@ -132,7 +131,7 @@ public class GoToScoringPosition extends Command {
     else
       // Abandon ship!
       end(true);      
-
+    
     double deltaangle = tagAngle + angleoffset;
     
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
@@ -140,7 +139,7 @@ public class GoToScoringPosition extends Command {
     
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
-    
-    return new Pose2d(targetX, targetY, new Rotation2d(Math.toRadians(tagAngle)));
+    return new Pose2d(targetX, targetY, Rotation2d.fromDegrees(tagAngle));
+  
   }
 }
