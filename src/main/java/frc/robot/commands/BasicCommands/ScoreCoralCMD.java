@@ -10,8 +10,6 @@ import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.StateMachine;
-
 
 public class ScoreCoralCMD extends Command 
 {

@@ -14,95 +14,42 @@ import frc.robot.generated.TunerConstants;
 
 public class StateMachine extends SubsystemBase 
 {
-  private int scoreHeight;
-  private boolean scoreLeft;
+  private int scoreHeight = 0 ;
+  private boolean scoreLeft = true;
   private boolean killCommands;
-  private boolean RunIntake;
-  private boolean ElevRaised;
-  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private boolean Manual;
+  private boolean runIntake;
+  private boolean elevRaised;
+  private boolean smartDrive;
+  private double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   //Initialization
 
-  public StateMachine() 
-  {    
-    scoreHeight = 0;
-    Manual = false;
-  }
+  public StateMachine(){}
 
-  public void setScoreHeight(int input)
-  {
-    scoreHeight = input;
-  }
+  //Score Height Methods
+  public void setScoreHeight(int input) { scoreHeight = input; }
+  public int getScoreHeight() { return scoreHeight; }
 
-  public int getScoreHeight()
-  {
-    return scoreHeight;
-  }
-
-  public void setScoreLeft()
-  {
-    scoreLeft = true;
-  } 
-
-  public void setScoreRight()
-  {
-    scoreLeft = false;
-  }
+  // Score Side Methods
+  public void setScoreLeft(boolean isLeft) { scoreLeft = isLeft; }
+  public boolean isScoreLeft() { return scoreLeft; }
+  public boolean isScoreRight() { return !scoreLeft; }
   
-  public boolean getScoreLeft()
-  {
-    return scoreLeft;
-  }
-  public void SetKillCommands(boolean killcommands)
-  {
-    killCommands = killcommands;
-  }
-  public boolean GetKillCommands()
-  {
-    return killCommands;
-  }
-  public void setIntake(boolean RunIntake)
-  {
-    this.RunIntake = RunIntake;
-  }
-  public Trigger runIntake()
-  {
-    return new Trigger(() -> RunIntake);
-  }
-  public Command IntakeCMD(boolean intakeBool)
-  {
-    return this.runOnce(() -> this.setIntake(intakeBool));
-    
-  }
-  public double getMaxSpeed()
-  {
-    if(getElevRaised())
-    {
-      return MaxSpeed/8;
-    }
-    else
-    {
-      return MaxSpeed;
-    }
-  }
-  public void setElevRaised(boolean input)
-  {
-    ElevRaised = input;
-  }
-  public boolean getElevRaised()
-  {
-    return ElevRaised;
-  }
-  public void setManual(boolean input)
-  {
-    Manual = input;
-  }
-  public boolean getManual()
-  {
-    return Manual;
-  }
-  public Trigger IsManual()
-  {
-    return new Trigger(() -> Manual);
-  }
+  // Kill Commands Methods
+  public void setKillCommands(boolean killCommands) { this.killCommands = killCommands; }
+  public boolean GetKillCommands() { return killCommands; }
+  
+  //Intake Methods
+  public void setIntake(boolean runIntake) { this.runIntake = runIntake; }
+  public Trigger runIntake() { return new Trigger(() -> runIntake); }
+  public Command IntakeCMD(boolean intakeBool) { return this.runOnce(() -> this.setIntake(intakeBool)); }
+
+  // Elevator Speed Control Mehods
+  public double getMaxSpeed() { return elevRaised ? maxSpeed / 8 : maxSpeed; }
+  public void setElevRaised(boolean input) { elevRaised = input; }
+  public boolean isElevRaised() { return elevRaised; }
+
+  //Drive Methods
+  public void SetDriveToSmart() { smartDrive = true; }
+  public void SetDriveToManual() { smartDrive = false; }
+  public boolean IsDriveModeSmart() { return smartDrive; }
 }

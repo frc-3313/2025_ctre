@@ -10,8 +10,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.Coral;
-import frc.robot.subsystems.StateMachine;
-
 
 public class ReturnToNormal extends InstantCommand {
   public Algea algea;

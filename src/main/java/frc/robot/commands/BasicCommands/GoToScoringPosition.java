@@ -4,20 +4,12 @@
 
 package frc.robot.commands.BasicCommands;
 
-import java.util.Optional;
-
-import javax.lang.model.util.ElementScanner14;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
-
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -130,7 +122,7 @@ public class GoToScoringPosition extends Command {
     double targetX = 0;
     double targetY = 0;
 
-    if(stateMachine.getScoreLeft())
+    if(stateMachine.isScoreLeft())
     {
       angleoffset = angleoffset * -1;
     }
