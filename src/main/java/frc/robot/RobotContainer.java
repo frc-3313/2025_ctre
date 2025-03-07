@@ -94,8 +94,8 @@ public class RobotContainer {
         //------------------------------------- Driver -------------------------------------//
         //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
         //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
-        driveController.rightStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
-        driveController.leftStick().onTrue(new SetScoreRightCMD(stateMachine, true));
+        driveController.leftStick().onTrue(new SetScoreLeftCMD(stateMachine, true));
+        driveController.rightStick().onTrue(new SetScoreRightCMD(stateMachine, true));
         driveController.start().onTrue(new ZeroGyro(drivetrain));
         // driveController.a().onTrue(new RotateToAngleCMD(drivetrain, 0));
         // driveController.b().onTrue(new RotateToAngleCMD(drivetrain, 60));

@@ -35,7 +35,7 @@ public class GoToScoringPosition extends Command {
   private final SwerveRequest.FieldCentric driveRequest = new SwerveRequest.FieldCentric()
       .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.OpenLoopVoltage);
 
-  private static final double POSITION_TOLERANCE = 0.05; // meters
+  private static final double POSITION_TOLERANCE = 0.0125; // meters
   private static final double ROTATION_TOLERANCE = Math.toRadians(2); // radians
   private static final double MAX_SPEED = 4.0; // meters/sec
   private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
@@ -47,8 +47,8 @@ public class GoToScoringPosition extends Command {
     this.drivetrain = drivetrain;
     this.stateMachine = stateMachine;
     //this.fieldLayout = fieldLayout;
-    this.xController = new PIDController(4.0, 0.0001, 0.5);
-    this.yController = new PIDController(4.0, 0.0001, 0.5);
+    this.xController = new PIDController(4.0, 0, 0);
+    this.yController = new PIDController(4.0, 0, 0);
 
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
@@ -95,11 +95,12 @@ public class GoToScoringPosition extends Command {
 
   @Override
   public boolean isFinished() {
+    if(targetPose == null)
+      return true;
     Pose2d currentPose = drivetrain.getState().Pose;
     double xError = Math.abs(targetPose.getX() - currentPose.getX());
     double yError = Math.abs(targetPose.getY() - currentPose.getY());
-    if(targetPose == null)
-      return true;
+    
     return xError < POSITION_TOLERANCE && yError < POSITION_TOLERANCE;
   }
 
@@ -113,7 +114,7 @@ public class GoToScoringPosition extends Command {
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {
       reefX = 4.84505;
-      reefY = 4.02;
+      reefY = 4.1;
     }
     else if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
@@ -161,6 +162,7 @@ public class GoToScoringPosition extends Command {
     
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
+    
     return new Pose2d(targetX, targetY, Rotation2d.fromDegrees(tagAngle));
   
   }
