@@ -5,6 +5,7 @@ package frc.robot.Helpers;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -988,5 +989,19 @@ public class LimelightHelpers {
         }
 
         return results;
+    }
+    public static String getWhichLimelight()
+    {
+        double LL1Ta = getTA(Constants.Limelight.FRONT);
+        double LL2Ta = getTA(Constants.Limelight.RIGHT);
+        if(LL1Ta > LL2Ta)
+        {
+            return Constants.Limelight.FRONT;
+        }
+        else
+        {
+            return Constants.Limelight.RIGHT;
+        }
+
     }
 }
