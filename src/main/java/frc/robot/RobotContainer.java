@@ -10,7 +10,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BasicCommands.*;
@@ -49,8 +51,8 @@ public class RobotContainer {
 
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(drivetrain.getDriveY(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-                    .withVelocityY(drivetrain.getDriveX(driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
+                drive.withVelocityX(-drivetrain.getDriveY(driveController.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+                    .withVelocityY(-drivetrain.getDriveX(driveController.getLeftX())  * stateMachine.getMaxSpeed()) // Drive left with negative X (left)
                     .withRotationalRate(drivetrain.getDriveRot(-driveController.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -64,21 +66,21 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
         
-        //------------------------------Both Drive Modes---------------------------------------//
-            //Driver
+        // Mode switch bindings
         driveController.povLeft().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToSmart()));
         driveController.povRight().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToManual()));
-        //driveController.rightBumper().onTrue(new ClimbGrabPositionCMD(climber, MaxAngularRate));
-        //driveController.rightTrigger().onTrue(new ClimbCMD(climber, MaxAngularRate));
-        
-            //Manipulator
+            new InstantCommand(() -> stateMachine.SetDriveToManual()));;
+
+        driveController.start().onTrue(new ZeroGyro(drivetrain));
+        // Shared bindings 
         manipulator.rightBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(false)));
         manipulator.leftBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(true)));
-        
+
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+
         manipulator.povDown().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(1)));
         manipulator.povRight().onTrue(
@@ -86,37 +88,61 @@ public class RobotContainer {
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
 
-                    
-        if(stateMachine.IsDriveModeSmart()) //Smart Drive Mode
-        {
-            manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
-            //manipulator.rightTrigger().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
-            manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
-                new GoToScoringPosition(drivetrain, stateMachine),
-                new ScoreCoralHeightCMD(coral, elevator, stateMachine),
-                new ScoreCoralCMD(coral, elevator, stateMachine)
-                ));
-                
-            driveController.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
+        //manipulator
+            //Button A - Intake
+        manipulator.a().onTrue(
+            new ConditionalCommand(
+                new SmartIntake(stateMachine, coral, drivetrain, driveController), // Smart mode command
+                new CoralCMD(coral, stateMachine, 0.3),                           // Manual mode command
+                stateMachine::IsDriveModeSmart                                    // Condition
+            )
+        );
 
-            //this is a faster method enable of testing the sequential command group
-            // manipulator.a().onTrue(new SmartIntake(stateMachine, coral, drivetrain, driveController));
-            // manipulator.rightTrigger().onTrue(new CoralScoreDrive(stateMachine, drivetrain, driveController));
-            // manipulator.rightTrigger().onFalse(new SequentialCommandGroup(
-            //     new ParallelCommandGroup(
-            //         new GoToScoringPosition(drivetrain),
-            //         new ScoreCoralHeightCMD(coral, elevator, stateMachine)
-            //     ),
-            //     new ScoreCoralCMD(coral, elevator, stateMachine)
-            // ));
-        }
-        else //Manual Drive Mode
-        {
-            manipulator.a().onTrue(new CoralCMD(coral, stateMachine, .3));
-            manipulator.rightBumper().onTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
-            manipulator.rightTrigger().onTrue(new ScoreCoralCMD(coral, elevator, stateMachine));
-            manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
-        }
+        //Button B - Smart Drive
+        manipulator.b().onTrue(
+            new ConditionalCommand(
+                new CoralScoreDrive(stateMachine, drivetrain, driveController),
+                Commands.none(),
+                stateMachine::IsDriveModeSmart
+            )
+        );
+
+        //Button Right Trigger - Scores Right
+        manipulator.rightTrigger().onTrue(
+            new ConditionalCommand(
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> stateMachine.setScoreLeft(false)),
+                    new GoToScoringPosition(drivetrain, stateMachine),
+                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ScoreCoralCMD(coral, elevator, stateMachine)
+                ),                                                  // Smart mode (none for onTrue, handled onFalse)
+                new ScoreCoralCMD(coral, elevator, stateMachine),                // Manual mode
+                stateMachine::IsDriveModeSmart
+            )
+        );
+
+        //Button Left Trigger - Scores Left
+        manipulator.leftTrigger().onTrue(
+            new ConditionalCommand(
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> stateMachine.setScoreLeft(true)),
+                    new GoToScoringPosition(drivetrain, stateMachine),
+                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ScoreCoralCMD(coral, elevator, stateMachine)
+                ),
+            new ScoreCoralCMD(coral, elevator, stateMachine),
+            stateMachine::IsDriveModeSmart
+            )
+        );
+
+        //Button Y - In manual mode sends elevator up
+        manipulator.y().onTrue(
+            new ConditionalCommand(
+                Commands.none(),
+                new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                stateMachine::IsDriveModeSmart
+            )
+        );
      }
 
     public Command getAutonomousCommand() {

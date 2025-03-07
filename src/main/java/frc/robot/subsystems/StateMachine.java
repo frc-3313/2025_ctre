@@ -19,7 +19,7 @@ public class StateMachine extends SubsystemBase
   private boolean killCommands;
   private boolean runIntake;
   private boolean elevRaised;
-  private boolean smartDrive;
+  private boolean smartDrive = true;
   private double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   //Initialization
 
