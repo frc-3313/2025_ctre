@@ -91,10 +91,10 @@ public class RobotContainer {
         //Climber
         //Grab - Left Bumper
         driveController.leftBumper().onTrue(
-            new ClimbGrabPositionCMD(climber, Constants.Climber.MAX_HEIGHT));
+            new ClimbGrabPositionCMD(climber));
         //Climb - Right Bumper
         driveController.rightBumper().onTrue(
-            new ClimbCMD(climber, Constants.Climber.MIN_HEIGHT, stateMachine));
+            new ClimbCMD(climber, stateMachine));
 
         manipulator.rightBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(false)));
