@@ -122,6 +122,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(false)),
                     new GoToScoringPosition(drivetrain, stateMachine),
+                    new DriveToAprilTag(drivetrain, stateMachine),
                     new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),                                                  // Smart mode (none for onTrue, handled onFalse)
@@ -136,6 +137,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(true)),
                     new GoToScoringPosition(drivetrain, stateMachine),
+                    new DriveToAprilTag(drivetrain, stateMachine),
                     new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),

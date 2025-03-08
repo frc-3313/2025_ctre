@@ -32,8 +32,13 @@ public class DriveToAprilTag extends Command {
   private final PIDController xController;
   private final PIDController yController;
 
-  private double offsetX = 0.012;
-  private double offsetY = -0.055;
+  private double offsetRightX = 0.012;
+  private double offsetRightY = -0.055;
+  private double offsetLeftX = 0.057;
+  private double offsetLeftY = 0.016;
+
+  private double offsetX, offsetY;
+  
   private double rot = 0;
 
   private final double kP = .1;
@@ -56,16 +61,23 @@ public class DriveToAprilTag extends Command {
     xController.reset();
     yController.reset();
     if(stateMachine.isScoreLeft())
-      limelight = Constants.Limelight.FRONT;
-    else{
+    {
       limelight = Constants.Limelight.RIGHT;
-        offsetX *= -1;
+      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
+      offsetX = offsetRightX;
+      offsetY = offsetRightY;
+    }
+    else{
+      limelight = Constants.Limelight.FRONT;
+      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetLeftX, offsetLeftY, 0);
+      offsetX = offsetLeftX;
+      offsetY = offsetLeftY;
       }
 
     // driveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
     // driveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
-    LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetX, offsetY, 0);
+    
   }
 
   @Override

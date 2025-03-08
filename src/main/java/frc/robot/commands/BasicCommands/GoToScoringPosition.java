@@ -38,7 +38,7 @@ public class GoToScoringPosition extends Command {
   private final PIDController xController;
   private final PIDController yController;
 
-  private static final double POSITION_TOLERANCE = 0.5; // meters
+  private static final double POSITION_TOLERANCE = 0.125; // meters
   private static final double ROTATION_TOLERANCE = Math.toRadians(2); // radians
   private static final double MAX_SPEED = 4.0; // meters/sec
   private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
@@ -113,7 +113,7 @@ public class GoToScoringPosition extends Command {
       xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
       yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
       //System.out.println("degrees :" + targetPose.getRotation());
-      drivetrain.setControl(snapDrive
+      drivetrain.setControl(driveRequest
       .withVelocityX(-xVel)
       .withVelocityY(-yVel)
       .withTargetDirection(targetPose.getRotation()));
@@ -123,7 +123,11 @@ public class GoToScoringPosition extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    drivetrain.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+  drivetrain.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+  drivetrain.setControl(driveRequest
+    .withVelocityX(0)
+    .withVelocityY(0)
+    .withTargetDirection(targetPose.getRotation()));
   }
 
   @Override
@@ -143,7 +147,7 @@ public class GoToScoringPosition extends Command {
     double reefX; //meters
     double reefY; //meters
 
-    double radius = 1.334935988; //meters1.2
+    double radius = 1.434935988; //meters1.2
     double angleoffset = 8;//7.285188605;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {

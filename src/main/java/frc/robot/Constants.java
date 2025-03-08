@@ -102,7 +102,7 @@ public final class Constants
   {   
       //Climber
       public static final int ClimberMotor1_ID = 29;
-      public static final int GrabMotor_ID = 1;
+      public static final int GrabMotor_ID = 2;
       public static final double RAISE = -30; 
       public static final double LOWER = 45;
       //PID & Motion Magic Constants
