@@ -9,9 +9,10 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.StateMachine;
 
+import javax.lang.model.util.ElementScanner14;
+
+import edu.wpi.first.wpilibj.Timer;
 
 public class ScoreCoralCMD extends Command 
 {
@@ -32,7 +33,8 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
-
+    timer = new Timer();
+    timer.reset();
   }
 
   @Override
@@ -44,7 +46,7 @@ public class ScoreCoralCMD extends Command
           coral.RunIntake(-20);
         }
       else {
-        coral.RunIntake(-400);
+        coral.RunIntake(-200);
       }
     }
   }
@@ -60,17 +62,21 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
-
-    // if (timer.hasElapsed(1))
-    // {
-    //   return true;
-    // }
-    // if(!coral.coralFullyAcquired() && !timer.isRunning())
-    // {
-    //   timer.start();
-    // }
-    if(!coral.coralFullyAcquired())
+    if (stateMachine.getScoreHeight() == 3 && !coral.coralFullyAcquired())
+    {
+      if (timer.isRunning() && timer.hasElapsed(.2))
+      {
+        return true;
+      }
+      else
+      {
+        timer.start();
+      }
+    }
+    else if(!coral.coralFullyAcquired())
+    {
       return true;
+    }
     return false;
   }
 }

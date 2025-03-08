@@ -5,14 +5,8 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.StateMachine;
 
 public class Algea extends SubsystemBase 
@@ -21,9 +15,10 @@ public class Algea extends SubsystemBase
   //Intake Motor Setup
  // private final TalonFX intakeMotor = new TalonFX(Constants.Algea.IntakeMotor_ID, Constants.CANIVORE);
   private DigitalInput algeaAcquired = new DigitalInput(2);
-
-  public Algea() 
+  private StateMachine stateMachine;
+  public Algea(StateMachine stateMachine) 
   {
+    this.stateMachine = stateMachine;
     // var TalonFXConfiguration = new TalonFXConfiguration();
     // var motorConfigs = new MotorOutputConfigs();
     // motorConfigs.NeutralMode = NeutralModeValue.Brake;

@@ -3,16 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.BasicCommands;
-import javax.sql.rowset.serial.SerialArray;
-import javax.xml.crypto.dsig.SignatureProperty;
-
-import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -52,17 +49,26 @@ public class SmartIntake extends Command {
   public void execute() 
   {
     Pose2d currentPos = drivetrain.getState().Pose;
-
-    if(currentPos.getY() > 4.0259)
-      desAngle = -234;
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      if(currentPos.getY() > 4.0259)
+        desAngle = 234;
+      else
+        desAngle = -234;
+    }
     else
-      desAngle = 234;
+    {    
+      if(currentPos.getY() > 4.0259)
+        desAngle = -54;
+      else
+        desAngle = 54;
+    }
 
   
     
       drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
-      .withVelocityX(controller.getLeftY() * Math.abs(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-      .withVelocityY(controller.getLeftX()* Math.abs(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
+      .withVelocityX(drivetrain.getDriveY(-controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+      .withVelocityY(drivetrain.getDriveX(-controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
       
     SmartDashboard.putNumber("RobotX", currentPos.getX());
     SmartDashboard.putNumber("RobotY", currentPos.getY());

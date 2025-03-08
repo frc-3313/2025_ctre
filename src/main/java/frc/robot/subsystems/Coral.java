@@ -27,11 +27,12 @@ public class Coral extends SubsystemBase
   private DigitalInput coralFullyAcquired = new DigitalInput(1);
   private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
   private final MotionMagicVelocityDutyCycle motionMagic2 = new MotionMagicVelocityDutyCycle(0);
+  private StateMachine stateMachine;
 
 
-
-  public Coral() 
+  public Coral(StateMachine stateMachine) 
   {
+    this.stateMachine = stateMachine;
     var TalonFXConfiguration = new TalonFXConfiguration();
     // Configure PID values
     TalonFXConfiguration.Slot0.kP = Constants.Coral.kP;

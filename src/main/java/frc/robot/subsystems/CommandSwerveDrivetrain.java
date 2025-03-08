@@ -2,25 +2,26 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
 import java.util.function.Supplier;
-
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.subsystems.StateMachine;
-
-
 import choreo.Choreo.TrajectoryLogger;
 import choreo.auto.AutoFactory;
 import choreo.trajectory.SwerveSample;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
@@ -39,9 +40,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-
 import frc.robot.Constants;
-import frc.robot.Helpers.LimelightHelpers;
+import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -57,6 +57,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
+    private SlewRateLimiter x_speedLimiter = new SlewRateLimiter(6.0);
+    private SlewRateLimiter y_speedLimiter = new SlewRateLimiter(6.0);
+    private SlewRateLimiter rot_speedLimiter = new SlewRateLimiter(6.0);
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -64,6 +67,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
+    public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
     /** Swerve request to apply during field-centric path following */
     private final SwerveRequest.ApplyFieldSpeeds m_pathApplyFieldSpeeds = new SwerveRequest.ApplyFieldSpeeds();
@@ -136,8 +140,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     );
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
-
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
+    //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
+    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineSteer;
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
      * <p>
@@ -149,6 +154,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules             Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
@@ -173,6 +179,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules                    Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         SwerveModuleConstants<?, ?, ?>... modules
@@ -205,6 +212,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @param modules                    Constants for each specific module
      */
     public CommandSwerveDrivetrain(
+        StateMachine stateMachine,
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
         Matrix<N3, N1> odometryStandardDeviation,
@@ -347,7 +355,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         SmartDashboard.putNumber("swerve position", this.getState().Pose.getRotation().getDegrees());
         field2d.setRobotPose(getState().Pose);
-       // SmartDashboard.putData("field", field2d);
+        SmartDashboard.putData("field", field2d);
         
     }
     /*private void LimelightPoseTracker {
@@ -453,8 +461,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     else if (useMegaTag2 == true)
     {
         SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-        LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+      
       if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
       {
         doRejectUpdate = true;
@@ -465,13 +474,33 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
       if(!doRejectUpdate)
       {
+        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
+        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
+        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+        Pose2d pose = mt2.pose;
+        // Check if a valid target is detected
+        if (tv) 
+        {
+
+            // Get the target's known pose
+            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+
+        }
         setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
         addVisionMeasurement(
             mt2.pose,
             mt2.timestampSeconds);
       }
+      var pose = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPose X", pose.getX());
+      SmartDashboard.putNumber("TargetPose Y", pose.getY());
+      var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
+      SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
     }
   }
+
   private void configureAutoBuilder() {
     try {
         var config = RobotConfig.fromGUISettings();
@@ -500,4 +529,59 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
     }
 }
+
+  public double getDriveX(double input)
+  {
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return x_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return x_speedLimiter.calculate(speed);
+    }
+    else
+        return x_speedLimiter.calculate(0);
+  }
+  public double getDriveY(double input)
+  {
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return y_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return y_speedLimiter.calculate(speed);
+    }
+    else
+        return y_speedLimiter.calculate(0);
+
+  }
+  public double getDriveRot(double input)
+  {
+    if (input > .1)
+    {    
+        double speed = (input - .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return rot_speedLimiter.calculate(speed);
+    }
+    else if (input < -.1)
+    {    
+        double speed = (input + .1 )/.9;
+        speed = speed * Math.abs(speed);
+        return rot_speedLimiter.calculate(speed);
+    }
+    else
+        return rot_speedLimiter.calculate(0);
+
+  }
+
 }

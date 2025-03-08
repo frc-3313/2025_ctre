@@ -4,6 +4,7 @@
 
 package frc.robot.commands.BasicCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
@@ -17,7 +18,9 @@ public class ClimbCMD extends Command
   Climber climber;
   double position;
   boolean climberHasStarted;
-  public ClimbCMD(Climber climber, double m_position) {
+  private StateMachine stateMachine;
+  public ClimbCMD(Climber climber, double m_position, StateMachine stateMachine) {
+    this.stateMachine = stateMachine;
     this.climber = climber;
     this.position = m_position;
     addRequirements(climber);
@@ -29,11 +32,15 @@ public class ClimbCMD extends Command
   {
     timer = new Timer();
     timer.start();
-    climber.Grab();
     climberHasStarted = false;
 
     // elevator.setMotorAmp(80);
-    climber.setMaxSpeeds(.3, -.1);
+    if (DriverStation.getMatchTime() <= 15.0) 
+    {
+      climber.Lock();
+      climber.Raise();
+      climberHasStarted = true;
+    }
     
   }
 
@@ -41,25 +48,26 @@ public class ClimbCMD extends Command
   @Override
   public void execute() 
   {
-    if (timer.hasElapsed(1))
-    {
-      climber.GoToHeight(position);
-      climberHasStarted = true;
-    }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted)
   {
-    /*climber.atSetpoint();
-    climber.setMotorBrake();*/
+    //climber.atSetpoint();
+    //climber.setMotorBrake();
     
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
+    if (DriverStation.getMatchTime() > 15.0) 
+    {
+      return true;
+    }
     if (climberHasStarted)
       return climber.atSetpoint();
     else 
