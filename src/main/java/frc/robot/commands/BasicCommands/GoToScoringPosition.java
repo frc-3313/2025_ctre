@@ -27,7 +27,7 @@ public class GoToScoringPosition extends Command {
   private final SwerveRequest.FieldCentric driveRequest = new SwerveRequest.FieldCentric()
       .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.OpenLoopVoltage);
 
-  private static final double POSITION_TOLERANCE = 0.0125; // meters
+  private static final double POSITION_TOLERANCE = 0.5; // meters
   private static final double ROTATION_TOLERANCE = Math.toRadians(2); // radians
   private static final double MAX_SPEED = 4.0; // meters/sec
   private static final double MAX_ANGULAR_RATE = Math.toRadians(270); // 270°/s in rad/s (~4.71 rad/s)
