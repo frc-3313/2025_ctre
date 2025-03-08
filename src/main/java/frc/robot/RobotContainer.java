@@ -74,6 +74,15 @@ public class RobotContainer {
 
         driveController.start().onTrue(new ZeroGyro(drivetrain));
         // Shared bindings 
+
+        //Climber
+        //Grab - Left Bumper
+        driveController.leftBumper().onTrue(
+            new ClimbGrabPositionCMD(climber, Constants.Climber.MAX_HEIGHT));
+        //Climb - Right Bumper
+        driveController.rightBumper().onTrue(
+            new ClimbCMD(climber, Constants.Climber.MIN_HEIGHT, stateMachine));
+
         manipulator.rightBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(false)));
         manipulator.leftBumper().onTrue(
