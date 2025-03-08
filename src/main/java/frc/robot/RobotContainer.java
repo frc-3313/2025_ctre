@@ -126,7 +126,7 @@ public class RobotContainer {
             new ConditionalCommand(
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(true)),
-                    new DriveToAprilTag(drivetrain),
+                    new GoToScoringPosition(drivetrain, stateMachine),
                     new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),

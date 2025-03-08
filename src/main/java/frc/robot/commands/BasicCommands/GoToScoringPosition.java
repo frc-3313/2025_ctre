@@ -72,11 +72,12 @@ public class GoToScoringPosition extends Command {
 
       xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
       yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
-      System.out.println("degrees :" + targetPose.getRotation());
+      //System.out.println("degrees :" + targetPose.getRotation());
       drivetrain.setControl(snapDrive
-      .withVelocityX(xVel)
-      .withVelocityY(yVel)
+      .withVelocityX(-xVel)
+      .withVelocityY(-yVel)
       .withTargetDirection(targetPose.getRotation()));
+
     }
   }
 
@@ -101,17 +102,17 @@ public class GoToScoringPosition extends Command {
     double reefX; //meters
     double reefY; //meters
 
-    double radius = 1.60046; //meters1.2
-    double angleoffset = 5.66;
+    double radius = 1.334935988; //meters1.2
+    double angleoffset = 8;//7.285188605;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {
-      reefX = 4.84505;
-      reefY = 4.1;
+      reefX = 4.484505;
+      reefY = 4.03;
     }
     else if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
-      reefX = 4.84505;
-      reefY = 4.0259;
+      reefX = 4.484505;
+      reefY = 4.03;
     }
     else
     {
@@ -132,29 +133,29 @@ public class GoToScoringPosition extends Command {
     //Optional<Pose3d> tagPose = fieldLayout.getTagPose(tagId);
     //fieldLayout.getTagPose(tagId);
     //System.out.println("tagPose: " + Units.radiansToDegrees(tagPose.get().getRotation().getAngle()));
-    if(tagId ==  18)
-      tagAngle = 180;
-    else if (tagId == 19)
-      tagAngle = 120;
-    else if(tagId ==  20)
-      tagAngle = 60;
-    else if (tagId == 21)
+    if(tagId ==  18 || tagId == 10)
       tagAngle = 0;
-    else if (tagId == 22)
+    else if (tagId == 19 || tagId == 9)
       tagAngle = -60;
-    else if(tagId ==  17)
+    else if(tagId ==  20 || tagId == 8)
       tagAngle = -120;
+    else if (tagId == 21 || tagId == 7)
+      tagAngle = 180;
+    else if (tagId == 22 || tagId == 6)
+      tagAngle = 120;
+    else if(tagId ==  17 || tagId == 11)
+      tagAngle = 60;
     else
       // Abandon ship!
       return null;      
     
-    double deltaangle = tagAngle + angleoffset;
+    double deltaangle = tagAngle + angleoffset + 180;
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
     targetY = radius * Math.sin(Math.toRadians(deltaangle));
     
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
-    
+    System.out.println("gotoscore :" + targetX + ":" + targetY);
     return new Pose2d(targetX, targetY, Rotation2d.fromDegrees(tagAngle));
   
   }
