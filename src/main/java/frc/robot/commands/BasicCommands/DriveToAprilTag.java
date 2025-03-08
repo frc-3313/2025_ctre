@@ -5,32 +5,47 @@
 package frc.robot.commands.BasicCommands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
+import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
-import frc.robot.Helpers.LimelightHelpers;
+import frc.robot.LimelightHelpers;
 
 public class DriveToAprilTag extends Command {
 
   private final CommandSwerveDrivetrain swerveDrive;
-  private final double desiredDistance = 0.301; // Meters from tag (Z-axis)
-  private final double desiredOffset = .187;   // Meters left/right (X-axis)
-  private final PIDController xController; // Lateral offset
-  private final PIDController yController; // Distance
-  private final SwerveRequest.FieldCentricFacingAngle driveRequest;
+  private final StateMachine stateMachine;
+  private String limelight;
 
-  public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive) {
+  // private final SwerveRequest.FieldCentricFacingAngle driveRequest = new FieldCentricFacingAngle()
+  // .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
+  private final SwerveRequest.RobotCentric driveRequest = new SwerveRequest.RobotCentric()
+    .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
+
+  private final PIDController xController;
+  private final PIDController yController;
+
+  private double offsetX = 0.012;
+  private double offsetY = -0.055;
+  private double rot = 0;
+
+  private final double kP = .1;
+
+  private double txError = 0.15, tyError = 1;
+
+  public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
+    this.stateMachine = stateMachine;
 
-    // Tune these PID values based on your robot!
-    this.xController = new PIDController(2, 0.0, 0.0); // Lateral PID
-    this.yController = new PIDController(2, 0.0, 0.0); // Distance PID
-
-    this.driveRequest = new SwerveRequest.FieldCentricFacingAngle();
+    this.xController = new PIDController(kP, 0.0, 0.0);
+    this.yController = new PIDController(kP, 0.0, 0.0);
 
     addRequirements(swerveDrive);
   }
@@ -40,66 +55,57 @@ public class DriveToAprilTag extends Command {
     // Reset PID controllers
     xController.reset();
     yController.reset();
+    if(stateMachine.isScoreLeft())
+      limelight = Constants.Limelight.FRONT;
+    else{
+      limelight = Constants.Limelight.RIGHT;
+        offsetX *= -1;
+      }
+
+    // driveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
+    // driveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+
+    LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetX, offsetY, 0);
   }
 
   @Override
   public void execute()
   {
-    // Get robot's pose relative to the tag
-    var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-    SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
-    SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
-    boolean tv = LimelightHelpers.getTV(LimelightHelpers.getWhichLimelight()); // Target validity
+    double tx = LimelightHelpers.getTX(limelight); // Horizontal offset to offset POI
+    double ty = LimelightHelpers.getTY(limelight); // Vertical offset to offset POI
+    boolean tv = LimelightHelpers.getTV(limelight);
 
-    if (!tv) {
-        // No valid target or data, stop the robot
-        swerveDrive.setControl(driveRequest.withVelocityX(0).withVelocityY(0));
-        return;
+    tx += offsetX;
+    ty += offsetY;
+
+    if(tv)
+    {
+      double robotYVelocity = yController.calculate(tx, 0);
+      double robotXVelocity = xController.calculate(ty, 0);
+
+      Rotation2d currentHeading = swerveDrive.getState().Pose.getRotation();
+
+      driveRequest.VelocityY = robotYVelocity;
+      driveRequest.VelocityX = -robotXVelocity;
+      // driveRequest.TargetDirection = Rotation2d.fromDegrees(rot);
+
+      swerveDrive.setControl(driveRequest);
     }
-
-    // Current pose in tag's frame
-    double currentX = pose2.getX(); // Lateral offset from tag (meters)
-    double currentY = pose2.getY(); // Distance from tag (meters)
-
-
-    // Calculate errors
-    double xError = desiredOffset - currentX; // Positive = move right in tag frame
-    double yError = desiredDistance - currentY; // Positive = move forward in tag frame
-
-    // Calculate PID outputs
-    double xSpeed = xController.calculate(xError); // Meters per second (Y in field frame)
-    double ySpeed = yController.calculate(yError); // Meters per second (X in field frame)
-
-    // Limit speeds
-    xSpeed = Math.max(-1.0, Math.min(1.0, xSpeed));
-    ySpeed = Math.max(-1.0, Math.min(1.0, ySpeed));
-
-    // Apply field-centric control
-    swerveDrive.setControl(driveRequest
-        .withVelocityX(-xSpeed) // Forward/backward
-        .withVelocityY(-ySpeed) // Left/right
-        .withTargetDirection(Rotation2d.fromDegrees(180))); // Rotation
+    else
+    {
+      return;
+    }
   }
 
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
 
   @Override
   public boolean isFinished() {
-        // Get robot's pose relative to the tag
-        var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-        SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
-        SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
-        boolean tv = LimelightHelpers.getTV(LimelightHelpers.getWhichLimelight()); // Target validity
-    if (!tv) return false;
-
-    double currentX = pose2.getX();
-    double currentY = pose2.getY();
-
-    double xError = Math.abs(desiredOffset - currentX);
-    double zError = Math.abs(desiredDistance - currentY);
-
-    return xError < 0.05 && zError < 0.05 ; // 5 cm, 2 degrees tolerance
+    return LimelightHelpers.getTX(Constants.Limelight.RIGHT) <= txError && 
+      LimelightHelpers.getTY(Constants.Limelight.RIGHT) <= tyError;
   }
 }

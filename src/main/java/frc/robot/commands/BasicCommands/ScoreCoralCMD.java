@@ -46,7 +46,7 @@ public class ScoreCoralCMD extends Command
           coral.RunIntake(-20);
         }
       else {
-        coral.RunIntake(-400);
+        coral.RunIntake(-200);
       }
     }
   }
