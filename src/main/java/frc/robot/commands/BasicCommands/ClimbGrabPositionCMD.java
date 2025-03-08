@@ -13,9 +13,8 @@ public class ClimbGrabPositionCMD extends Command
 
   Climber climber;
   double position;
-  public ClimbGrabPositionCMD(Climber climber, double m_position) {
+  public ClimbGrabPositionCMD(Climber climber) {
     this.climber = climber;
-    this.position = m_position;
     addRequirements(climber);
   }
 
@@ -23,12 +22,12 @@ public class ClimbGrabPositionCMD extends Command
   @Override
   public void initialize()
   {
-    if (DriverStation.getMatchTime() <= 15.0) 
-    {
+   // if (DriverStation.getMatchTime() <= 15.0) 
+   // {
       climber.Release();;
       // elevator.setMotorAmp(80);
-      climber.lower();
-    }
+    //  climber.lower();
+    //}
 
     
   }
@@ -49,10 +48,10 @@ public class ClimbGrabPositionCMD extends Command
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (DriverStation.getMatchTime() > 15.0) 
-    {
-      return true;
-    }
+  //  if (DriverStation.getMatchTime() > 15.0) 
+  //  {
+  //    return true;
+  //  }
     return climber.atSetpoint();
     
   }

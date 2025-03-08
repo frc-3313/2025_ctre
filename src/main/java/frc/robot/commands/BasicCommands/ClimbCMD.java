@@ -16,13 +16,11 @@ public class ClimbCMD extends Command
 
   public Timer timer;
   Climber climber;
-  double position;
   boolean climberHasStarted;
   private StateMachine stateMachine;
-  public ClimbCMD(Climber climber, double m_position, StateMachine stateMachine) {
+  public ClimbCMD(Climber climber, StateMachine stateMachine) {
     this.stateMachine = stateMachine;
     this.climber = climber;
-    this.position = m_position;
     addRequirements(climber);
   }
 
@@ -38,7 +36,7 @@ public class ClimbCMD extends Command
     if (DriverStation.getMatchTime() <= 15.0) 
     {
       climber.Lock();
-      climber.Raise();
+      //climber.Raise();
       climberHasStarted = true;
     }
     
@@ -55,8 +53,6 @@ public class ClimbCMD extends Command
   @Override
   public void end(boolean interrupted)
   {
-    //climber.atSetpoint();
-    //climber.setMotorBrake();
     
   }
 
@@ -64,13 +60,13 @@ public class ClimbCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    if (DriverStation.getMatchTime() > 15.0) 
-    {
-      return true;
-    }
-    if (climberHasStarted)
+    // if (DriverStation.getMatchTime() > 15.0) 
+    // {
+    //   return true;
+    // }
+    // if (climberHasStarted)
       return climber.atSetpoint();
-    else 
-      return false;
+    // else 
+    //   return false;
   }
 }
