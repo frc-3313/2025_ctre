@@ -61,15 +61,18 @@ public class Climber extends SubsystemBase {
     newTargetPosition = Constants.Climber.LOWER;
     masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
   }
+  public void Motor_Release()
+  {
+    newTargetPosition = masterMotor.getPosition().getValueAsDouble() + 1;
+    masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+  }
   public void Release()
   {
     grabMotor.setAngle(90);
-
   }
   public void Lock()
   {
     grabMotor.setAngle(0);
-
   }
   public double getCurrentPosition()
   {
