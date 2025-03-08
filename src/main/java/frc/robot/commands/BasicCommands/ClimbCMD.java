@@ -32,14 +32,13 @@ public class ClimbCMD extends Command
   {
     timer = new Timer();
     timer.start();
-    climber.Grab();
     climberHasStarted = false;
 
     // elevator.setMotorAmp(80);
-    climber.setMaxSpeeds(.3, -.1);
     if (DriverStation.getMatchTime() <= 15.0) 
     {
-      climber.GoToHeight(position);
+      climber.Lock();
+      climber.Raise();
       climberHasStarted = true;
     }
     

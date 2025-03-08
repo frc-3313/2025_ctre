@@ -25,9 +25,9 @@ public class ClimbGrabPositionCMD extends Command
   {
     if (DriverStation.getMatchTime() <= 15.0) 
     {
-      climber.GoToHeight(position);
+      climber.Release();;
       // elevator.setMotorAmp(80);
-      climber.setMaxSpeeds(.3, -.1);
+      climber.lower();
     }
 
     
