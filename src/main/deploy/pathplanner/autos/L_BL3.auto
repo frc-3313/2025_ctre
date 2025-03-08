@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M-B"
+            "pathName": "L_BL"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetLeft"
+                  "name": "SetRight"
                 }
               },
               {
