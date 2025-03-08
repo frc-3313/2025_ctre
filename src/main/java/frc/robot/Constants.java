@@ -103,8 +103,8 @@ public final class Constants
       //Climber
       public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 0;
-      public static final double RAISE = -30; 
-      public static final double LOWER = 45;
+      public static final double RAISE = -25; 
+      public static final double LOWER = 86.20166015625;
       //PID & Motion Magic Constants
       public static final double kP = 4.8;
       public static final double kI = 0.00001;

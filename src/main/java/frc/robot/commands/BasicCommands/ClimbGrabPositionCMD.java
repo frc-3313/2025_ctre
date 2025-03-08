@@ -37,9 +37,9 @@ public class ClimbGrabPositionCMD extends Command
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (timer.hasElapsed(.5)) {
-    //   climber.lower();
-    // }
+    if (timer.hasElapsed(.5)) {
+      climber.lower();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -58,7 +58,11 @@ public class ClimbGrabPositionCMD extends Command
   //  {
   //    return true;
   //  }
-    return climber.atSetpoint();
+      if (timer.hasElapsed(.6)) 
+      {
+        return climber.atSetpoint();
+      }
+      return false;
     
   }
 }

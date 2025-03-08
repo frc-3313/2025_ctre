@@ -36,7 +36,7 @@ public class ClimbCMD extends Command
     if (DriverStation.getMatchTime() <= 15.0) 
     {
       climber.Lock();
-      //climber.Raise();
+      climber.Raise();
       climberHasStarted = true;
     }
     

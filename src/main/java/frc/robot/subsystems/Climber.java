@@ -47,7 +47,7 @@ public class Climber extends SubsystemBase {
     
     masterMotor.getConfigurator().apply(masterConfig);
 
-    //masterMotor.setNeutralMode(NeutralModeValue.Brake);
+    masterMotor.setNeutralMode(NeutralModeValue.Brake);
     masterMotor.setPosition(0);
   }
 
@@ -60,10 +60,11 @@ public class Climber extends SubsystemBase {
   {
     newTargetPosition = Constants.Climber.LOWER;
     masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+
   }
   public void Motor_Release()
   {
-    newTargetPosition = masterMotor.getPosition().getValueAsDouble() + 1;
+    newTargetPosition = masterMotor.getPosition().getValueAsDouble() - 1;
     masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
   }
   public void Release()
