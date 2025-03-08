@@ -52,16 +52,16 @@ public class SmartIntake extends Command {
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
       if(currentPos.getY() > 4.0259)
-        desAngle = 54;
+        desAngle = 234;
       else
-        desAngle = -54;
+        desAngle = -234;
     }
     else
     {    
       if(currentPos.getY() > 4.0259)
-        desAngle = -234;
+        desAngle = -54;
       else
-        desAngle = 234;
+        desAngle = 54;
     }
 
   

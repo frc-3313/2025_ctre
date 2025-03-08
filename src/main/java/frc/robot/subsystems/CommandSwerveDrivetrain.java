@@ -451,6 +451,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
       LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+      
       if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
       {
         doRejectUpdate = true;
@@ -479,6 +480,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             mt2.pose,
             mt2.timestampSeconds);
       }
+      var pose = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPose X", pose.getX());
+      SmartDashboard.putNumber("TargetPose Y", pose.getY());
+      var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
+      SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
     }
   }
   public double getDriveX(double input)
