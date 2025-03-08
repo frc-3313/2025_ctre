@@ -5,12 +5,13 @@
 package frc.robot.commands.BasicCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 
 public class ClimbGrabPositionCMD extends Command 
 {
-
+  public Timer timer;
   Climber climber;
   double position;
   public ClimbGrabPositionCMD(Climber climber) {
@@ -24,17 +25,22 @@ public class ClimbGrabPositionCMD extends Command
   {
    // if (DriverStation.getMatchTime() <= 15.0) 
    // {
-      climber.Release();;
+    timer = new Timer();
+    timer.reset();
+    timer.start();
+    climber.Release();
+    climber.Motor_Release();
       // elevator.setMotorAmp(80);
-    //  climber.lower();
     //}
-
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    // if (timer.hasElapsed(.5)) {
+    //   climber.lower();
+    // }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
