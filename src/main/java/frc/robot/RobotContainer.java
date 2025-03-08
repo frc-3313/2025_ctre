@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,9 +25,9 @@ import frc.robot.commands.BasicCommands.*;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
 
+
 @Logged
 public class RobotContainer {
-
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -34,8 +35,6 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             // .withDeadband(MaxSpeed * Constants.OperatorConstants.LEFT_X_DEADBAND).withRotationalDeadband(MaxAngularRate * Constants.OperatorConstants.LEFT_X_DEADBAND) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);        
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final StateMachine stateMachine = new StateMachine();
@@ -52,12 +51,25 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(stateMachine);
 
     public RobotContainer() {
+
         autoChooser = AutoBuilder.buildAutoChooser();
-
         SmartDashboard.putData("AutoMode", autoChooser);
+
+
+        NamedCommands.registerCommand("SetLeft", new InstantCommand(() -> stateMachine.setScoreLeft(true)));
+        NamedCommands.registerCommand("SetRight", new InstantCommand(() -> stateMachine.setScoreLeft(false)));
+        NamedCommands.registerCommand("SetHeightL2", new InstantCommand(() -> stateMachine.setScoreHeight(2)));
+        NamedCommands.registerCommand("SetHeightL3", new InstantCommand(() -> stateMachine.setScoreHeight(3))); 
+        NamedCommands.registerCommand("SetHeightL4", new InstantCommand(() -> stateMachine.setScoreHeight(4)));
+        NamedCommands.registerCommand("ScoreCoralHeight", new ScoreCoralHeightCMD(coral, elevator, stateMachine));
+        //NamedCommands.registerCommand("GoToScoringPosition", new GoToScoringPosition(drivetrain, stateMachine));
+        NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
+        NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
+        NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
+        
+
+
         configureBindings();
-
-
     }
 
     private void configureBindings() {
@@ -91,10 +103,10 @@ public class RobotContainer {
         //Climber
         //Grab - Left Bumper
         driveController.leftBumper().onTrue(
-            new ClimbGrabPositionCMD(climber, Constants.Climber.MAX_HEIGHT));
+            new ClimbGrabPositionCMD(climber));
         //Climb - Right Bumper
         driveController.rightBumper().onTrue(
-            new ClimbCMD(climber, Constants.Climber.MIN_HEIGHT, stateMachine));
+            new ClimbCMD(climber, stateMachine));
 
         manipulator.rightBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(false)));
