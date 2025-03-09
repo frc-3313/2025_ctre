@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,12 +39,7 @@ public class Climber extends SubsystemBase {
     // Configure Motion Magic settings
     masterConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
     masterConfig.MotionMagic.MotionMagicAcceleration = Constants.Climber.ACCELERATION;
-    
-    // 🚨 Configure Soft Limits
-    masterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    masterConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.MAX_HEIGHT;
-    masterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    masterConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -5;
+    masterConfig.TorqueCurrent.PeakReverseTorqueCurrent = 800;  
     
     masterMotor.getConfigurator().apply(masterConfig);
 

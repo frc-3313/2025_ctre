@@ -69,12 +69,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private boolean m_hasAppliedOperatorPerspective = false;
     public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
-    /** Swerve request to apply during field-centric path following */
-    private final SwerveRequest.ApplyFieldSpeeds m_pathApplyFieldSpeeds = new SwerveRequest.ApplyFieldSpeeds();
-    private final PIDController m_pathXController = new PIDController(10, 0, 0);
-    private final PIDController m_pathYController = new PIDController(10, 0, 0);
-    private final PIDController m_pathThetaController = new PIDController(7, 0, 0);
-
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
@@ -227,32 +221,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     }
 
-    /**
-     * Creates a new auto factory for this drivetrain.
-     *
-     * @return AutoFactory for this drivetrain
-     */
-    public AutoFactory createAutoFactory() {
-        return createAutoFactory((sample, isStart) -> {});
-    }
-
-    /**
-     * Creates a new auto factory for this drivetrain with the given
-     * trajectory logger.
-     *
-     * @param trajLogger Logger for the trajectory
-     * @return AutoFactory for this drivetrain
-     */
-    public AutoFactory createAutoFactory(TrajectoryLogger<SwerveSample> trajLogger) {
-        return new AutoFactory(
-            () -> getState().Pose,
-            this::resetPose,
-            this::followPath,
-            true,
-            this,
-            trajLogger
-        );
-    }
 
     /**
      * Returns a command that applies the specified control request to this swerve drivetrain.
@@ -263,52 +231,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
     }
-
-    /**
-     * Follows the given field-centric path sample with PID.
-     *
-     * @param sample Sample along the path to follow
-     */
-    public void followPath(SwerveSample sample) {
-        m_pathThetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        var pose = getState().Pose;
-
-        var targetSpeeds = sample.getChassisSpeeds();
-        targetSpeeds.vxMetersPerSecond += m_pathXController.calculate(
-            pose.getX(), sample.x
-        );
-        targetSpeeds.vyMetersPerSecond += m_pathYController.calculate(
-            pose.getY(), sample.y
-        );
-        targetSpeeds.omegaRadiansPerSecond += m_pathThetaController.calculate(
-            pose.getRotation().getRadians(), sample.heading
-        );
-
-        setControl(
-            m_pathApplyFieldSpeeds.withSpeeds(targetSpeeds)
-                .withWheelForceFeedforwardsX(sample.moduleForcesX())
-                .withWheelForceFeedforwardsY(sample.moduleForcesY())
-        );
-    }
-    public void followTrajectory(SwerveSample sample) 
-    {
-        // Get the current pose of the robot
-        Pose2d pose = getState().Pose;
-
-        // Generate the next speeds for the robot
-        ChassisSpeeds speeds = new ChassisSpeeds(
-            sample.vx + m_pathXController.calculate(pose.getX(), sample.x),
-            sample.vy + m_pathYController.calculate(pose.getY(), sample.y),
-            sample.omega + m_pathThetaController.calculate(pose.getRotation().getRadians(), sample.heading)
-        );
-
-        // Apply the generated speeds
-       setControl(
-            m_pathApplyFieldSpeeds.withSpeeds(speeds)
-                .withWheelForceFeedforwardsX(sample.moduleForcesX())
-                .withWheelForceFeedforwardsY(sample.moduleForcesY())
-        );    }
 
     /**
      * Runs the SysId Quasistatic test in the given direction for the routine

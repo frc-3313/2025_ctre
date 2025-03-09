@@ -52,10 +52,6 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("AutoMode", autoChooser);
-
-
         NamedCommands.registerCommand("SetLeft", new InstantCommand(() -> stateMachine.setScoreLeft(true)));
         NamedCommands.registerCommand("SetRight", new InstantCommand(() -> stateMachine.setScoreLeft(false)));
         NamedCommands.registerCommand("SetHeightL2", new InstantCommand(() -> stateMachine.setScoreHeight(2)));
@@ -67,7 +63,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
         NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
         
-
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("AutoMode", autoChooser);
 
         configureBindings();
     }
