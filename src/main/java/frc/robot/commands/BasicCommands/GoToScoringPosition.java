@@ -151,12 +151,12 @@ public class GoToScoringPosition extends Command {
     double angleoffset = 8;//7.285188605;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {
-      reefX = 4.484505;
+      reefX = 4.48667;
       reefY = 4.03;
     }
     else if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
-      reefX = 4.484505;
+      reefX = 13.05667;
       reefY = 4.03;
     }
     else
@@ -194,7 +194,7 @@ public class GoToScoringPosition extends Command {
       // Abandon ship!
       return null;      
     
-    double deltaangle = tagAngle + angleoffset + 180;
+    double deltaangle = tagAngle + angleoffset; //took out +180 for red side testing
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
     targetY = radius * Math.sin(Math.toRadians(deltaangle));
     

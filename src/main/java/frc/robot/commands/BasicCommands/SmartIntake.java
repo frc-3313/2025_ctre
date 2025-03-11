@@ -48,13 +48,15 @@ public class SmartIntake extends Command {
   @Override
   public void execute() 
   {
+        coral.RunIntake(-10);
+
     Pose2d currentPos = drivetrain.getState().Pose;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
       if(currentPos.getY() > 4.0259)
-        desAngle = 234;
+        desAngle = 126;
       else
-        desAngle = -234;
+        desAngle = -126;
     }
     else
     {    

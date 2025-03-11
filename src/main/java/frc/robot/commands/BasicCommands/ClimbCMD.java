@@ -32,7 +32,6 @@ public class ClimbCMD extends Command
     timer.start();
     climberHasStarted = false;
 
-    // elevator.setMotorAmp(80);
     if (DriverStation.getMatchTime() <= 15.0) 
     {
       climber.Lock();

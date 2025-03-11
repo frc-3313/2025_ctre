@@ -34,8 +34,8 @@ public class DriveToAprilTag extends Command {
 
   private double offsetRightX = 0.012;
   private double offsetRightY = -0.055;
-  private double offsetLeftX = 0.057;
-  private double offsetLeftY = 0.016;
+  private double offsetLeftX = 0.039; //0.057
+  private double offsetLeftY = 0.0005; //0.016
 
   private double offsetX, offsetY;
   
@@ -112,11 +112,16 @@ public class DriveToAprilTag extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    
+    swerveDrive.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+    swerveDrive.setControl(driveRequest
+      .withVelocityX(0)
+      .withVelocityY(0));
   }
 
   @Override
   public boolean isFinished() {
+    if(!LimelightHelpers.getTV(limelight))
+    {return true;}
     return LimelightHelpers.getTX(Constants.Limelight.RIGHT) <= txError && 
       LimelightHelpers.getTY(Constants.Limelight.RIGHT) <= tyError;
   }
