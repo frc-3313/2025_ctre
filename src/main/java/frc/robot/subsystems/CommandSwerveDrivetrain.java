@@ -344,7 +344,32 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     {
         var swerveState = super.getState();
         var pose = swerveState.Pose;
-        var newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+        Pose2d newPose;
+        if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {   
+           newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+        }
+        else
+        {
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d());
+
+        }
+        this.resetPose(newPose);
+    }
+    public void zeroGyroAuto()
+    {
+        var swerveState = super.getState();
+        var pose = swerveState.Pose;
+        Pose2d newPose;
+        if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {   
+           newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
+        }
+        else
+        {
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+
+        }
         this.resetPose(newPose);
     }
 
@@ -505,5 +530,81 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return rot_speedLimiter.calculate(0);
 
   }
+  public Command updateVisionCommand() { return this.runOnce(() -> this.updateVisionOdometryAuto()); }
+  public void updateVisionOdometryAuto()
+  {
+    zeroGyroAuto();
+    boolean useMegaTag2 = true; //set to false to use MegaTag1
+    boolean doRejectUpdate = false;
+    if(useMegaTag2 == false)
+    {
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
+      
+      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+      {
+        if(mt1.rawFiducials[0].ambiguity > .7)
+        {
+          doRejectUpdate = true;
+        }
+        if(mt1.rawFiducials[0].distToCamera > 3)
+        {
+          doRejectUpdate = true;
+        }
+      }
+      if(mt1.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
 
+      if(!doRejectUpdate)
+      {
+        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+        addVisionMeasurement(
+            mt1.pose,
+            mt1.timestampSeconds);
+      }
+    }
+    else if (useMegaTag2 == true)
+    {
+        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
+      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+      
+      if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+      {
+        doRejectUpdate = true;
+      }
+      if(mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
+        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
+        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+        Pose2d pose = mt2.pose;
+        // Check if a valid target is detected
+        if (tv) 
+        {
+
+            // Get the target's known pose
+            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+
+        }
+        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+      var pose = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPose X", pose.getX());
+      SmartDashboard.putNumber("TargetPose Y", pose.getY());
+      var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
+      SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
+      SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
+    }
+  }
+  
 }
