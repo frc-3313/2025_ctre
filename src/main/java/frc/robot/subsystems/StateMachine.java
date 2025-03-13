@@ -21,6 +21,8 @@ public class StateMachine extends SubsystemBase
   private boolean elevRaised;
   private boolean smartDrive = true;
   private double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+  private boolean readyToClimb = false;
+
   //Initialization
 
   public StateMachine(){}
@@ -52,4 +54,14 @@ public class StateMachine extends SubsystemBase
   public void SetDriveToSmart() { smartDrive = true; }
   public void SetDriveToManual() { smartDrive = false; }
   public boolean IsDriveModeSmart() { return smartDrive; }
+
+  //ready to climb
+  public boolean isReadyToClimb()
+  {
+    return readyToClimb;
+  }
+  public void setReadyToClimb(boolean ready)
+  {
+    readyToClimb = ready;
+  }
 }

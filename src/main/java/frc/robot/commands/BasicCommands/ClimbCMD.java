@@ -7,6 +7,7 @@ package frc.robot.commands.BasicCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.StateMachine;
 
@@ -32,11 +33,14 @@ public class ClimbCMD extends Command
     timer.start();
     climberHasStarted = false;
 
-    if (DriverStation.getMatchTime() <= 15.0) 
+    if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
     {
-      climber.Lock();
-      climber.Raise();
-      climberHasStarted = true;
+      if(stateMachine.isReadyToClimb())
+      {
+        climber.Lock();
+        climber.Raise();
+        climberHasStarted = true;
+      }
     }
     
   }
@@ -59,13 +63,17 @@ public class ClimbCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    // if (DriverStation.getMatchTime() > 15.0) 
-    // {
-    //   return true;
-    // }
-    // if (climberHasStarted)
+    if (DriverStation.getMatchTime() > Constants.Climber.MaxMatchTime) 
+    {
+      return true;
+    }
+    if (!stateMachine.isReadyToClimb())
+    {
+      return true;
+    }
+    if (climberHasStarted)
       return climber.atSetpoint();
-    // else 
-    //   return false;
+    else 
+      return false;
   }
 }

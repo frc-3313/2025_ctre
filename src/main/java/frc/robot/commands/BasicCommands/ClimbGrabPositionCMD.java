@@ -7,15 +7,19 @@ package frc.robot.commands.BasicCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.StateMachine;
 
 public class ClimbGrabPositionCMD extends Command 
 {
   public Timer timer;
   Climber climber;
   double position;
-  public ClimbGrabPositionCMD(Climber climber) {
+  StateMachine stateMachine;
+  public ClimbGrabPositionCMD(Climber climber, StateMachine stateMachine) {
     this.climber = climber;
+    this.stateMachine = stateMachine;
     addRequirements(climber);
   }
 
@@ -23,15 +27,14 @@ public class ClimbGrabPositionCMD extends Command
   @Override
   public void initialize()
   {
-   // if (DriverStation.getMatchTime() <= 15.0) 
-   // {
-    timer = new Timer();
-    timer.reset();
-    timer.start();
-    climber.Release();
-    climber.Motor_Release();
-      // elevator.setMotorAmp(80);
-    //}
+    if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
+    {
+      timer = new Timer();
+      timer.reset();
+      timer.start();
+      climber.Release();
+      climber.Motor_Release();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +49,7 @@ public class ClimbGrabPositionCMD extends Command
   @Override
   public void end(boolean interrupted)
   {
+    stateMachine.setReadyToClimb(true);
     /*climber.atSetpoint();
     climber.setMotorBrake();*/
     
@@ -54,15 +58,15 @@ public class ClimbGrabPositionCMD extends Command
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  //  if (DriverStation.getMatchTime() > 15.0) 
-  //  {
-  //    return true;
-  //  }
-      if (timer.hasElapsed(.6)) 
-      {
-        return climber.atSetpoint();
-      }
-      return false;
+    if (DriverStation.getMatchTime() > Constants.Climber.MaxMatchTime) 
+    {
+      return true;
+    }
+    if (timer.hasElapsed(.6)) 
+    {
+      return climber.atSetpoint();
+    }
+    return false;
     
   }
 }

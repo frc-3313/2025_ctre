@@ -100,6 +100,7 @@ public final class Constants
   }
   public static final class Climber
   {   
+      public static final double MaxMatchTime = 15;
       //Climber
       public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 0;
