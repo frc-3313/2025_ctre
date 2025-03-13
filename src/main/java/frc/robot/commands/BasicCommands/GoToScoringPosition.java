@@ -51,8 +51,8 @@ public class GoToScoringPosition extends Command {
     this.drivetrain = drivetrain;
     this.stateMachine = stateMachine;
     //this.fieldLayout = fieldLayout;
-    this.xController = new PIDController(4.0, 0, 0);
-    this.yController = new PIDController(4.0, 0, 0);
+    this.xController = new PIDController(Constants.DrivebaseConstants.KPDrive, 0, 0);
+    this.yController = new PIDController(Constants.DrivebaseConstants.KPDrive, 0, 0);
 
     xController.setTolerance(POSITION_TOLERANCE);
     yController.setTolerance(POSITION_TOLERANCE);
@@ -62,7 +62,7 @@ public class GoToScoringPosition extends Command {
 
   @Override
   public void initialize() {
-    driveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
+    driveRequest.HeadingController = new PhoenixPIDController(Constants.DrivebaseConstants.KPDrive, 0, 0);
     driveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     xController.reset();
     yController.reset();
@@ -194,7 +194,7 @@ public class GoToScoringPosition extends Command {
       // Abandon ship!
       return null;      
     
-    double deltaangle = tagAngle + angleoffset; //took out +180 for red side testing
+    double deltaangle = tagAngle + angleoffset + 180; //took out +180 for red side testing
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
     targetY = radius * Math.sin(Math.toRadians(deltaangle));
     

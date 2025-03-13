@@ -347,11 +347,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Pose2d newPose;
         if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {   
-           newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+           newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
         }
         else
         {
-            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d());
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
 
         }
         this.resetPose(newPose);
