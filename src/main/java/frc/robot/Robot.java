@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
     SignalLogger.setPath("/media/sda1/");
     SignalLogger.start();
-    m_robotContainer.drivetrain.zeroGyro();
+    m_robotContainer.drivetrain.zeroGyroAuto();
   }
 
   @Override
@@ -65,11 +65,11 @@ public class Robot extends TimedRobot {
       SequentialCommandGroup autoCommand;
       if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       {                
-        autoCommand =  new WaitCommand(.5).andThen(m_robotContainer.drivetrain.updateVisionCommand()).andThen(new WaitCommand(.2)).andThen(m_autonomousCommand);
+        autoCommand =  m_robotContainer.drivetrain.updateVisionCommand().andThen(new WaitCommand(.2)).andThen(m_autonomousCommand);
       }
       else
       {
-        autoCommand = new WaitCommand(.5).andThen(m_robotContainer.drivetrain.updateVisionCommand()).andThen(new WaitCommand(.2)).andThen(m_autonomousCommand);
+        autoCommand = m_robotContainer.drivetrain.updateVisionCommand().andThen(new WaitCommand(.2)).andThen(m_autonomousCommand);
       }
       autoCommand.schedule();
     }
