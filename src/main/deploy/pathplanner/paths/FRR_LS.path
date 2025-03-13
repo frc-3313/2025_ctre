@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.625369318181818,
-        "y": 0.6895028409090912
+        "x": 3.6952499999999997,
+        "y": 2.6014999999999997
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6910000000000003,
-        "y": 1.7142499999999998
+        "x": 2.457,
+        "y": 2.815999999999999
       },
       "isLocked": false,
-      "linkedName": "Sorce-Right-Far"
+      "linkedName": "Front Right Reef"
     },
     {
       "anchor": {
-        "x": 3.7342500000000003,
-        "y": 2.8257499999999993
+        "x": 1.6380000000000001,
+        "y": 7.29125
       },
       "prevControl": {
-        "x": 2.815959736776997,
-        "y": 2.1585730707152506
+        "x": 2.1060000000000003,
+        "y": 5.848249999999999
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LS"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 59.99999999999999
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.097504384075286
+    "rotation": -55.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right to Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.9726266148964
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }

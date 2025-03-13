@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.788114754098361,
-        "y": 5.193801229508197
+        "x": 1.6185000000000003,
+        "y": 0.75875
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9130122950819675,
-        "y": 5.961014344262295
+        "x": 2.6841306818181825,
+        "y": 1.7834971590909086
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RS"
     },
     {
       "anchor": {
-        "x": 1.3361931818181818,
-        "y": 7.360497159090909
+        "x": 3.6172500000000003,
+        "y": 2.5819999999999994
       },
       "prevControl": {
-        "x": 2.034204545454546,
-        "y": 6.642542613636365
+        "x": 2.698959736776997,
+        "y": 1.9148230707152507
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left_HPS_DrSt"
+      "linkedName": "FRR"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 59.99999999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }

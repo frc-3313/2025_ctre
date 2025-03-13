@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 5.225113636363636,
-        "y": 2.76359375
+        "x": 5.37225,
+        "y": 2.620999999999999
       },
       "prevControl": {
-        "x": 5.765606978606425,
-        "y": 1.8274318200827753
+        "x": 5.9127433422427895,
+        "y": 1.6848380700827743
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "BR-Score-point"
     }
   ],
@@ -45,7 +45,7 @@
     "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

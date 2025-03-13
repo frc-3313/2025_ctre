@@ -26,6 +26,7 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Back Left Reef"
+      "linkedName": "Back Left Reef"
     }
   ],
   "rotationTargets": [],
@@ -43,9 +44,10 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": -119.99999999999999
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

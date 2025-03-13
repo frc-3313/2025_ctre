@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7020000000000002,
-        "y": 6.735499999999999
+        "x": 1.6185000000000003,
+        "y": 0.75875
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6172641277641286,
-        "y": 6.752613406019655
+        "x": 1.8719999999999999,
+        "y": 2.2407499999999994
       },
       "isLocked": false,
-      "linkedName": "HPS_Left"
+      "linkedName": "RS"
     },
     {
       "anchor": {
-        "x": 5.015710227272727,
-        "y": 5.515752840909091
+        "x": 2.6715,
+        "y": 4.571
       },
       "prevControl": {
-        "x": 4.294341984029485,
-        "y": 6.316175138206387
+        "x": 1.9098829482628408,
+        "y": 3.6035405018473923
+      },
+      "nextControl": {
+        "x": 3.3930000000000002,
+        "y": 5.4875
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.29425,
+        "y": 5.39
+      },
+      "prevControl": {
+        "x": 3.8707500000000006,
+        "y": 6.1114999999999995
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +61,10 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right to Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.816556618100805
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }
