@@ -29,6 +29,8 @@ public final class Constants
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
     public static final double MAX_SPEED = Units.feetToMeters(14.5);
+    public static final double KPDrive = 10;
+    public static final double KPSteer = 7;
   }
 
   public static class OperatorConstants
@@ -100,11 +102,11 @@ public final class Constants
   }
   public static final class Climber
   {   
-      public static final double MaxMatchTime = 15;
+      public static final double MaxMatchTime = 30;
       //Climber
       public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 0;
-      public static final double RAISE = 249; 
+      public static final double RAISE = 259; 
       public static final double LOWER = 438;
       
       //PID & Motion Magic Constants
@@ -112,7 +114,7 @@ public final class Constants
       public static final double kI = 0.00000;
       public static final double kD = 0.0;
 
-      public static final double CRUISE_VELOCITY = 2000;  // Units per 100ms
+      public static final double CRUISE_VELOCITY = 1500;  // Units per 100ms
       public static final double ACCELERATION = 480;     // Units per 100ms²
 
       //Soft Limits

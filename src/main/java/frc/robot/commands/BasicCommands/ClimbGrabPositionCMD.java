@@ -40,8 +40,11 @@ public class ClimbGrabPositionCMD extends Command
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.hasElapsed(.5)) {
-      climber.lower();
+    if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
+    {
+      if (timer.hasElapsed(.5)) {
+        climber.lower();
+      }
     }
   }
 

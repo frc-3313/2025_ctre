@@ -42,7 +42,7 @@ public class CoralScoreDrive extends Command {
   @Override
   public void initialize() {
 
-    snapDrive.HeadingController = new PhoenixPIDController(4, 0, 0);
+    snapDrive.HeadingController = new PhoenixPIDController(Constants.DrivebaseConstants.KPDrive, 0, 0);
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
   }
 

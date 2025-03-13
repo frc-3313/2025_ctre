@@ -43,10 +43,10 @@ public class ScoreCoralCMD extends Command
     if((elevator.atSetpoint())){
       if (stateMachine.getScoreHeight() == 3)
         {
-          coral.RunIntake(-40);
+          coral.RunIntake(-30);
         }
       else {
-        coral.RunIntake(-100);
+        coral.RunIntake(-30);
       }
     }
   }

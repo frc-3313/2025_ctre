@@ -36,7 +36,9 @@ public class SmartIntake extends Command {
     this.drivetrain = drivetrain;
     this.controller = controller;
     addRequirements(coral, drivetrain);
-    snapDrive.HeadingController = new PhoenixPIDController(10, 0, 0);
+    snapDrive.HeadingController = new PhoenixPIDController(20, 0, 0);
+    snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+
   }
 
   @Override
@@ -54,9 +56,9 @@ public class SmartIntake extends Command {
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
       if(currentPos.getY() > 4.0259)
-        desAngle = 126;
+        desAngle = 126 - 90;
       else
-        desAngle = -126;
+        desAngle = -126 + 90;
     }
     else
     {    
