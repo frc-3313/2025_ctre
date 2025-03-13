@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5224385245901637,
-        "y": 7.255686475409835
+        "x": 1.6672500000000001,
+        "y": 7.34
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8933817064083451,
-        "y": 6.198587043591654
+        "x": 2.0381931818181815,
+        "y": 6.282900568181819
       },
       "isLocked": false,
       "linkedName": "Left_HPS_DrSt"
@@ -45,7 +45,7 @@
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left to Right Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -55.0

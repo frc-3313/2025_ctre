@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.225113636363636,
-        "y": 2.76359375
+        "x": 5.37225,
+        "y": 2.620999999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.434431818181817,
-        "y": 1.8462897727272738
+        "x": 4.24125,
+        "y": 2.075
       },
       "isLocked": false,
       "linkedName": "BR-Score-point"
     },
     {
       "anchor": {
-        "x": 1.625369318181818,
-        "y": 0.6895028409090912
+        "x": 2.4472500000000004,
+        "y": 3.966499999999999
       },
       "prevControl": {
-        "x": 3.3105681818181827,
-        "y": 1.9858096590909113
+        "x": 3.2104804562795066,
+        "y": 2.5163621330689363
+      },
+      "nextControl": {
+        "x": 1.5697500000000004,
+        "y": 5.633749999999999
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6380000000000001,
+        "y": 7.29125
+      },
+      "prevControl": {
+        "x": 1.8719999999999999,
+        "y": 6.374750000000001
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Sorce-Right-Far"
+      "linkedName": "LS"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +58,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.9726266148964
+    "rotation": -55.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right to Left Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 119.99999999999999

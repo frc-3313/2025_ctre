@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5224385245901637,
-        "y": 7.255686475409835
+        "x": 1.6185000000000003,
+        "y": 0.75875
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4574795081967213,
-        "y": 6.512448770491804
+        "x": 1.8719999999999999,
+        "y": 2.2407499999999994
       },
       "isLocked": false,
-      "linkedName": "Left_HPS_DrSt"
+      "linkedName": "RS"
     },
     {
       "anchor": {
-        "x": 3.788114754098361,
-        "y": 5.193801229508197
+        "x": 2.6715,
+        "y": 4.571
       },
       "prevControl": {
-        "x": 3.199790890461997,
-        "y": 5.921727365871833
+        "x": 1.9098829482628408,
+        "y": 3.6035405018473923
+      },
+      "nextControl": {
+        "x": 3.3930000000000002,
+        "y": 5.4875
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.29425,
+        "y": 5.39
+      },
+      "prevControl": {
+        "x": 3.8707500000000006,
+        "y": 6.1114999999999995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Front Left Reef"
+      "linkedName": "Back Left Reef"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -61.09081634885216
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right to Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": 55.0
   },
   "useDefaultConstraints": true
 }
