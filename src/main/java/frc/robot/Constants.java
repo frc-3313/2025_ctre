@@ -55,10 +55,10 @@ public final class Constants
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double BottomPosition = 0.25; 
+      public static final double BottomPosition = .7; 
       public static final double First = 10;//FIXME
-      public static final double Second = 20.5;//TODO
-      public static final double Third = 40.5;//TODO
+      public static final double Second = 20.3;//TODO
+      public static final double Third = 40.3;//TODO
       public static final double Fourth = 71;//TODO
       public static final double elvHighest = 71.2; //max height 71.854980
 
@@ -106,7 +106,7 @@ public final class Constants
       //Climber
       public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 0;
-      public static final double RAISE = 259; 
+      public static final double RAISE = 249; 
       public static final double LOWER = 438;
       
       //PID & Motion Magic Constants

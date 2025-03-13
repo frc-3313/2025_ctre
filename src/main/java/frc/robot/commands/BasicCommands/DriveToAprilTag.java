@@ -36,12 +36,9 @@ public class DriveToAprilTag extends Command {
   private double offsetRightY = -0.055;
   private double offsetLeftX = 0.039; //0.057
   private double offsetLeftY = 0.0005; //0.016
-
+  private double kp = .3;
   private double offsetX, offsetY;
   
-  private double rot = 0;
-
-  private final double kP = .1;
 
   private double txError = 0.15, tyError = 1;
 
@@ -49,8 +46,8 @@ public class DriveToAprilTag extends Command {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
 
-    this.xController = new PIDController(kP, 0.0, 0.0);
-    this.yController = new PIDController(kP, 0.0, 0.0);
+    this.xController = new PIDController(kp, 0.0, 0.0);
+    this.yController = new PIDController(kp, 0.0, 0.0);
 
     addRequirements(swerveDrive);
   }
@@ -72,7 +69,8 @@ public class DriveToAprilTag extends Command {
       LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetLeftX, offsetLeftY, 0);
       offsetX = offsetLeftX;
       offsetY = offsetLeftY;
-      }
+    }
+    LimelightHelpers.setLEDMode_ForceOn(limelight);
 
     // driveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
     // driveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
@@ -103,10 +101,7 @@ public class DriveToAprilTag extends Command {
 
       swerveDrive.setControl(driveRequest);
     }
-    else
-    {
-      return;
-    }
+
   }
 
 
@@ -116,13 +111,12 @@ public class DriveToAprilTag extends Command {
     swerveDrive.setControl(driveRequest
       .withVelocityX(0)
       .withVelocityY(0));
+    LimelightHelpers.setLEDMode_ForceOff(limelight);
   }
 
   @Override
   public boolean isFinished() {
-    if(!LimelightHelpers.getTV(limelight))
-    {return true;}
-    return LimelightHelpers.getTX(Constants.Limelight.RIGHT) <= txError && 
-      LimelightHelpers.getTY(Constants.Limelight.RIGHT) <= tyError;
-  }
+    return LimelightHelpers.getTX(limelight) <= txError && 
+      LimelightHelpers.getTY(limelight) <= tyError;
+    }
 }

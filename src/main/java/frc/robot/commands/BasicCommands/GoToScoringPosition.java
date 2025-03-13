@@ -11,6 +11,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -113,21 +115,33 @@ public class GoToScoringPosition extends Command {
       xVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, xVel));
       yVel = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, yVel));
       //System.out.println("degrees :" + targetPose.getRotation());
-      drivetrain.setControl(driveRequest
-      .withVelocityX(-xVel)
-      .withVelocityY(-yVel)
-      .withTargetDirection(targetPose.getRotation()));
-
+      if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+      { 
+        drivetrain.setControl(driveRequest
+        .withVelocityX(-xVel)
+        .withVelocityY(-yVel)
+        .withTargetDirection(targetPose.getRotation()));
+      }
+      else
+      {
+        drivetrain.setControl(driveRequest
+        .withVelocityX(xVel)
+        .withVelocityY(yVel)
+        .withTargetDirection(targetPose.getRotation()));
+      }
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-  drivetrain.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
-  drivetrain.setControl(driveRequest
-    .withVelocityX(0)
-    .withVelocityY(0)
-    .withTargetDirection(targetPose.getRotation()));
+    if(targetPose != null)
+    {
+      drivetrain.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
+      drivetrain.setControl(driveRequest
+        .withVelocityX(0)
+        .withVelocityY(0)
+        .withTargetDirection(targetPose.getRotation()));
+    }
   }
 
   @Override
@@ -201,6 +215,10 @@ public class GoToScoringPosition extends Command {
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
     System.out.println("gotoscore :" + targetX + ":" + targetY);
+    SmartDashboard.putNumber("gotoPos X", targetX);
+    SmartDashboard.putNumber("gotoPos Angle", tagAngle);
+    SmartDashboard.putNumber("gotoPos Y", targetY);
+
     return new Pose2d(targetX, targetY, Rotation2d.fromDegrees(tagAngle));
   
   }

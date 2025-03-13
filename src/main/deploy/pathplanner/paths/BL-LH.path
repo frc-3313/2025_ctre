@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.168158783783785,
-        "y": 5.1712837837837835
+        "x": 5.015710227272727,
+        "y": 5.515752840909091
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.175255681818181,
-        "y": 6.861917613636364
+        "x": 5.022807125307124,
+        "y": 7.206386670761671
       },
       "isLocked": false,
       "linkedName": "Back Left Reef"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -120.61138840686762
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }
