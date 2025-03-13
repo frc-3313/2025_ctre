@@ -101,7 +101,7 @@ public class RobotContainer {
         //Climber
         //Grab - Left Bumper
         driveController.leftBumper().onTrue(
-            new ClimbGrabPositionCMD(climber));
+            new ClimbGrabPositionCMD(climber, stateMachine));
         //Climb - Right Bumper
         driveController.rightBumper().onTrue(
             new ClimbCMD(climber, stateMachine));
