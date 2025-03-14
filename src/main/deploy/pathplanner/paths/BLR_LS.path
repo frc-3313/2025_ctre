@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.070046134249002,
-        "y": 6.647251052281789
+        "x": 3.8190417690538982,
+        "y": 6.27131414189135
       },
       "isLocked": true,
       "linkedName": "Back Left Reef"
@@ -20,8 +20,8 @@
         "y": 7.29125
       },
       "prevControl": {
-        "x": 2.8967090163934452,
-        "y": 6.6798770491803285
+        "x": 2.4438266811372635,
+        "y": 6.818548354170502
       },
       "nextControl": null,
       "isLocked": false,

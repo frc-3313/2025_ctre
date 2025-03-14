@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "L_BL"
+            "pathName": "L_BLR"
           }
         },
         {
@@ -27,7 +27,7 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -89,7 +89,7 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -131,7 +131,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LS_FR"
+            "pathName": "LS_FLR"
           }
         },
         {
@@ -141,7 +141,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetRight"
+                  "name": "SetLeft"
                 }
               },
               {
@@ -151,7 +151,7 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
