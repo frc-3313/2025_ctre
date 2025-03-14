@@ -71,6 +71,8 @@ public class GoToScoringPosition extends Command {
     if(stateMachine.isScoreLeft()){scoreLeft = true;}
     else{scoreLeft = false;}
 
+
+
     if(scoreLeft)
     {
       LimelightHelpers.RawFiducial[] fiducials = LimelightHelpers.getRawFiducials(Constants.Limelight.RIGHT);
@@ -83,6 +85,8 @@ public class GoToScoringPosition extends Command {
       {
         return;
       }
+      LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);
+
     }
     else
     {
@@ -96,8 +100,9 @@ public class GoToScoringPosition extends Command {
       {
         return;
       }
+      LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.FRONT);
+
     }
-    
     targetPose = RobotPositionCalculator(tagID);
   }
 
@@ -194,21 +199,29 @@ public class GoToScoringPosition extends Command {
     //System.out.println("tagPose: " + Units.radiansToDegrees(tagPose.get().getRotation().getAngle()));
     if(tagId ==  18 || tagId == 10)
       tagAngle = 0;
-    else if (tagId == 19 || tagId == 9)
+    else if (tagId == 19 || tagId == 6)
       tagAngle = -60;
     else if(tagId ==  20 || tagId == 8)
       tagAngle = -120;
     else if (tagId == 21 || tagId == 7)
       tagAngle = 180;
-    else if (tagId == 22 || tagId == 6)
+    else if (tagId == 22 || tagId == 9)
       tagAngle = 120;
     else if(tagId ==  17 || tagId == 11)
       tagAngle = 60;
     else
       // Abandon ship!
       return null;      
-    
-    double deltaangle = tagAngle + angleoffset + 180; //took out +180 for red side testing
+    double deltaangle = 0;
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+    {
+      deltaangle = tagAngle + angleoffset + 180; //took out +180 for red side testing
+    }
+    else
+    {
+      deltaangle = tagAngle + angleoffset; //took out +180 for red side testing
+    }
+
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
     targetY = radius * Math.sin(Math.toRadians(deltaangle));
     
