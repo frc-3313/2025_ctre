@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.29425,
-        "y": 5.39
+        "x": 5.16528409090909,
+        "y": 5.206633522727272
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.301346898034397,
-        "y": 7.08063382985258
+        "x": 5.172380988943487,
+        "y": 6.897267352579853
       },
       "isLocked": false,
       "linkedName": "Back Left Reef"
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

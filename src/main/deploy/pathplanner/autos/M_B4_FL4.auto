@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R_BR"
+            "pathName": "M_B"
           }
         },
         {
@@ -23,11 +23,11 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -57,7 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BRR_RS"
+            "pathName": "B_LSF"
           }
         },
         {
@@ -69,7 +69,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RS_FRR"
+            "pathName": "LSF_FL"
           }
         },
         {
@@ -85,73 +85,11 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToAprilTag"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ScoreCoralHeight"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreCoralCMD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FRR_RS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RS_FRR"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetLeft"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetHeightL3"
-                }
-              },
-              {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -182,6 +120,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right Autos",
+  "folder": "Mid Autos",
   "choreoAuto": false
 }

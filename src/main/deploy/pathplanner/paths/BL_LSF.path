@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.728176229508197,
-        "y": 5.409579918032787
+        "x": 5.16528409090909,
+        "y": 5.206633522727272
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.738523451095091,
-        "y": 6.317134431105344
+        "x": 4.4971875,
+        "y": 5.874730113636364
       },
       "isLocked": false,
-      "linkedName": "Front Left Reef"
+      "linkedName": "Back Left Reef"
     },
     {
       "anchor": {
-        "x": 1.6380000000000001,
-        "y": 7.29125
+        "x": 1.5655397727272726,
+        "y": 7.37046875
       },
       "prevControl": {
-        "x": 2.3863110025873464,
-        "y": 6.588029633996796
+        "x": 2.236938689026937,
+        "y": 6.937795672191678
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "LS"
+      "linkedName": "LeftSourceFar"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": -52.92692668268955
   },
   "reversed": false,
   "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }

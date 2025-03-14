@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6380000000000001,
-        "y": 7.29125
+        "x": 5.840118243243243,
+        "y": 4.044763513513513
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3765457826741168,
-        "y": 6.408470438404204
+        "x": 6.156334459459459,
+        "y": 2.0684121621621614
       },
       "isLocked": false,
-      "linkedName": "LS"
+      "linkedName": "Back Reef"
     },
     {
       "anchor": {
-        "x": 5.29425,
-        "y": 5.39
+        "x": 1.4624999999999997,
+        "y": 0.6750844594594594
       },
       "prevControl": {
-        "x": 4.306346823505491,
-        "y": 5.94222445318412
+        "x": 5.840118243243244,
+        "y": 2.1277027027027025
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Back Left Reef"
+      "linkedName": "RSF"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 53.21587441510309
   },
   "reversed": false,
   "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
