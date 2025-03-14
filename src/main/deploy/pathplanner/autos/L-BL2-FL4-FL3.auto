@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R_BR"
+            "pathName": "L_BLR"
           }
         },
         {
@@ -18,6 +18,68 @@
                 "type": "named",
                 "data": {
                   "name": "SetRight"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetHeightL2"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToAprilTag"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ScoreCoralHeight"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreCoralCMD"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL_LSF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LSF_FL"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetLeft"
                 }
               },
               {
@@ -57,7 +119,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BRR_RS"
+            "pathName": "FL_LSF"
           }
         },
         {
@@ -69,7 +131,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RS_FRR"
+            "pathName": "LSF_FL"
           }
         },
         {
@@ -79,7 +141,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetRight"
+                  "name": "SetLeft"
                 }
               },
               {
@@ -89,69 +151,7 @@
                 }
               },
               {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToAprilTag"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ScoreCoralHeight"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreCoralCMD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FRR_RS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RS_FR"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetRight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetHeightL3"
-                }
-              },
-              {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -182,6 +182,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right Autos",
+  "folder": "Left Autos",
   "choreoAuto": false
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7439999999999998,
-        "y": 5.32175
+        "x": 0.7114864864864865,
+        "y": 1.2383445945945937
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.868897540983607,
-        "y": 6.0889631147540975
+        "x": 1.3241554054054063,
+        "y": 1.9399493243243227
       },
       "isLocked": false,
-      "linkedName": "Front Left Reef"
+      "linkedName": "RSC"
     },
     {
       "anchor": {
-        "x": 1.6380000000000001,
-        "y": 7.29125
+        "x": 3.1028716216216212,
+        "y": 4.064527027027027
       },
       "prevControl": {
-        "x": 2.336011363636364,
-        "y": 6.573295454545455
+        "x": 2.450675675675675,
+        "y": 3.234459459459459
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "LS"
+      "linkedName": "Front Reef"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -55.0
+    "rotation": 0.7440592028887155
   },
   "reversed": false,
-  "folder": "Left Paths",
+  "folder": "Right Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 49.5739212599009
   },
   "useDefaultConstraints": true
 }

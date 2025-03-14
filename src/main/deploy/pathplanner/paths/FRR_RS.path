@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6952499999999997,
-        "y": 2.6014999999999997
+        "x": 3.7592897727272727,
+        "y": 2.77356534090909
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.700750000000001,
-        "y": 1.8019999999999992
+        "x": 2.745528901193741,
+        "y": 1.8198273196848933
       },
       "isLocked": false,
-      "linkedName": "Front Right Reef"
+      "linkedName": "FRR"
     },
     {
       "anchor": {
-        "x": 1.6185000000000003,
-        "y": 0.75875
+        "x": 1.5057102272727272,
+        "y": 0.6994744318181813
       },
       "prevControl": {
-        "x": 2.535,
-        "y": 1.7630000000000006
+        "x": 2.5471714028208168,
+        "y": 1.7015960140015065
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

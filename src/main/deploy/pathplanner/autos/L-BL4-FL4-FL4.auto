@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "L_BL"
+            "pathName": "L_BLR"
           }
         },
         {
@@ -23,11 +23,11 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -57,7 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BLR_LS"
+            "pathName": "BL_LSF"
           }
         },
         {
@@ -69,69 +69,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LS_FLR"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetRight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetHeightL3"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToAprilTag"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ScoreCoralHeight"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreCoralCMD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FLR_LS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LS_FLR"
+            "pathName": "LSF_FL"
           }
         },
         {
@@ -147,11 +85,73 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToAprilTag"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ScoreCoralHeight"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreCoralCMD"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FL_LSF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LSF_FL"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetRight"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetHeightL4"
+                }
+              },
+              {
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {

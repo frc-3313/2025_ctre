@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7439999999999998,
-        "y": 5.32175
+        "x": 3.739346590909091,
+        "y": 5.28640625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8177499999999998,
-        "y": 5.097499999999999
+        "x": 2.813096590909091,
+        "y": 5.062156249999999
       },
       "isLocked": false,
       "linkedName": "Front Left Reef"
@@ -24,20 +24,20 @@
         "y": 5.045926671370793
       },
       "nextControl": {
-        "x": 1.9792500000000006,
-        "y": 2.12375
+        "x": 1.9792500000000004,
+        "y": 2.1237499999999994
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6185000000000003,
-        "y": 0.75875
+        "x": 1.5057102272727272,
+        "y": 0.6994744318181813
       },
       "prevControl": {
-        "x": 2.1645,
-        "y": 2.084749999999999
+        "x": 2.051710227272727,
+        "y": 2.0254744318181803
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

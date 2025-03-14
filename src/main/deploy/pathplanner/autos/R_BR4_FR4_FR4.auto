@@ -7,131 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M-B"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetRight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetHeightL3"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToAprilTag"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ScoreCoralHeight"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreCoralCMD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BR_LS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LS_FLR"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetRight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetHeightL3"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DriveToAprilTag"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ScoreCoralHeight"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreCoralCMD"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FLR_LS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LS_FLR"
+            "pathName": "R_BR"
           }
         },
         {
@@ -147,11 +23,135 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToAprilTag"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ScoreCoralHeight"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreCoralCMD"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BR_RSC"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSC_F"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetRight"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetHeightL4"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToAprilTag"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ScoreCoralHeight"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreCoralCMD"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F_RSC"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSC_F"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetLeft"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetHeightL4"
+                }
+              },
+              {
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
@@ -182,6 +182,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Mid Autos",
+  "folder": "Right Autos",
   "choreoAuto": false
 }
