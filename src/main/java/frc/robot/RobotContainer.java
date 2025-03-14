@@ -63,7 +63,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
         NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
-        
+                
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("AutoMode", autoChooser);
 
