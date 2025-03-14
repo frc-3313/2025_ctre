@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6952499999999997,
-        "y": 2.6014999999999997
+        "x": 3.6172500000000003,
+        "y": 2.5819999999999994
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.700750000000001,
-        "y": 1.8019999999999992
+        "x": 2.6227500000000017,
+        "y": 1.7824999999999989
       },
       "isLocked": false,
-      "linkedName": "Front Right Reef"
+      "linkedName": "FRR"
     },
     {
       "anchor": {
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 2.535,
-        "y": 1.7630000000000006
+        "y": 1.7630000000000003
       },
       "nextControl": null,
       "isLocked": false,

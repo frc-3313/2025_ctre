@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.25525,
-        "y": 2.699
+        "x": 5.37225,
+        "y": 2.620999999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.3875,
-        "y": 1.334
+        "x": 4.537824472745278,
+        "y": 2.1042497698980696
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BR-Score-point"
     },
     {
       "anchor": {
-        "x": 1.6769999999999998,
-        "y": 0.7294999999999994
+        "x": 1.6185000000000003,
+        "y": 0.75875
       },
       "prevControl": {
-        "x": 3.2955,
-        "y": 0.95375
+        "x": 3.148080005496012,
+        "y": 1.558115539831479
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RS"
     }
   ],
   "rotationTargets": [],

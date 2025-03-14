@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.015710227272727,
-        "y": 5.515752840909091
+        "x": 5.29425,
+        "y": 5.39
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.022807125307124,
-        "y": 7.206386670761671
+        "x": 5.301346898034397,
+        "y": 7.08063382985258
       },
       "isLocked": false,
       "linkedName": "Back Left Reef"
