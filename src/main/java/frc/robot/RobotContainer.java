@@ -55,9 +55,9 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("SetLeft", new InstantCommand(() -> stateMachine.setScoreLeft(true)));
         NamedCommands.registerCommand("SetRight", new InstantCommand(() -> stateMachine.setScoreLeft(false)));
-        NamedCommands.registerCommand("SetHeightL2", new InstantCommand(() -> stateMachine.setScoreHeight(2)));
-        NamedCommands.registerCommand("SetHeightL3", new InstantCommand(() -> stateMachine.setScoreHeight(3))); 
-        NamedCommands.registerCommand("SetHeightL4", new InstantCommand(() -> stateMachine.setScoreHeight(4)));
+        NamedCommands.registerCommand("SetHeightL2", new InstantCommand(() -> stateMachine.setScoreHeight(1)));
+        NamedCommands.registerCommand("SetHeightL3", new InstantCommand(() -> stateMachine.setScoreHeight(2))); 
+        NamedCommands.registerCommand("SetHeightL4", new InstantCommand(() -> stateMachine.setScoreHeight(3)));
         NamedCommands.registerCommand("ScoreCoralHeight", new ScoreCoralHeightCMD(coral, elevator, stateMachine));
         //NamedCommands.registerCommand("GoToScoringPosition", new GoToScoringPosition(drivetrain, stateMachine));
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
@@ -144,7 +144,7 @@ public class RobotContainer {
             new ConditionalCommand(
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(false)),
-                    new GoToScoringPosition(drivetrain, stateMachine),
+                   // new GoToScoringPosition(drivetrain, stateMachine),
                     new DriveToAprilTag(drivetrain, stateMachine),
                     new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
@@ -159,7 +159,7 @@ public class RobotContainer {
             new ConditionalCommand(
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(true)),
-                    new GoToScoringPosition(drivetrain, stateMachine),
+                   // new GoToScoringPosition(drivetrain, stateMachine),
                     new DriveToAprilTag(drivetrain, stateMachine),
                     new ScoreCoralHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
