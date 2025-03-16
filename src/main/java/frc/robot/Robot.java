@@ -42,7 +42,9 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run(); 
     SmartDashboard.putData(CommandScheduler.getInstance());
-    
+    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.FRONT);
+    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);;
+
   }
 
   @Override

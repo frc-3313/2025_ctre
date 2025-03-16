@@ -46,7 +46,9 @@ public class StateMachine extends SubsystemBase
   public Command IntakeCMD(boolean intakeBool) { return this.runOnce(() -> this.setIntake(intakeBool)); }
 
   // Elevator Speed Control Mehods
-  public double getMaxSpeed() { return elevRaised ? maxSpeed / 8 : maxSpeed; }
+  //public double getMaxSpeed() { return elevRaised ? maxSpeed / 8 : maxSpeed; }
+  public double getMaxSpeed() { return maxSpeed; }
+
   public void setElevRaised(boolean input) { elevRaised = input; }
   public boolean isElevRaised() { return elevRaised; }
 
