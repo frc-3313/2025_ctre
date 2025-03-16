@@ -7,7 +7,7 @@ package frc.robot.commands.CompoundCommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.BasicCommands.CoralCMD;
 import frc.robot.commands.BasicCommands.ScoreCoralCMD;
-import frc.robot.commands.BasicCommands.ScoreCoralHeightCMD;
+import frc.robot.commands.BasicCommands.ElevatorGoToHeightCMD;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.StateMachine;
@@ -21,7 +21,7 @@ public class AutoScore extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     addCommands(
       new CoralCMD(coral, stateMachine, .15),
-      new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+      new ElevatorGoToHeightCMD(coral, elevator, stateMachine),
       new ScoreCoralCMD(coral, elevator, stateMachine)
     );
   }

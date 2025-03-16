@@ -11,7 +11,7 @@ import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ScoreCoralHeightCMD extends Command 
+public class ElevatorGoToHeightCMD extends Command 
 {
   
   public Timer timer;
@@ -20,7 +20,7 @@ public class ScoreCoralHeightCMD extends Command
   public Boolean endBoolean;
   public StateMachine stateMachine;
 
-  public ScoreCoralHeightCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
+  public ElevatorGoToHeightCMD(Coral coral, Elevator elevator, StateMachine stateMachine) {
     this.coral = coral; 
     this.elevator = elevator;
     this.stateMachine = stateMachine;

@@ -58,7 +58,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("SetHeightL2", new InstantCommand(() -> stateMachine.setScoreHeight(1)));
         NamedCommands.registerCommand("SetHeightL3", new InstantCommand(() -> stateMachine.setScoreHeight(2))); 
         NamedCommands.registerCommand("SetHeightL4", new InstantCommand(() -> stateMachine.setScoreHeight(3)));
-        NamedCommands.registerCommand("ScoreCoralHeight", new ScoreCoralHeightCMD(coral, elevator, stateMachine));
+        NamedCommands.registerCommand("ScoreCoralHeight", new ElevatorGoToHeightCMD(coral, elevator, stateMachine));
         //NamedCommands.registerCommand("GoToScoringPosition", new GoToScoringPosition(drivetrain, stateMachine));
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
@@ -146,7 +146,7 @@ public class RobotContainer {
                     new InstantCommand(() -> stateMachine.setScoreLeft(false)),
                     //new GoToScoringPosition(drivetrain, stateMachine),
                     new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ElevatorGoToHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),                                                  // Smart mode (none for onTrue, handled onFalse)
                 new ScoreCoralCMD(coral, elevator, stateMachine),                // Manual mode
@@ -161,7 +161,7 @@ public class RobotContainer {
                     new InstantCommand(() -> stateMachine.setScoreLeft(true)),
                     //new GoToScoringPosition(drivetrain, stateMachine),
                     new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ElevatorGoToHeightCMD(coral, elevator, stateMachine),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),
             new ScoreCoralCMD(coral, elevator, stateMachine),
@@ -173,7 +173,7 @@ public class RobotContainer {
         manipulator.y().onTrue(
             new ConditionalCommand(
                 Commands.none(),
-                new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                new ElevatorGoToHeightCMD(coral, elevator, stateMachine),
                 stateMachine::IsDriveModeSmart
             )
         );
