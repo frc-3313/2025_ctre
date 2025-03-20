@@ -4,6 +4,9 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -408,19 +411,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     else if (useMegaTag2 == true)
     {
         SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-      
-      if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-      {
-        doRejectUpdate = true;
-      }
-      if(mt2.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-      if(!doRejectUpdate)
-      {
+        if (mt2 != null)
+        {
+        if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+        {
+            doRejectUpdate = true;
+        }
+        if(mt2.tagCount == 0)
+        {
+            doRejectUpdate = true;
+        }
+        if(!doRejectUpdate)
+        {
         boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
         double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
         int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
@@ -431,46 +435,43 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
             // Get the target's known pose
             Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
-            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+            if (targetPose.isPresent())
+                pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
 
         }
-        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        addVisionMeasurement(
-            mt2.pose,
-            mt2.timestampSeconds);
-      }
-      var pose = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-      SmartDashboard.putNumber("TargetPose X", pose.getX());
-      SmartDashboard.putNumber("TargetPose Y", pose.getY());
-      var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-      SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
-      SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
+            setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            addVisionMeasurement(
+                mt2.pose,
+                mt2.timestampSeconds);
+        }
     }
-  }
+    }
+}
 
-  private void configureAutoBuilder() {
-    try {
-        var config = RobotConfig.fromGUISettings();
-        AutoBuilder.configure(
-            () -> getState().Pose,   // Supplier of current robot pose
-            this::resetPose,         // Consumer for seeding pose against auto
-            () -> getState().Speeds, // Supplier of current robot speeds
-            // Consumer of ChassisSpeeds and feedforwards to drive the robot
-            (speeds, feedforwards) -> setControl(
-                m_pathApplyRobotSpeeds.withSpeeds(speeds)
-                    .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
-                    .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
-            ),
-            new PPHolonomicDriveController(
-                // PID constants for translation
-                new PIDConstants(10, 0, 0),
-                // PID constants for rotation
-                new PIDConstants(7, 0, 0)
-            ),
-            config,
-            // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-            () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-            this // Subsystem for requirements
+
+private void configureAutoBuilder() {
+try {
+    var config = RobotConfig.fromGUISettings();
+    AutoBuilder.configure(
+        () -> getState().Pose,   // Supplier of current robot pose
+        this::resetPose,         // Consumer for seeding pose against auto
+        () -> getState().Speeds, // Supplier of current robot speeds
+        // Consumer of ChassisSpeeds and feedforwards to drive the robot
+        (speeds, feedforwards) -> setControl(
+            m_pathApplyRobotSpeeds.withSpeeds(speeds)
+                .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
+        ),
+        new PPHolonomicDriveController(
+            // PID constants for translation
+            new PIDConstants(10, 0, 0),
+            // PID constants for rotation
+            new PIDConstants(7, 0, 0)
+        ),
+        config,
+        // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+        () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+        this // Subsystem for requirements
         );
     } catch (Exception ex) {
         DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
@@ -569,7 +570,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
       LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-      
+      if(mt2 != null)
+      {
       if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
       {
         doRejectUpdate = true;
@@ -590,21 +592,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
             // Get the target's known pose
             Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+            if(targetPose.isPresent())
             pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
-
-        }
+     
+  }
         setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
         addVisionMeasurement(
             mt2.pose,
             mt2.timestampSeconds);
       }
-      var pose = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-      SmartDashboard.putNumber("TargetPose X", pose.getX());
-      SmartDashboard.putNumber("TargetPose Y", pose.getY());
-      var pose2 = LimelightHelpers.getBotPose3d_TargetSpace(Constants.Limelight.RIGHT);
-      SmartDashboard.putNumber("TargetPoseleft X", pose2.getX());
-      SmartDashboard.putNumber("TargetPoseleft Y", pose2.getY());
+
     }
+}
   }
   
 }

@@ -71,37 +71,24 @@ public class GoToScoringPosition extends Command {
     if(stateMachine.isScoreLeft()){scoreLeft = true;}
     else{scoreLeft = false;}
 
+    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.FRONT);
+    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);
 
+    LimelightHelpers.RawFiducial[] fiducials = LimelightHelpers.getRawFiducials(Constants.Limelight.FRONT);
 
-    if(scoreLeft)
+    if (fiducials.length > 0)
     {
-      LimelightHelpers.RawFiducial[] fiducials = LimelightHelpers.getRawFiducials(Constants.Limelight.RIGHT);
-      if(fiducials.length > 0)
-      {
-        double tagIdDouble = fiducials[0].id;
-        tagID = (int) tagIdDouble;
-      }
-      else
-      {
-        return;
-      }
-      LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);
-
+      double tagIdDouble = fiducials[0].id;
+      tagID = (int) tagIdDouble;
     }
     else
     {
-      LimelightHelpers.RawFiducial[] fiducials = LimelightHelpers.getRawFiducials(Constants.Limelight.FRONT);
+      LimelightHelpers.RawFiducial[] fiducials2 = LimelightHelpers.getRawFiducials(Constants.Limelight.RIGHT);
       if(fiducials.length > 0)
       {
-        double tagIdDouble = fiducials[0].id;
+        double tagIdDouble = fiducials2[0].id;
         tagID = (int) tagIdDouble;
       }
-      else
-      {
-        return;
-      }
-      LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.FRONT);
-
     }
     targetPose = RobotPositionCalculator(tagID);
   }
@@ -130,8 +117,8 @@ public class GoToScoringPosition extends Command {
       else
       {
         drivetrain.setControl(driveRequest
-        .withVelocityX(xVel)
-        .withVelocityY(yVel)
+        .withVelocityX(-xVel)
+        .withVelocityY(-yVel)
         .withTargetDirection(targetPose.getRotation()));
       }
     }
@@ -167,7 +154,6 @@ public class GoToScoringPosition extends Command {
     double reefY; //meters
 
     double radius = 1.434935988; //meters1.2
-    double angleoffset = 8;//7.285188605;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {
       reefX = 4.48667;
@@ -186,28 +172,22 @@ public class GoToScoringPosition extends Command {
 
     double targetX = 0;
     double targetY = 0;
-
-    if(stateMachine.isScoreLeft())
-    {
-      angleoffset = angleoffset * -1;
-    }
     double tagAngle = 0;
     // Get the tag ID for the visible April tag
-    int tagId = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT);
     //Optional<Pose3d> tagPose = fieldLayout.getTagPose(tagId);
     //fieldLayout.getTagPose(tagId);
     //System.out.println("tagPose: " + Units.radiansToDegrees(tagPose.get().getRotation().getAngle()));
-    if(tagId ==  18 || tagId == 10)
+    if(tagID ==  18 || tagID == 10)
       tagAngle = 0;
-    else if (tagId == 19 || tagId == 6)
+    else if (tagID == 19 || tagID == 9)
       tagAngle = -60;
-    else if(tagId ==  20 || tagId == 8)
+    else if(tagID ==  20 || tagID == 8)
       tagAngle = -120;
-    else if (tagId == 21 || tagId == 7)
+    else if (tagID == 21 || tagID == 7)
       tagAngle = 180;
-    else if (tagId == 22 || tagId == 9)
+    else if (tagID == 22 || tagID == 6)
       tagAngle = 120;
-    else if(tagId ==  17 || tagId == 11)
+    else if(tagID ==  17 || tagID == 11)
       tagAngle = 60;
     else
       // Abandon ship!
@@ -215,11 +195,11 @@ public class GoToScoringPosition extends Command {
     double deltaangle = 0;
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
     {
-      deltaangle = tagAngle + angleoffset + 180; //took out +180 for red side testing
+      deltaangle = tagAngle + 180; //took out +180 for red side testing
     }
     else
     {
-      deltaangle = tagAngle + angleoffset; //took out +180 for red side testing
+      deltaangle = tagAngle + 180; //took out +180 for red side testing
     }
 
     targetX = radius * Math.cos(Math.toRadians(deltaangle));
@@ -227,7 +207,6 @@ public class GoToScoringPosition extends Command {
     
     targetX = reefX + targetX;
     targetY = reefY + targetY; 
-    System.out.println("gotoscore :" + targetX + ":" + targetY);
     SmartDashboard.putNumber("gotoPos X", targetX);
     SmartDashboard.putNumber("gotoPos Angle", tagAngle);
     SmartDashboard.putNumber("gotoPos Y", targetY);
