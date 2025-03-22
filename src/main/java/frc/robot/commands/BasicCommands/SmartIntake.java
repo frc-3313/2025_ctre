@@ -4,9 +4,11 @@
 
 package frc.robot.commands.BasicCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentric;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -26,9 +28,7 @@ public class SmartIntake extends Command {
   CommandXboxController controller;
   double desAngle;
   private final SwerveRequest.FieldCentricFacingAngle snapDrive = new FieldCentricFacingAngle()
-  .withDeadband(Constants.OperatorConstants.LEFT_X_DEADBAND)
-  .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
-  
+  .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.OpenLoopVoltage);
 
   public SmartIntake(StateMachine stateMachine, Coral coral, CommandSwerveDrivetrain drivetrain, CommandXboxController controller) {
     this.stateMachine = stateMachine;
@@ -36,9 +36,8 @@ public class SmartIntake extends Command {
     this.drivetrain = drivetrain;
     this.controller = controller;
     addRequirements(coral, drivetrain);
-    snapDrive.HeadingController = new PhoenixPIDController(20, 0, 0);
+    snapDrive.HeadingController = new PhoenixPIDController(Constants.DrivebaseConstants.KPSteer, 0, 0);
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
   }
 
   @Override
@@ -56,9 +55,9 @@ public class SmartIntake extends Command {
     if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
       if(currentPos.getY() > 4.0259)
-        desAngle = 126 - 90;
+        desAngle = 60;
       else
-        desAngle = -126 + 90;
+        desAngle = -60;
     }
     else
     {    

@@ -111,7 +111,7 @@ public class RobotContainer {
         manipulator.leftBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(true)));
 
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea, drivetrain));
 
         manipulator.povDown().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(1)));
