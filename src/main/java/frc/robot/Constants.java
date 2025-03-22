@@ -106,7 +106,9 @@ public final class Constants
       //Climber
       public static final int ClimberMotor1_ID = 29;
       public static final int GrabMotor_ID = 0;
-      public static final double RAISE = 285; 
+      public static final int LeftMotor_ID = 1;
+      public static final int RightMotor_ID = 2;
+      public static final double RAISE = 320; 
       public static final double LOWER = 438;
       
       //PID & Motion Magic Constants
@@ -123,8 +125,10 @@ public final class Constants
   }
   public static final class Limelight
   {
-    public static final String FRONT = "limelight-mech";
+    //public static final String FRONT = "limelight-mech";
     public static final String RIGHT = "limelight-right";
+    public static final String FRONT = "limelight-right";
+
 
   }
 }

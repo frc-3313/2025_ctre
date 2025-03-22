@@ -4,6 +4,8 @@
 
 package frc.robot.commands.BasicCommands;
 
+import org.ejml.dense.block.decomposition.hessenberg.TridiagonalHelper_DDRB;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.FieldCentricFacingAngle;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -11,6 +13,7 @@ import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 import edu.wpi.first.math.controller.PIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -31,23 +34,33 @@ public class DriveToAprilTag extends Command {
 
   private final PIDController xController;
   private final PIDController yController;
+  private final PIDController rotController;
 
-  private double offsetRightX = 0.012;
-  private double offsetRightY = -0.055;
+  private double offsetRightX = 0.054;
+  private double offsetRightY = -0.001;
   private double offsetLeftX = 0.039; //0.057
   private double offsetLeftY = 0.0005; //0.016
   private double kp = .3;
   private double offsetX, offsetY;
-  
+  private Timer stopTimer;
+  private Timer DontseeTimer;
 
-  private double txError = 0.15, tyError = 1;
+  private double txError = 0.15, tyError = 1, rotError= .5;
 
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
-
+    this.stopTimer = new Timer();
+    this.DontseeTimer = new Timer();
+    this.stopTimer.start();
+    this.DontseeTimer.start();
     this.xController = new PIDController(kp, 0.0, 0.0);
     this.yController = new PIDController(kp, 0.0, 0.0);
+    this.rotController = new PIDController(kp, 0.0, 0.0);
+    this.yController.setTolerance(tyError);
+    this.xController.setTolerance(txError);
+    this.rotController.setTolerance(rotError);
+
 
     addRequirements(swerveDrive);
   }
@@ -57,6 +70,7 @@ public class DriveToAprilTag extends Command {
     // Reset PID controllers
     xController.reset();
     yController.reset();
+    rotController.reset();
     if(stateMachine.isScoreLeft())
     {
       limelight = Constants.Limelight.RIGHT;
@@ -83,6 +97,8 @@ public class DriveToAprilTag extends Command {
   {
     double tx = LimelightHelpers.getTX(limelight); // Horizontal offset to offset POI
     double ty = LimelightHelpers.getTY(limelight); // Vertical offset to offset POI
+    double positions[] = LimelightHelpers.getBotPose_TargetSpace(limelight);
+    double rot = positions[4];
     boolean tv = LimelightHelpers.getTV(limelight);
 
     tx += offsetX;
@@ -90,18 +106,22 @@ public class DriveToAprilTag extends Command {
 
     if(tv)
     {
+      DontseeTimer.reset();
       double robotYVelocity = yController.calculate(tx, 0);
       double robotXVelocity = xController.calculate(ty, 0);
-
-      Rotation2d currentHeading = swerveDrive.getState().Pose.getRotation();
+      double rotbotRot = rotController.calculate(rot, 0);
 
       driveRequest.VelocityY = robotYVelocity;
       driveRequest.VelocityX = -robotXVelocity;
-      // driveRequest.TargetDirection = Rotation2d.fromDegrees(rot);
+      driveRequest.RotationalRate = rotbotRot;
 
       swerveDrive.setControl(driveRequest);
     }
 
+    if(!rotController.atSetpoint() || !yController.atSetpoint() || !xController.atSetpoint())
+    {
+      stopTimer.reset();
+    }
   }
 
 
@@ -110,13 +130,13 @@ public class DriveToAprilTag extends Command {
     swerveDrive.applyRequest(() -> new SwerveRequest.SwerveDriveBrake());
     swerveDrive.setControl(driveRequest
       .withVelocityX(0)
-      .withVelocityY(0));
-    LimelightHelpers.setLEDMode_ForceOff(limelight);
+      .withVelocityY(0)
+      .withRotationalRate(0));
   }
 
   @Override
   public boolean isFinished() {
-    return LimelightHelpers.getTX(limelight) <= txError && 
-      LimelightHelpers.getTY(limelight) <= tyError;
+
+      return DontseeTimer.hasElapsed(.5) || stopTimer.hasElapsed(.5);
     }
 }

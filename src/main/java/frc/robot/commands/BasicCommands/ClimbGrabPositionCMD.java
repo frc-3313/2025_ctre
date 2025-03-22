@@ -34,6 +34,7 @@ public class ClimbGrabPositionCMD extends Command
       timer.start();
       climber.Release();
       climber.Motor_Release();
+      climber.ReleaseWings();;
     }
   }
 
@@ -44,6 +45,7 @@ public class ClimbGrabPositionCMD extends Command
     {
       if (timer.hasElapsed(.5)) {
         climber.lower();
+        climber.stopeWings();
       }
     }
   }
