@@ -22,6 +22,7 @@ public class StateMachine extends SubsystemBase
   private boolean smartDrive = true;
   private double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   private boolean readyToClimb = false;
+  public boolean hasCoral = false;
 
   //Initialization
 
@@ -44,6 +45,7 @@ public class StateMachine extends SubsystemBase
   public void setIntake(boolean runIntake) { this.runIntake = runIntake; }
   public Trigger runIntake() { return new Trigger(() -> runIntake); }
   public Command IntakeCMD(boolean intakeBool) { return this.runOnce(() -> this.setIntake(intakeBool)); }
+  public boolean HasCoral(){return hasCoral;}
 
   // Elevator Speed Control Mehods
   //public double getMaxSpeed() { return elevRaised ? maxSpeed / 8 : maxSpeed; }

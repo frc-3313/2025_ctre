@@ -10,7 +10,6 @@ import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -36,7 +35,7 @@ public class SmartIntake extends Command {
     this.drivetrain = drivetrain;
     this.controller = controller;
     addRequirements(coral, drivetrain);
-    snapDrive.HeadingController = new PhoenixPIDController(20, 0, 0);
+    snapDrive.HeadingController = new PhoenixPIDController(3, 0, 0);
     snapDrive.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
   }
@@ -71,13 +70,8 @@ public class SmartIntake extends Command {
   
     
       drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
-      .withVelocityX(drivetrain.getDriveY(-controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
-      .withVelocityY(drivetrain.getDriveX(-controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
-      
-    SmartDashboard.putNumber("RobotX", currentPos.getX());
-    SmartDashboard.putNumber("RobotY", currentPos.getY());
-    SmartDashboard.putNumber("Rotation", currentPos.getRotation().getDegrees());
-    SmartDashboard.putNumber("DesiredAngle", desAngle);
+      .withVelocityX(-drivetrain.getDriveY(controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
+      .withVelocityY(-drivetrain.getDriveX(controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
   }
 
   @Override

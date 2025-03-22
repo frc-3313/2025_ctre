@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BasicCommands.*;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
+import java.util.function.BooleanSupplier;
 
 
 @Logged
@@ -51,6 +52,8 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(stateMachine);
 
+    private Command smartModeCommand;
+
     public RobotContainer() {
 
         NamedCommands.registerCommand("SetLeft", new InstantCommand(() -> stateMachine.setScoreLeft(true)));
@@ -59,7 +62,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("SetHeightL3", new InstantCommand(() -> stateMachine.setScoreHeight(2))); 
         NamedCommands.registerCommand("SetHeightL4", new InstantCommand(() -> stateMachine.setScoreHeight(3)));
         NamedCommands.registerCommand("ScoreCoralHeight", new ScoreCoralHeightCMD(coral, elevator, stateMachine));
-        //NamedCommands.registerCommand("GoToScoringPosition", new GoToScoringPosition(drivetrain, stateMachine));
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
         NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
@@ -91,12 +93,19 @@ public class RobotContainer {
         
         // Mode switch bindings
         driveController.povLeft().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToSmart()));
+            Commands.sequence(
+                new InstantCommand(() -> stateMachine.SetDriveToSmart()),
+                Commands.runOnce(() -> {
+                    smartModeCommand = getSmartModeCommand().withName("SmartModeLoop");
+                    smartModeCommand.schedule();
+                })
+            )
+        );
         driveController.povRight().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToManual()));;
+            new InstantCommand(() -> stateMachine.SetDriveToManual())
+        );
 
         driveController.start().onTrue(new ZeroGyro(drivetrain));
-        // Shared bindings 
 
         //Climber
         //Grab - Left Bumper
@@ -106,12 +115,32 @@ public class RobotContainer {
         driveController.rightBumper().onTrue(
             new ClimbCMD(climber, stateMachine));
 
-        manipulator.rightBumper().onTrue(
-            new InstantCommand(() -> stateMachine.setScoreLeft(false)));
-        manipulator.leftBumper().onTrue(
-            new InstantCommand(() -> stateMachine.setScoreLeft(true)));
+            
+        //manipulator
+        manipulator.x().onTrue(
+            new ConditionalCommand(
+                Commands.runOnce(() -> {
+                    if (smartModeCommand != null && smartModeCommand.isScheduled()) {
+                        smartModeCommand.cancel();
+                    }
+                }), // Exit smart mode loop
+                new ReturnToNormal(coral, elevator, algea), // Manual mode reset
+                stateMachine::IsDriveModeSmart
+            )
+        );
 
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea));
+        manipulator.a().onTrue(
+            new ConditionalCommand(
+                Commands.runOnce(() -> {
+                    if (smartModeCommand == null || !smartModeCommand.isScheduled()) {
+                        smartModeCommand = getSmartModeCommand().withName("SmartModeLoop");
+                        smartModeCommand.schedule();
+                    }
+                }), // Restart smart mode loop
+                new CoralCMD(coral, stateMachine, 0.3), // Manual mode intake
+                stateMachine::IsDriveModeSmart
+            )
+        );
 
         manipulator.povDown().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(1)));
@@ -119,55 +148,6 @@ public class RobotContainer {
             new InstantCommand(() -> stateMachine.setScoreHeight(2)));
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
-
-        //manipulator
-            //Button A - Intake
-        manipulator.a().onTrue(
-            new ConditionalCommand(
-                new SmartIntake(stateMachine, coral, drivetrain, driveController), // Smart mode command
-                new CoralCMD(coral, stateMachine, 0.3),                           // Manual mode command
-                stateMachine::IsDriveModeSmart                                    // Condition
-            )
-        );
-
-        //Button B - Smart Drive
-        manipulator.b().onTrue(
-            new ConditionalCommand(
-                new CoralScoreDrive(stateMachine, drivetrain, driveController),
-                Commands.none(),
-                stateMachine::IsDriveModeSmart
-            )
-        );
-
-        //Button Right Trigger - Scores Right
-        manipulator.rightTrigger().onTrue(
-            new ConditionalCommand(
-                new SequentialCommandGroup(
-                    new InstantCommand(() -> stateMachine.setScoreLeft(false)),
-                    //new GoToScoringPosition(drivetrain, stateMachine),
-                    new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
-                    new ScoreCoralCMD(coral, elevator, stateMachine)
-                ),                                                  // Smart mode (none for onTrue, handled onFalse)
-                new ScoreCoralCMD(coral, elevator, stateMachine),                // Manual mode
-                stateMachine::IsDriveModeSmart
-            )
-        );
-
-        //Button Left Trigger - Scores Left
-        manipulator.leftTrigger().onTrue(
-            new ConditionalCommand(
-                new SequentialCommandGroup(
-                    new InstantCommand(() -> stateMachine.setScoreLeft(true)),
-                    //new GoToScoringPosition(drivetrain, stateMachine),
-                    new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
-                    new ScoreCoralCMD(coral, elevator, stateMachine)
-                ),
-            new ScoreCoralCMD(coral, elevator, stateMachine),
-            stateMachine::IsDriveModeSmart
-            )
-        );
 
         //Button Y - In manual mode sends elevator up
         manipulator.y().onTrue(
@@ -177,7 +157,59 @@ public class RobotContainer {
                 stateMachine::IsDriveModeSmart
             )
         );
+
+        // Trigger bindings for scoring in smart mode
+        manipulator.leftTrigger().onTrue(
+            new ConditionalCommand(
+                Commands.none(), // Handled by smart mode loop
+                new ScoreCoralCMD(coral, elevator, stateMachine), // Manual mode scoring
+                stateMachine::IsDriveModeSmart
+            )
+        );
+
+        manipulator.rightTrigger().onTrue(
+            new ConditionalCommand(
+                Commands.none(), // Handled by smart mode loop
+                new ScoreCoralCMD(coral, elevator, stateMachine), // Manual mode scoring
+                stateMachine::IsDriveModeSmart
+            )
+        );
      }
+
+    // Smart mode state machine loop
+    private Command getSmartModeCommand() {
+        Command intakeCommand = new SmartIntake(stateMachine, coral, drivetrain, driveController);
+        Command scoreDriveCommand = new CoralScoreDrive(stateMachine, drivetrain, driveController);
+        Command scoreLeftCommand = new SequentialCommandGroup(
+            new InstantCommand(() -> stateMachine.setScoreLeft(true)),
+            new DriveToAprilTag(drivetrain, stateMachine),
+            new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+            new ScoreCoralCMD(coral, elevator, stateMachine)
+        );
+        Command scoreRightCommand = new SequentialCommandGroup(
+            new InstantCommand(() -> stateMachine.setScoreLeft(false)),
+            new DriveToAprilTag(drivetrain, stateMachine),
+            new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+            new ScoreCoralCMD(coral, elevator, stateMachine)
+        );
+
+        BooleanSupplier hasCoralSupplier = () -> coral.coralFullyAcquired() && !coral.coralPartiallyAcquired();
+        BooleanSupplier leftTriggerSupplier = manipulator.leftTrigger()::getAsBoolean;
+
+        return Commands.runOnce(() -> System.out.println("Smart mode started"))
+            .andThen(Commands.either(
+                scoreDriveCommand.until(() -> manipulator.leftTrigger().getAsBoolean() || manipulator.rightTrigger().getAsBoolean())
+                    .andThen(Commands.either(
+                        scoreLeftCommand,
+                        scoreRightCommand,
+                        leftTriggerSupplier // Corrected method reference
+                    )),
+                intakeCommand,
+                hasCoralSupplier // Corrected to use supplier
+            ))
+            .repeatedly()
+            .unless(() -> !stateMachine.IsDriveModeSmart());
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -78,6 +78,15 @@ public class Coral extends SubsystemBase
       SmartDashboard.putBoolean("Intake running", false);
     }
 
+    if(coralFullyAcquired() && !coralPartiallyAcquired())
+    {
+      stateMachine.hasCoral = true;
+    }
+    else
+    {
+      stateMachine.hasCoral = false;
+    }
+
     SmartDashboard.putBoolean("coral partially acquired", coralPartiallyAcquired());
     SmartDashboard.putBoolean("coral fully acquired", coralFullyAcquired());
     
