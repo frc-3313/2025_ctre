@@ -69,10 +69,10 @@ public class SmartIntake extends Command {
 
   
     
-      drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
+    drivetrain.setControl(snapDrive.withTargetDirection(Rotation2d.fromDegrees(desAngle))
       .withVelocityX(drivetrain.getDriveY(-controller.getLeftY()) * stateMachine.getMaxSpeed()) // Drive forward with negative Y (forward)
       .withVelocityY(drivetrain.getDriveX(-controller.getLeftX()) * stateMachine.getMaxSpeed())); // Drive left with negative X (left));
-      
+
     SmartDashboard.putNumber("RobotX", currentPos.getX());
     SmartDashboard.putNumber("RobotY", currentPos.getY());
     SmartDashboard.putNumber("Rotation", currentPos.getRotation().getDegrees());

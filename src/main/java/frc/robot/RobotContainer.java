@@ -92,6 +92,8 @@ public class RobotContainer {
         // Mode switch bindings
         driveController.povLeft().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToSmart()));
+        driveController.leftTrigger(.5).onTrue(
+            new InstantCommand(() -> climber.ReleaseWings()));
         driveController.povRight().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToManual()));;
 

@@ -24,12 +24,19 @@ public class Climber extends SubsystemBase {
   private double newTargetPosition = 0;
   private final StateMachine stateMachine;
   private Servo grabMotor;//servo
+  private Servo leftMotor;//servo
+  private Servo rightMotor;//servo
+
+
 
   public Climber(StateMachine _stateMachine) 
   {
+    
     stateMachine = _stateMachine;
     TalonFXConfiguration masterConfig = new TalonFXConfiguration();
     grabMotor = new Servo(Constants.Climber.GrabMotor_ID);//kraken
+    leftMotor = new Servo(Constants.Climber.LeftMotor_ID);//kraken
+    rightMotor = new Servo(Constants.Climber.RightMotor_ID);//kraken
 
     // Configure PID values
     masterConfig.Slot0.kP = Constants.Climber.kP;
@@ -66,6 +73,16 @@ public class Climber extends SubsystemBase {
   public void Release()
   {
     grabMotor.setAngle(90);
+  }
+  public void ReleaseWings()
+  {
+    leftMotor.setSpeed(-50);
+    rightMotor.setSpeed(50);
+  }
+  public void stopWings()
+  {
+    leftMotor.setDisabled();
+    rightMotor.setDisabled();
   }
   public void Lock()
   {

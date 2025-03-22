@@ -34,6 +34,7 @@ public class ClimbGrabPositionCMD extends Command
       timer.start();
       climber.Release();
       climber.Motor_Release();
+      climber.ReleaseWings();;
     }
   }
 
@@ -53,6 +54,7 @@ public class ClimbGrabPositionCMD extends Command
   public void end(boolean interrupted)
   {
     stateMachine.setReadyToClimb(true);
+    climber.stopWings();
     /*climber.atSetpoint();
     climber.setMotorBrake();*/
     
