@@ -370,7 +370,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         else
         {
-            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.toRadians(-45)));
 
         }
         this.resetPose(newPose);
