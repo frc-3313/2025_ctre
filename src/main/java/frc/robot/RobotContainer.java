@@ -126,7 +126,9 @@ public class RobotContainer {
             //Button A - Intake
         manipulator.a().onTrue(
             new ConditionalCommand(
-                new SmartIntake(stateMachine, coral, drivetrain, driveController), // Smart mode command
+                new SequentialCommandGroup(
+                    new SmartIntake(stateMachine, coral, drivetrain, driveController), // Smart mode command
+                    new CoralScoreDrive(stateMachine, drivetrain, driveController)),
                 new CoralCMD(coral, stateMachine, 0.3),                           // Manual mode command
                 stateMachine::IsDriveModeSmart                                    // Condition
             )
