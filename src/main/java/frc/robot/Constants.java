@@ -108,8 +108,8 @@ public final class Constants
       public static final int GrabMotor_ID = 0;
       public static final int LeftMotor_ID = 1;
       public static final int RightMotor_ID = 2;
-      public static final double RAISE = 320; 
-      public static final double LOWER = 438;
+      public static final double RAISE = 335; 
+      public static final double LOWER = 500;
       
       //PID & Motion Magic Constants
       public static final double kP = 10;

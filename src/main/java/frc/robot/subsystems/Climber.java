@@ -79,7 +79,7 @@ public class Climber extends SubsystemBase {
     leftMotor.setSpeed(-50);
     rightMotor.setSpeed(50);
   }
-  public void stopeWings()
+  public void stopWings()
   {
     leftMotor.setDisabled();
     rightMotor.setDisabled();

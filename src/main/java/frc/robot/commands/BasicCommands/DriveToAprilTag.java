@@ -42,25 +42,15 @@ public class DriveToAprilTag extends Command {
   private double offsetLeftY = 0.0005; //0.016
   private double kp = .3;
   private double offsetX, offsetY;
-  private Timer stopTimer;
-  private Timer DontseeTimer;
 
   private double txError = 0.15, tyError = 1, rotError= .5;
 
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
-    this.stopTimer = new Timer();
-    this.DontseeTimer = new Timer();
-    this.stopTimer.start();
-    this.DontseeTimer.start();
     this.xController = new PIDController(kp, 0.0, 0.0);
     this.yController = new PIDController(kp, 0.0, 0.0);
     this.rotController = new PIDController(kp, 0.0, 0.0);
-    this.yController.setTolerance(tyError);
-    this.xController.setTolerance(txError);
-    this.rotController.setTolerance(rotError);
-
 
     addRequirements(swerveDrive);
   }
@@ -80,12 +70,10 @@ public class DriveToAprilTag extends Command {
     }
     else{
       limelight = Constants.Limelight.FRONT;
-      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetLeftX, offsetLeftY, 0);
+      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.FRONT, offsetLeftX, offsetLeftY, 0);
       offsetX = offsetLeftX;
       offsetY = offsetLeftY;
     }
-    LimelightHelpers.setLEDMode_ForceOn(limelight);
-
     // driveRequest.HeadingController = new PhoenixPIDController(4, 0, 0);
     // driveRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -106,22 +94,21 @@ public class DriveToAprilTag extends Command {
 
     if(tv)
     {
-      DontseeTimer.reset();
       double robotYVelocity = yController.calculate(tx, 0);
       double robotXVelocity = xController.calculate(ty, 0);
       double rotbotRot = rotController.calculate(rot, 0);
 
       driveRequest.VelocityY = robotYVelocity;
       driveRequest.VelocityX = -robotXVelocity;
-      driveRequest.RotationalRate = rotbotRot;
+      driveRequest.RotationalRate = -rotbotRot;
 
       swerveDrive.setControl(driveRequest);
     }
 
-    if(!rotController.atSetpoint() || !yController.atSetpoint() || !xController.atSetpoint())
-    {
-      stopTimer.reset();
-    }
+    SmartDashboard.putBoolean("drive to apirl rot", rotController.atSetpoint());
+    SmartDashboard.putBoolean("drive to apirl ycont", rotController.atSetpoint());
+    SmartDashboard.putBoolean("drive to apirl xcont", rotController.atSetpoint());
+
   }
 
 
@@ -137,6 +124,7 @@ public class DriveToAprilTag extends Command {
   @Override
   public boolean isFinished() {
 
-      return DontseeTimer.hasElapsed(.5) || stopTimer.hasElapsed(.5);
+    return LimelightHelpers.getTX(limelight) <= txError && 
+    LimelightHelpers.getTY(limelight) <= tyError;
     }
 }
