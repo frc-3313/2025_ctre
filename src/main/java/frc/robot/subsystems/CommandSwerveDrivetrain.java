@@ -378,43 +378,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public void updateVisionOdometry()
   {
-    boolean useMegaTag2 = true; //set to false to use MegaTag1
     boolean doRejectUpdate = false;
-    if(useMegaTag2 == false)
-    {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
-      
-      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-      {
-        if(mt1.rawFiducials[0].ambiguity > .7)
-        {
-          doRejectUpdate = true;
-        }
-        if(mt1.rawFiducials[0].distToCamera > 3)
-        {
-          doRejectUpdate = true;
-        }
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
 
-      if(!doRejectUpdate)
-      {
-        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
-    }
-    else if (useMegaTag2 == true)
-    {
-        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
     LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-        if (mt2 != null)
-        {
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+    if (mt2 != null)
+    {
         if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
         {
             doRejectUpdate = true;
@@ -425,32 +395,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         if(!doRejectUpdate)
         {
-        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
-        Pose2d pose = mt2.pose;
-        // Check if a valid target is detected
-        if (tv) 
-        {
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+            Pose2d pose = mt2.pose;
+            // Check if a valid target is detected
+            if (tv) 
+            {
 
-            // Get the target's known pose
-            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
-            if (targetPose.isPresent())
-                pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+                // Get the target's known pose
+                Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+                if (targetPose.isPresent())
+                {
+                    pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+                }
 
-        }
+            }
             setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
             addVisionMeasurement(
                 mt2.pose,
                 mt2.timestampSeconds);
         }
     }
-    }
-}
+  }
+    
 
 
-private void configureAutoBuilder() {
-try {
+  private void configureAutoBuilder() {
+  try {
     var config = RobotConfig.fromGUISettings();
     AutoBuilder.configure(
         () -> getState().Pose,   // Supplier of current robot pose
@@ -476,7 +448,7 @@ try {
     } catch (Exception ex) {
         DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
     }
-}
+  }
 
   public double getDriveX(double input)
   {
@@ -535,75 +507,43 @@ try {
   public void updateVisionOdometryAuto()
   {
     zeroGyroAuto();
-    boolean useMegaTag2 = true; //set to false to use MegaTag1
     boolean doRejectUpdate = false;
-    if(useMegaTag2 == false)
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+    if(mt2 != null)
     {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
-      
-      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-      {
-        if(mt1.rawFiducials[0].ambiguity > .7)
+        if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
         {
-          doRejectUpdate = true;
+            doRejectUpdate = true;
         }
-        if(mt1.rawFiducials[0].distToCamera > 3)
+        if(mt2.tagCount == 0)
         {
-          doRejectUpdate = true;
+            doRejectUpdate = true;
         }
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
+        if(!doRejectUpdate)
+        {
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+            Pose2d pose = mt2.pose;
+    // Check if a valid target is detected
+            if (tv) 
+            {
 
-      if(!doRejectUpdate)
-      {
-        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
+                // Get the target's known pose
+                Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+                if(targetPose.isPresent())
+                pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+            
+            }
+            setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            addVisionMeasurement(
+                mt2.pose,
+                mt2.timestampSeconds);
+        }
+
     }
-    else if (useMegaTag2 == true)
-    {
-        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-      if(mt2 != null)
-      {
-      if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-      {
-        doRejectUpdate = true;
-      }
-      if(mt2.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-      if(!doRejectUpdate)
-      {
-        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
-        Pose2d pose = mt2.pose;
-        // Check if a valid target is detected
-        if (tv) 
-        {
-
-            // Get the target's known pose
-            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
-            if(targetPose.isPresent())
-            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
-     
   }
-        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        addVisionMeasurement(
-            mt2.pose,
-            mt2.timestampSeconds);
-      }
-
-    }
 }
-  }
   
-}

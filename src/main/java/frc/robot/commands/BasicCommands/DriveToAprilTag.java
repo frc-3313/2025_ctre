@@ -57,6 +57,8 @@ public class DriveToAprilTag extends Command {
 
   @Override
   public void initialize() {
+    stateMachine.SetReadyToScore(false);
+
     // Reset PID controllers
     xController.reset();
     yController.reset();
@@ -123,8 +125,12 @@ public class DriveToAprilTag extends Command {
 
   @Override
   public boolean isFinished() {
-
-    return LimelightHelpers.getTX(limelight) <= txError && 
-    LimelightHelpers.getTY(limelight) <= tyError;
+    if(LimelightHelpers.getTX(limelight) <= txError && 
+    LimelightHelpers.getTY(limelight) <= tyError)
+    {
+      stateMachine.SetReadyToScore(true);
+      return true;
     }
+    return false;
+  }
 }

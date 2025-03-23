@@ -33,20 +33,28 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
-    timer = new Timer();
-    timer.reset();
+    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    {
+      timer = new Timer();
+      timer.reset();
+    }
   }
 
   @Override
   public void execute()
   {
-    if((elevator.atSetpoint())){
-      if (stateMachine.getScoreHeight() == 3)
+    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    {
+      if((elevator.atSetpoint()))
+      {
+        if (stateMachine.getScoreHeight() == 3)
         {
           coral.RunIntake(-25);
         }
-      else {
-        coral.RunIntake(-30);
+        else 
+        {
+          coral.RunIntake(-30);
+        }
       }
     }
   }
@@ -54,14 +62,22 @@ public class ScoreCoralCMD extends Command
   @Override
   public void end(boolean interrupted) 
   {
-    coral.StopIntake();
+    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    {
+      coral.StopIntake();
+    }
     elevator.setHeight(Constants.Elevator.BottomPosition);
+    stateMachine.SetReadyToScore(false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() 
   {
+    if(stateMachine.IsDriveModeSmart() && !stateMachine.IsReadyToScore())
+    {
+      return true;
+    }
     if (stateMachine.getScoreHeight() == 3 && !coral.coralFullyAcquired())
     {
       if (timer.isRunning() && timer.hasElapsed(.2))
