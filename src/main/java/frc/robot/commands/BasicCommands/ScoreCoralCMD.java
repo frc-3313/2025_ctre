@@ -33,7 +33,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public void initialize() 
   {
-    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    if(stateMachine.IsReadyToScore())
     {
       timer = new Timer();
       timer.reset();
@@ -43,7 +43,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public void execute()
   {
-    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    if(stateMachine.IsReadyToScore())
     {
       if((elevator.atSetpoint()))
       {
@@ -62,7 +62,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public void end(boolean interrupted) 
   {
-    if(!stateMachine.IsDriveModeSmart() || stateMachine.IsReadyToScore())
+    if(stateMachine.IsReadyToScore())
     {
       coral.StopIntake();
     }
@@ -74,7 +74,7 @@ public class ScoreCoralCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    if(stateMachine.IsDriveModeSmart() && !stateMachine.IsReadyToScore())
+    if(!stateMachine.IsReadyToScore())
     {
       return true;
     }

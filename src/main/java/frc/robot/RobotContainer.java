@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BasicCommands.*;
 import frc.robot.generated.TunerConstants;
@@ -63,6 +64,14 @@ public class RobotContainer {
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
         NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
+        NamedCommands.registerCommand("SetPositionNegative45", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(-45)));
+        NamedCommands.registerCommand("SetPosition45", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(45)));
+        NamedCommands.registerCommand("SetPosition0", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(0)));
+        NamedCommands.registerCommand("SetPositionNegative135", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(-135)));
+        NamedCommands.registerCommand("SetPosition135", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(135)));
+        NamedCommands.registerCommand("SetPosition180", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(180)));
+        NamedCommands.registerCommand("WaitToStart", new WaitCommand(.2));
+
                 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("AutoMode", autoChooser);

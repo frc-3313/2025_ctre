@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -60,7 +62,15 @@ public class StateMachine extends SubsystemBase
 
   //Ready to Score
   public void SetReadyToScore(boolean bool) { readyToScore = bool; }
-  public boolean IsReadyToScore() { return readyToScore; }
+  public boolean IsReadyToScore() 
+  { 
+    if (DriverStation.isAutonomousEnabled())
+      return true;
+    else if(readyToScore || !IsDriveModeSmart())
+      return true; 
+    else
+      return false;
+  }
 
   //ready to climb
   public boolean isReadyToClimb()
