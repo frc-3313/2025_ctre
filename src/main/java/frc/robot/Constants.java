@@ -110,6 +110,10 @@ public final class Constants
       public static final int RightMotor_ID = 2;
       public static final double RAISE = 335; 
       public static final double LOWER = 500;
+      public static final double StorePos = 26;
+      public static final double climbPos = 65;
+      public static final double grabPos = 147;    //26//45//147
+
       
       //PID & Motion Magic Constants
       public static final double kP = 10;

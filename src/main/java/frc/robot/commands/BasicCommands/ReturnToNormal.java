@@ -8,24 +8,21 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Coral;
 
 public class ReturnToNormal extends InstantCommand {
-  public Algea algea;
   public Elevator elevator;
   public Coral coral;
   public Timer timer;
   public CommandSwerveDrivetrain drivetrain;
 
   /** Creates a new AmpScoreCMD. */
-  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, Algea m_Algea, CommandSwerveDrivetrain drivetrain){
-    algea = m_Algea;
+  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, CommandSwerveDrivetrain drivetrain){
     elevator = m_Elevator;
     coral = m_Coral;
     this.drivetrain = drivetrain;
-    addRequirements(algea, elevator, coral, drivetrain);
+    addRequirements(elevator, coral, drivetrain);
     
   }
 
@@ -34,7 +31,6 @@ public class ReturnToNormal extends InstantCommand {
   public void initialize() 
   {
     coral.StopIntake();
-    algea.StopIntake();
     elevator.setHeight(Constants.Elevator.BottomPosition);
   }
 }

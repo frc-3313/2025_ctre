@@ -42,7 +42,6 @@ public class RobotContainer {
     private final StateMachine stateMachine = new StateMachine();
     private final Coral coral = new Coral(stateMachine);
     private final Elevator elevator = new Elevator(stateMachine);
-    private final Algea algea = new Algea(stateMachine);
     private final Climber climber = new Climber(stateMachine);
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -112,17 +111,17 @@ public class RobotContainer {
         //Climber
         //Grab - Left Bumper
         driveController.leftBumper().onTrue(
-            new ClimbGrabPositionCMD(climber, stateMachine));
+            new ClimbGrabPositionCMDPID(climber, stateMachine));
         //Climb - Right Bumper
         driveController.rightBumper().onTrue(
-            new ClimbCMD(climber, stateMachine));
+            new ClimbCMDPID(climber, stateMachine));
 
         manipulator.rightBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(false)));
         manipulator.leftBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(true)));
 
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algea, drivetrain));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, drivetrain));
 
         manipulator.povDown().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(1)));
