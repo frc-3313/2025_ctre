@@ -5,17 +5,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
-import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,16 +21,13 @@ public class Climber extends SubsystemBase {
   private final TalonFX masterMotor = new TalonFX(Constants.Climber.ClimberMotor1_ID, Constants.CANIVORE);
  private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
   private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
-  private final MotionMagicTorqueCurrentFOC motionMagic2 = new MotionMagicTorqueCurrentFOC(0);
 
   private double newTargetPosition = 0;
   private final StateMachine stateMachine;
   private Servo grabMotor;//servo
   private Servo leftMotor;//servo
   private Servo rightMotor;//servo
-  private static final double ENCODER_PULSES_PER_REVOLUTION = 1024.0;
   private DutyCycleEncoder thruBore;
-  private DigitalInput encoderInput;
 
   public Climber(StateMachine _stateMachine) 
   {

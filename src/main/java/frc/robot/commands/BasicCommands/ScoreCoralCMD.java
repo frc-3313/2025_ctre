@@ -9,9 +9,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
-
-import javax.lang.model.util.ElementScanner14;
-
 import edu.wpi.first.wpilibj.Timer;
 
 public class ScoreCoralCMD extends Command 

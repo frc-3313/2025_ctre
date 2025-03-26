@@ -382,9 +382,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   {
     boolean doRejectUpdate = false;
 
-    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-    LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
     if (mt2 != null)
     {
         if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
@@ -397,9 +397,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         if(!doRejectUpdate)
         {
-            boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-            double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.LEFT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.LEFT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.LEFT); // Target ID (AprilTag)
             Pose2d pose = mt2.pose;
             // Check if a valid target is detected
             if (tv) 
@@ -510,9 +510,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   {
     zeroGyroAuto(startingAngle);
     boolean doRejectUpdate = false;
-    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-    LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
     if(mt2 != null)
     {
         if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
@@ -525,9 +525,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         if(!doRejectUpdate)
         {
-            boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-            double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.LEFT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.LEFT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.LEFT); // Target ID (AprilTag)
             Pose2d pose = mt2.pose;
     // Check if a valid target is detected
             if (tv) 
