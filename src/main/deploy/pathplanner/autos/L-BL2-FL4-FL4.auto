@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "R_BR"
+            "pathName": "L_BLR"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetLeft"
+                  "name": "SetRight"
                 }
               },
               {
@@ -57,7 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BRR_RS"
+            "pathName": "BL_LSF"
           }
         },
         {
@@ -69,7 +69,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RS_FRR"
+            "pathName": "LSF_FL"
           }
         },
         {
@@ -79,7 +79,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetLeft"
+                  "name": "SetRight"
                 }
               },
               {
@@ -119,7 +119,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FRR_RS"
+            "pathName": "FL_LSF"
           }
         },
         {
@@ -131,7 +131,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RS_FRR"
+            "pathName": "LSF_FL"
           }
         },
         {
@@ -147,7 +147,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL3"
+                  "name": "SetHeightL4"
                 }
               },
               {
@@ -182,6 +182,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right Autos",
+  "folder": "Left Autos",
   "choreoAuto": false
 }
