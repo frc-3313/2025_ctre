@@ -5,18 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "SetPosition45"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitToStart"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "L_BLR"

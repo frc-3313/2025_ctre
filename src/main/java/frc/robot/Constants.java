@@ -59,7 +59,7 @@ public final class Constants
       public static final double BottomPosition = .25;
       public static final double First = 10;
       public static final double Second = 20.3;
-      public static final double Third = 40.3;
+      public static final double Third = 39.3;
       public static final double Fourth = 71;
       public static final double elvHighest = 71.2; //max height 71.854980
 

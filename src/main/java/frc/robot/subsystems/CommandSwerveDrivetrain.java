@@ -351,23 +351,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         this.resetPose(newPose);
     }
-    public void zeroGyroAuto(double startingAngle)
+    public void zeroGyroAuto()
     {
+
         var swerveState = super.getState();
         var pose = swerveState.Pose;
         Pose2d newPose;
-        newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(startingAngle));
+        if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {   
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+        }
+        else
+        {
+            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(0));
 
-        // if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-        // {   
-        //    newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
-        // }
-        // else
-        // {
-        //     newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.toRadians(-45)));
-
-        // }
+        }
         this.resetPose(newPose);
+        
     }
 
   public void updateVisionOdometry()
@@ -497,10 +497,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return rot_speedLimiter.calculate(0);
 
   }
-  public Command updateVisionCommand(double startingAngle) { return this.runOnce(() -> this.updateVisionOdometryAuto(startingAngle)); }
-  public void updateVisionOdometryAuto(double startingAngle)
+  public Command updateVisionCommand() { return this.runOnce(() -> this.updateVisionOdometryAuto()); }
+  public void updateVisionOdometryAuto()
   {
-    zeroGyroAuto(startingAngle);
+    zeroGyroAuto();
     boolean doRejectUpdate = false;
     SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
     LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
