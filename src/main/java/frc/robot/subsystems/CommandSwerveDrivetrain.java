@@ -5,28 +5,21 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import javax.lang.model.util.ElementScanner14;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import frc.robot.subsystems.StateMachine;
-import choreo.Choreo.TrajectoryLogger;
-import choreo.auto.AutoFactory;
-import choreo.trajectory.SwerveSample;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,7 +31,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -73,25 +65,25 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
     /* Swerve requests to apply during SysId characterization */
-    private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
+    // private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
-    private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    // private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
-    private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,        // Use default ramp rate (1 V/s)
-            Volts.of(4), // Reduce dynamic step voltage to 4 V to prevent brownout
-            null,        // Use default timeout (10 s)
-            // Log state with SignalLogger class
-            state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())
-        ),
-        new SysIdRoutine.Mechanism(
-            output -> setControl(m_translationCharacterization.withVolts(output)),
-            null,
-            this
-        )
-    );
+    // private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
+    //     new SysIdRoutine.Config(
+    //         null,        // Use default ramp rate (1 V/s)
+    //         Volts.of(4), // Reduce dynamic step voltage to 4 V to prevent brownout
+    //         null,        // Use default timeout (10 s)
+    //         // Log state with SignalLogger class
+    //         state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())
+    //     ),
+    //     new SysIdRoutine.Mechanism(
+    //         output -> setControl(m_translationCharacterization.withVolts(output)),
+    //         null,
+    //         this
+    //     )
+    // );
 
     /* SysId routine for characterizing steer. This is used to find PID gains for the steer motors. */
     private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
@@ -114,27 +106,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * This is used to find PID gains for the FieldCentricFacingAngle HeadingController.
      * See the documentation of SwerveRequest.SysIdSwerveRotation for info on importing the log to SysId.
      */
-    private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            /* This is in radians per second², but SysId only supports "volts per second" */
-            Volts.of(Math.PI / 6).per(Second),
-            /* This is in radians per second, but SysId only supports "volts" */
-            Volts.of(Math.PI),
-            null, // Use default timeout (10 s)
-            // Log state with SignalLogger class
-            state -> SignalLogger.writeString("SysIdRotation_State", state.toString())
-        ),
-        new SysIdRoutine.Mechanism(
-            output -> {
-                /* output is actually radians per second, but SysId only supports "volts" */
-                setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-                /* also log the requested output for SysId */
-                SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-            },
-            null,
-            this
-        )
-    );
+    // private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
+    //     new SysIdRoutine.Config(
+    //         /* This is in radians per second², but SysId only supports "volts per second" */
+    //         Volts.of(Math.PI / 6).per(Second),
+    //         /* This is in radians per second, but SysId only supports "volts" */
+    //         Volts.of(Math.PI),
+    //         null, // Use default timeout (10 s)
+    //         // Log state with SignalLogger class
+    //         state -> SignalLogger.writeString("SysIdRotation_State", state.toString())
+    //     ),
+    //     new SysIdRoutine.Mechanism(
+    //         output -> {
+    //             /* output is actually radians per second, but SysId only supports "volts" */
+    //             setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+    //             /* also log the requested output for SysId */
+    //             SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+    //         },
+    //         null,
+    //         this
+    //     )
+    // );
 
     /* The SysId routine to test */
     //private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
@@ -359,62 +351,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         this.resetPose(newPose);
     }
-    public void zeroGyroAuto()
+    public void zeroGyroAuto(double startingAngle)
     {
         var swerveState = super.getState();
         var pose = swerveState.Pose;
         Pose2d newPose;
-        if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-        {   
-           newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
-        }
-        else
-        {
-            newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.toRadians(-45)));
+        newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(startingAngle));
 
-        }
+        // if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        // {   
+        //    newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.PI));
+        // }
+        // else
+        // {
+        //     newPose = new Pose2d(pose.getX(), pose.getY(), new Rotation2d(Math.toRadians(-45)));
+
+        // }
         this.resetPose(newPose);
     }
 
   public void updateVisionOdometry()
   {
-    boolean useMegaTag2 = true; //set to false to use MegaTag1
     boolean doRejectUpdate = false;
-    if(useMegaTag2 == false)
-    {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
-      
-      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-      {
-        if(mt1.rawFiducials[0].ambiguity > .7)
-        {
-          doRejectUpdate = true;
-        }
-        if(mt1.rawFiducials[0].distToCamera > 3)
-        {
-          doRejectUpdate = true;
-        }
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
 
-      if(!doRejectUpdate)
-      {
-        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
-    }
-    else if (useMegaTag2 == true)
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
+    if (mt2 != null)
     {
-        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-    LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-        if (mt2 != null)
-        {
         if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
         {
             doRejectUpdate = true;
@@ -425,32 +389,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         if(!doRejectUpdate)
         {
-        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
-        Pose2d pose = mt2.pose;
-        // Check if a valid target is detected
-        if (tv) 
-        {
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.LEFT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.LEFT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.LEFT); // Target ID (AprilTag)
+            Pose2d pose = mt2.pose;
+            // Check if a valid target is detected
+            if (tv) 
+            {
 
-            // Get the target's known pose
-            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
-            if (targetPose.isPresent())
-                pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+                // Get the target's known pose
+                Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+                if (targetPose.isPresent())
+                {
+                    pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+                }
 
-        }
+            }
             setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
             addVisionMeasurement(
                 mt2.pose,
                 mt2.timestampSeconds);
         }
     }
-    }
-}
+  }
+    
 
 
-private void configureAutoBuilder() {
-try {
+  private void configureAutoBuilder() {
+  try {
     var config = RobotConfig.fromGUISettings();
     AutoBuilder.configure(
         () -> getState().Pose,   // Supplier of current robot pose
@@ -476,7 +442,7 @@ try {
     } catch (Exception ex) {
         DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
     }
-}
+  }
 
   public double getDriveX(double input)
   {
@@ -531,79 +497,47 @@ try {
         return rot_speedLimiter.calculate(0);
 
   }
-  public Command updateVisionCommand() { return this.runOnce(() -> this.updateVisionOdometryAuto()); }
-  public void updateVisionOdometryAuto()
+  public Command updateVisionCommand(double startingAngle) { return this.runOnce(() -> this.updateVisionOdometryAuto(startingAngle)); }
+  public void updateVisionOdometryAuto(double startingAngle)
   {
-    zeroGyroAuto();
-    boolean useMegaTag2 = true; //set to false to use MegaTag1
+    zeroGyroAuto(startingAngle);
     boolean doRejectUpdate = false;
-    if(useMegaTag2 == false)
+    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
+    if(mt2 != null)
     {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Limelight.FRONT);
-      
-      if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
-      {
-        if(mt1.rawFiducials[0].ambiguity > .7)
+        if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
         {
-          doRejectUpdate = true;
+            doRejectUpdate = true;
         }
-        if(mt1.rawFiducials[0].distToCamera > 3)
+        if(mt2.tagCount == 0)
         {
-          doRejectUpdate = true;
+            doRejectUpdate = true;
         }
-      }
-      if(mt1.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
+        if(!doRejectUpdate)
+        {
+            boolean tv = LimelightHelpers.getTV(Constants.Limelight.LEFT);
+            double tx = LimelightHelpers.getTX(Constants.Limelight.LEFT);
+            int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.LEFT); // Target ID (AprilTag)
+            Pose2d pose = mt2.pose;
+    // Check if a valid target is detected
+            if (tv) 
+            {
 
-      if(!doRejectUpdate)
-      {
-        setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
-        addVisionMeasurement(
-            mt1.pose,
-            mt1.timestampSeconds);
-      }
+                // Get the target's known pose
+                Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
+                if(targetPose.isPresent())
+                pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
+            
+            }
+            setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            addVisionMeasurement(
+                mt2.pose,
+                mt2.timestampSeconds);
+        }
+
     }
-    else if (useMegaTag2 == true)
-    {
-        SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.FRONT));
-      LimelightHelpers.SetRobotOrientation(Constants.Limelight.FRONT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.FRONT);
-      if(mt2 != null)
-      {
-      if(Math.abs(getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-      {
-        doRejectUpdate = true;
-      }
-      if(mt2.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-      if(!doRejectUpdate)
-      {
-        boolean tv = LimelightHelpers.getTV(Constants.Limelight.FRONT);
-        double tx = LimelightHelpers.getTX(Constants.Limelight.FRONT);
-        int tid = (int)LimelightHelpers.getFiducialID(Constants.Limelight.FRONT); // Target ID (AprilTag)
-        Pose2d pose = mt2.pose;
-        // Check if a valid target is detected
-        if (tv) 
-        {
-
-            // Get the target's known pose
-            Optional<Pose3d> targetPose = fieldLayout.getTagPose(tid);
-            if(targetPose.isPresent())
-            pose = new Pose2d(pose.getX(), pose.getY(), targetPose.get().getRotation().toRotation2d().minus(Rotation2d.fromDegrees(tx)));
-     
   }
-        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        addVisionMeasurement(
-            mt2.pose,
-            mt2.timestampSeconds);
-      }
-
-    }
 }
-  }
   
-}

@@ -8,6 +8,7 @@ package frc.robot;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.subsystems.CANdleSystem.Color;;
 
 public final class Constants
 {
@@ -55,11 +56,11 @@ public final class Constants
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double BottomPosition = 1;
-      public static final double First = 10;//FIXME
-      public static final double Second = 20.3;//TODO
-      public static final double Third = 40.3;//TODO
-      public static final double Fourth = 71;//TODO
+      public static final double BottomPosition = .25;
+      public static final double First = 10;
+      public static final double Second = 20.3;
+      public static final double Third = 40.3;
+      public static final double Fourth = 71;
       public static final double elvHighest = 71.2; //max height 71.854980
 
       public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID
@@ -110,6 +111,10 @@ public final class Constants
       public static final int RightMotor_ID = 2;
       public static final double RAISE = 335; 
       public static final double LOWER = 500;
+      public static final double StorePos = 26;
+      public static final double climbPos = 65;
+      public static final double grabPos = 147;    //26//45//147
+
       
       //PID & Motion Magic Constants
       public static final double kP = 10;
@@ -126,10 +131,20 @@ public final class Constants
   public static final class Limelight
   {
 
-    public static final String FRONT = "limelight-mech";
+    public static final String LEFT = "limelight-mech";
     public static final String RIGHT = "limelight-right";
     //public static final String FRONT = "limelight-right";
 
-
+  }
+  public static final class Candle
+  {
+    public static final Color black = new Color(0, 0, 0);
+    public static final Color yellow = new Color(242, 60, 0);
+    public static final Color purple = new Color(184, 0, 185);
+    public static final Color white = new Color(255, 230, 220);
+    public static final Color green = new Color(56, 209, 0);
+    public static final Color blue = new Color(0, 74, 179);
+    public static final Color red = new Color(255, 0, 0);
+    public static final Color orange = new Color(227, 110, 7);
   }
 }
