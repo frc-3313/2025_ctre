@@ -117,11 +117,14 @@ public class DriveToAprilTag extends Command {
 
   @Override
   public boolean isFinished() {
-    if(LimelightHelpers.getTX(limelight) <= txError && 
-    LimelightHelpers.getTY(limelight) <= tyError)
+    if(LimelightHelpers.getTV(limelight))
     {
-      stateMachine.SetReadyToScore(true);
-      return true;
+      if(LimelightHelpers.getTX(limelight) <= txError && 
+      LimelightHelpers.getTY(limelight) <= tyError)
+      {
+        stateMachine.SetReadyToScore(true);
+        return true;
+      }
     }
     return false;
   }

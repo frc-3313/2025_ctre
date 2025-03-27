@@ -31,7 +31,7 @@ public class StateMachine extends SubsystemBase
 
   //Initialization
 
-  public StateMachine(CANdleSystem candle){this.candle = candle;}
+  //public StateMachine(CANdleSystem candle){this.candle = candle;}
 
   //Score Height Methods
   public void setScoreHeight(int input) { scoreHeight = input; }
@@ -90,45 +90,45 @@ public class StateMachine extends SubsystemBase
   }
   public void periodic()
   {
-    if (DriverStation.getMatchTime() <= 15) 
-    {
-      candle.setStrobeAnimation(Constants.Candle.red);
-    }
-    else if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
-    {
-      candle.setRainbow();
-    }
-    else if(DriverStation.isDisabled())
-    {
-      if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-      {
-        candle.SetLow(Constants.Candle.blue);
-        candle.SetMid(Constants.Candle.blue);
-        candle.SetHigh(Constants.Candle.blue);
-      }
-      else
-      {
-        candle.SetLow(Constants.Candle.red);
-        candle.SetMid(Constants.Candle.red);
-        candle.SetHigh(Constants.Candle.red);     
-      }
-    }
-    else if(IsDriveModeSmart())
-    {
-      if((scoreLeft && LimelightHelpers.getTV(Constants.Limelight.RIGHT)) ||
-         !scoreLeft && LimelightHelpers.getTV(Constants.Limelight.LEFT))
-      {
-        setColors(Constants.Candle.green);
-      }
-      else
-      {
-        setColors(Constants.Candle.blue);
-      }
-    }
-    else
-    {
-      setColors(Constants.Candle.red);
-    }
+    // if (DriverStation.getMatchTime() <= 15) 
+    // {
+    //   candle.setStrobeAnimation(Constants.Candle.red);
+    // }
+    // else if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
+    // {
+    //   candle.setRainbow();
+    // }
+    // else if(DriverStation.isDisabled())
+    // {
+    //   if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+    //   {
+    //     candle.SetLow(Constants.Candle.blue);
+    //     candle.SetMid(Constants.Candle.blue);
+    //     candle.SetHigh(Constants.Candle.blue);
+    //   }
+    //   else
+    //   {
+    //     candle.SetLow(Constants.Candle.red);
+    //     candle.SetMid(Constants.Candle.red);
+    //     candle.SetHigh(Constants.Candle.red);     
+    //   }
+    // }
+    // else if(IsDriveModeSmart())
+    // {
+    //   if((scoreLeft && LimelightHelpers.getTV(Constants.Limelight.RIGHT)) ||
+    //      !scoreLeft && LimelightHelpers.getTV(Constants.Limelight.LEFT))
+    //   {
+    //     setColors(Constants.Candle.green);
+    //   }
+    //   else
+    //   {
+    //     setColors(Constants.Candle.blue);
+    //   }
+    // }
+    // else
+    // {
+    //   setColors(Constants.Candle.red);
+    // }
   }
   public void setColors(Color color)
   {
