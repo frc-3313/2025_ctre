@@ -80,7 +80,7 @@ public class Coral extends SubsystemBase
 
     SmartDashboard.putBoolean("coral partially acquired", coralPartiallyAcquired());
     SmartDashboard.putBoolean("coral fully acquired", coralFullyAcquired());
-    stateMachine.setCoralPartialAquired(coralFullyAcquired());
+    stateMachine.setCoralPartialAquired(coralPartiallyAcquired());
     
   }
 

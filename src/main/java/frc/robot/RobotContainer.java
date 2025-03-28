@@ -61,6 +61,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("DriveToAprilTag", new DriveToAprilTag(drivetrain, stateMachine));
         NamedCommands.registerCommand("CoralCMD", new CoralCMD(coral, stateMachine, 0.3));
         NamedCommands.registerCommand("ScoreCoralCMD", new ScoreCoralCMD(coral, elevator, stateMachine));
+        NamedCommands.registerCommand("WaitForCoral", new WaitForCoral(stateMachine));
         // NamedCommands.registerCommand("SetPositionNegative45", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(-45)));
         // NamedCommands.registerCommand("SetPosition45", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(45)));
         // NamedCommands.registerCommand("SetPosition0", new InstantCommand(() -> drivetrain.updateVisionOdometryAuto(0)));

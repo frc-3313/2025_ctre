@@ -32,7 +32,7 @@ public class DriveToAprilTag extends Command {
   private double offsetRightY = -0.001;
   private double offsetLeftX = 0.039; //0.057
   private double offsetLeftY = 0.0005; //0.016
-  private double kp = .3;
+  private double kp = .4;
   private double offsetX, offsetY;
 
   private double txError = 0.15, tyError = 1;
