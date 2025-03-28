@@ -113,7 +113,7 @@ public final class Constants
       public static final double LOWER = 500;
       public static final double StorePos = 26;
       public static final double climbPos = 65;
-      public static final double grabPos = 147;    //26//45//147
+      public static final double grabPos = 155;    //26//45//147
 
       
       //PID & Motion Magic Constants

@@ -102,8 +102,8 @@ public class RobotContainer {
         driveController.leftTrigger(.5).onTrue(
             new InstantCommand(() -> climber.ReleaseWings()));
         driveController.povRight().onTrue(
-            new InstantCommand(() -> stateMachine.SetDriveToManual()));;
-        driveController.y().whileTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
+            new InstantCommand(() -> stateMachine.SetDriveToManual()));
+        driveController.y().whileTrue(new ElevatorEject(elevator, stateMachine));
 
         driveController.start().onTrue(new ZeroGyro(drivetrain));
         // Shared bindings 
