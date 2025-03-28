@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "L_BLR"
+            "pathName": "R_BR"
           }
         },
         {
@@ -17,13 +17,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetRight"
+                  "name": "SetLeft"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SetHeightL4"
+                  "name": "SetHeightL2"
                 }
               },
               {
@@ -57,19 +57,39 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BL_LSC"
+            "pathName": "BRR_RS"
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LSC_F"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralCMD"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitForCoral"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RS_FRR"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -89,7 +109,7 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
@@ -119,19 +139,39 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F_LSC"
+            "pathName": "FRR_RS"
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LSC_F"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralCMD"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitForCoral"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RS_FRR"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -181,7 +221,7 @@
       ]
     }
   },
-  "resetOdom": false,
-  "folder": "Left Autos",
+  "resetOdom": true,
+  "folder": "Right Autos",
   "choreoAuto": false
 }

@@ -61,15 +61,35 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LSF_FL"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralCMD"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitForCoral"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "LSF_FL"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -123,15 +143,35 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "CoralCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LSF_FL"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralCMD"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitForCoral"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "LSF_FL"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
