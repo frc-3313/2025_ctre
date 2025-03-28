@@ -34,9 +34,9 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             // .withDeadband(MaxSpeed * Constants.OperatorConstants.LEFT_X_DEADBAND).withRotationalDeadband(MaxAngularRate * Constants.OperatorConstants.LEFT_X_DEADBAND) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    //private final CANdleSystem candle = new CANdleSystem();
-    //private final StateMachine stateMachine = new StateMachine(candle);
-    private final StateMachine stateMachine = new StateMachine();
+    private final CANdleSystem candle = new CANdleSystem();
+    private final StateMachine stateMachine = new StateMachine(candle);
+    //private final StateMachine stateMachine = new StateMachine();
 
     private final Coral coral = new Coral(stateMachine);
     private final Elevator elevator = new Elevator(stateMachine);
@@ -102,6 +102,7 @@ public class RobotContainer {
             new InstantCommand(() -> climber.ReleaseWings()));
         driveController.povRight().onTrue(
             new InstantCommand(() -> stateMachine.SetDriveToManual()));;
+        driveController.y().whileTrue(new ScoreCoralHeightCMD(coral, elevator, stateMachine));
 
         driveController.start().onTrue(new ZeroGyro(drivetrain));
         // Shared bindings 

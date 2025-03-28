@@ -61,17 +61,17 @@ public class CANdleSystem extends SubsystemBase{
         LEDSegment.HighFour.setColor(color);
     }
     public void setRainbow() {
-        LEDSegment.SegmentOne.setRainbowAnimation(1);
-        LEDSegment.SegmentTwo.setRainbowAnimation(1);
-        LEDSegment.SegmentThree.setRainbowAnimation(1);
-        LEDSegment.SegmentFour.setRainbowAnimation(1);
+        LEDSegment.SegmentOne.setRainbowAnimation(.25);
+        LEDSegment.SegmentTwo.setRainbowAnimation(.25);
+        LEDSegment.SegmentThree.setRainbowAnimation(.25);
+        LEDSegment.SegmentFour.setRainbowAnimation(.25);
 
     }
     public void setStrobeAnimation(Color color) {
-        LEDSegment.SegmentOne.setStrobeAnimation(color, 1);
-        LEDSegment.SegmentTwo.setStrobeAnimation(color,1);
-        LEDSegment.SegmentThree.setStrobeAnimation(color,1);
-        LEDSegment.SegmentFour.setStrobeAnimation(color,1);
+        LEDSegment.SegmentOne.setStrobeAnimation(color, .25);
+        LEDSegment.SegmentTwo.setStrobeAnimation(color,.25);
+        LEDSegment.SegmentThree.setStrobeAnimation(color,.25);
+        LEDSegment.SegmentFour.setStrobeAnimation(color,.25);
 
     }
 
