@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class CANdleSystem extends SubsystemBase{
 
-    private static final CANdle candle = new CANdle(50);
+    private static final CANdle candle = new CANdle(50, Constants.CANIVORE);
 
 
     public static final int candleLed = 8;
@@ -83,9 +83,9 @@ public class CANdleSystem extends SubsystemBase{
         HighTwo(38, 10, 1),
         MidTwo(48, 10, 1),
         LowTwo(58, 10, 1),
-        LowThree(68, 10, 1),
+        LowThree(88, 10, 1),
         MidThree(78, 10, 1),
-        HighThree(88, 10, 1),
+        HighThree(68, 10, 1),
         HighFour(98, 10, 1),
         MidFour(108, 10, 1),
         LowFour(118, 10, 1),

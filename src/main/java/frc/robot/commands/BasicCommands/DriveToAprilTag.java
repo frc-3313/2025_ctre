@@ -28,11 +28,15 @@ public class DriveToAprilTag extends Command {
   private final PIDController yController;
   private final PIDController rotController;
 
+  // private double offsetRightX = 0.04599; //0.054
+  // private double offsetRightY = -0.061; //-0.001
+  // private double offsetLeftX = 0.002; //0.039
+  // private double offsetLeftY = -0.032; //0.0005
   private double offsetRightX = 0.054;
   private double offsetRightY = -0.001;
-  private double offsetLeftX = 0.039; //0.057
-  private double offsetLeftY = 0.0005; //0.016
-  private double kp = .4;
+  private double offsetLeftX = -0.014; //0.057
+  private double offsetLeftY = 0.002; //0.016
+  private double kp = .25;
   private double offsetX, offsetY;
 
   private double txError = 0.15, tyError = 1;
