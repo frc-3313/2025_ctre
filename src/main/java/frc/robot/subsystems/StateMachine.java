@@ -92,67 +92,108 @@ public class StateMachine extends SubsystemBase
   {
     if (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0) 
     {
-      candle.SetLow(Constants.Candle.purple);
-      candle.SetMid(Constants.Candle.purple);
-      candle.SetHigh(Constants.Candle.purple);
+      candle.SetLowLeft(Constants.Candle.purple);
+      candle.SetMidLeft(Constants.Candle.purple);
+      candle.SetHighLeft(Constants.Candle.purple);
+      candle.SetLowRight(Constants.Candle.purple);
+      candle.SetMidRight(Constants.Candle.purple);
+      candle.SetHighRight(Constants.Candle.purple);
     }
     else if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime
         && DriverStation.getMatchTime() > 0) 
     {
-      candle.SetLow(Constants.Candle.yellow);
-      candle.SetMid(Constants.Candle.yellow);
-      candle.SetHigh(Constants.Candle.yellow);
+      candle.SetLowLeft(Constants.Candle.yellow);
+      candle.SetMidLeft(Constants.Candle.yellow);
+      candle.SetHighLeft(Constants.Candle.yellow);
+      candle.SetLowRight(Constants.Candle.yellow);
+      candle.SetMidRight(Constants.Candle.yellow);
+      candle.SetHighRight(Constants.Candle.yellow);
     }
     else if(DriverStation.isDisabled())
     {
       if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       {
-        candle.SetLow(Constants.Candle.blue);
-        candle.SetMid(Constants.Candle.blue);
-        candle.SetHigh(Constants.Candle.blue);
+        candle.SetLowLeft(Constants.Candle.blue);
+        candle.SetMidLeft(Constants.Candle.blue);
+        candle.SetHighLeft(Constants.Candle.blue);
+        candle.SetLowRight(Constants.Candle.blue);
+        candle.SetMidRight(Constants.Candle.blue);
+        candle.SetHighRight(Constants.Candle.blue);
       }
       else
       {
-        candle.SetLow(Constants.Candle.red);
-        candle.SetMid(Constants.Candle.red);
-        candle.SetHigh(Constants.Candle.red);     
+        candle.SetLowLeft(Constants.Candle.red);
+        candle.SetMidLeft(Constants.Candle.red);
+        candle.SetHighLeft(Constants.Candle.red);
+        candle.SetLowRight(Constants.Candle.red);
+        candle.SetMidRight(Constants.Candle.red);
+        candle.SetHighRight(Constants.Candle.red);    
       }
     }
     else if(IsDriveModeSmart())
     {
-      if((scoreLeft && LimelightHelpers.getTV(Constants.Limelight.RIGHT)) ||
-         !scoreLeft && LimelightHelpers.getTV(Constants.Limelight.LEFT))
+      if(LimelightHelpers.getTV(Constants.Limelight.LEFT))
       {
-        setColors(Constants.Candle.green);
+        setColorsRight(Constants.Candle.green);
       }
       else
       {
-        setColors(Constants.Candle.blue);
+        setColorsRight(Constants.Candle.blue);
+      }
+      if(LimelightHelpers.getTV(Constants.Limelight.RIGHT))
+      {
+        setColorsLeft(Constants.Candle.green);
+      }
+      else
+      {
+        setColorsLeft(Constants.Candle.blue);
       }
     }
     else
     {
-      setColors(Constants.Candle.red);
+      setColorsRight(Constants.Candle.red);
+      setColorsLeft(Constants.Candle.red);
     }
   }
-  public void setColors(Color color)
+  public void setColorsRight(Color color)
   {
     switch(scoreHeight) 
     {
       case 1:
-        candle.SetLow(color);
-        candle.SetMid(Constants.Candle.black);
-        candle.SetHigh(Constants.Candle.black);
+        candle.SetLowRight(color);
+        candle.SetMidRight(Constants.Candle.black);
+        candle.SetHighRight(Constants.Candle.black);
         break;
       case 2:
-        candle.SetLow(color);
-        candle.SetMid(color);
-        candle.SetHigh(Constants.Candle.black);
+        candle.SetLowRight(color);
+        candle.SetMidRight(color);
+        candle.SetHighRight(Constants.Candle.black);
         break;
       case 3:
-        candle.SetLow(color);
-        candle.SetMid(color);
-        candle.SetHigh(color);
+        candle.SetLowRight(color);
+        candle.SetMidRight(color);
+        candle.SetHighRight(color);
+        break;
+    }
+  }
+  public void setColorsLeft(Color color)
+  {
+    switch(scoreHeight) 
+    {
+      case 1:
+        candle.SetLowLeft(color);
+        candle.SetMidLeft(Constants.Candle.black);
+        candle.SetHighLeft(Constants.Candle.black);
+        break;
+      case 2:
+        candle.SetLowLeft(color);
+        candle.SetMidLeft(color);
+        candle.SetHighLeft(Constants.Candle.black);
+        break;
+      case 3:
+        candle.SetLowLeft(color);
+        candle.SetMidLeft(color);
+        candle.SetHighLeft(color);
         break;
     }
   }
