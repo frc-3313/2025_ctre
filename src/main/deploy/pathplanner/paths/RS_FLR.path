@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.435909090909091,
-        "y": 0.7493323863636363
+        "x": 1.3760795454545454,
+        "y": 0.6994744318181813
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6796590909090907,
-        "y": 2.4263323863636344
+        "x": 1.619829545454545,
+        "y": 2.3764744318181794
       },
       "isLocked": false,
       "linkedName": "RS"
     },
     {
       "anchor": {
-        "x": 3.629659090909091,
-        "y": 5.4958096590909085
+        "x": 3.938778409090909,
+        "y": 5.356207386363637
       },
       "prevControl": {
-        "x": 2.2549090909090914,
-        "y": 5.417809659090909
+        "x": 2.564028409090909,
+        "y": 5.278207386363637
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -60.94539590092291
   },
   "reversed": false,
   "folder": "Right to Left Paths",

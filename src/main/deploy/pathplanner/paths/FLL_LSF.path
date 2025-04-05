@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 3.938778409090909,
-        "y": 2.713735795454545
+        "y": 5.356207386363637
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8333917662727126,
-        "y": 1.8521594118906375
+        "x": 2.949125630677803,
+        "y": 6.263761899436194
       },
       "isLocked": false,
-      "linkedName": "FRR"
+      "linkedName": "Front Left Reef"
     },
     {
       "anchor": {
-        "x": 1.3760795454545454,
-        "y": 0.6994744318181813
+        "x": 1.4857670454545455,
+        "y": 7.420326704545454
       },
       "prevControl": {
-        "x": 2.4356765580902895,
-        "y": 1.53267576453133
+        "x": 2.2340780480418925,
+        "y": 6.7171063385422505
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RS"
+      "linkedName": "LeftSourceFar"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.0
+    "rotation": -52.92692668268955
   },
   "reversed": false,
-  "folder": "Right Paths",
+  "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -60.94539590092291
   },
   "useDefaultConstraints": true
 }

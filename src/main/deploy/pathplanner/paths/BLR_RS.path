@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.085511363636364,
-        "y": 5.356207386363637
+        "x": 5.055596590909091,
+        "y": 5.28640625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.060511363636364,
-        "y": 4.819957386363637
+        "x": 6.030596590909091,
+        "y": 4.75015625
       },
       "isLocked": false,
       "linkedName": "Back Left Reef"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.435909090909091,
-        "y": 0.7493323863636363
+        "x": 1.3760795454545454,
+        "y": 0.6994744318181813
       },
       "prevControl": {
-        "x": 3.064159090909091,
-        "y": 0.8370823863636361
+        "x": 3.0043295454545453,
+        "y": 0.787224431818181
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +50,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

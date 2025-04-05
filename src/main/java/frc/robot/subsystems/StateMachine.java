@@ -89,8 +89,9 @@ public class StateMachine extends SubsystemBase
     readyToClimb = ready;
   }
   public void periodic()
-  {
-    if (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0) 
+  { 
+    
+    if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
     {
       candle.SetLowLeft(Constants.Candle.purple);
       candle.SetMidLeft(Constants.Candle.purple);
@@ -99,8 +100,8 @@ public class StateMachine extends SubsystemBase
       candle.SetMidRight(Constants.Candle.purple);
       candle.SetHighRight(Constants.Candle.purple);
     }
-    else if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime
-        && DriverStation.getMatchTime() > 0) 
+    else if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime
+        && DriverStation.getMatchTime() > 0)) 
     {
       candle.SetLowLeft(Constants.Candle.yellow);
       candle.SetMidLeft(Constants.Candle.yellow);
@@ -159,6 +160,11 @@ public class StateMachine extends SubsystemBase
   {
     switch(scoreHeight) 
     {
+      case 0:
+        candle.SetLowRight(Constants.Candle.yellow);
+        candle.SetMidRight(Constants.Candle.black);
+        candle.SetHighRight(Constants.Candle.black);
+        break;
       case 1:
         candle.SetLowRight(color);
         candle.SetMidRight(Constants.Candle.black);
@@ -180,6 +186,11 @@ public class StateMachine extends SubsystemBase
   {
     switch(scoreHeight) 
     {
+      case 0:
+        candle.SetLowLeft(Constants.Candle.yellow);
+        candle.SetMidLeft(Constants.Candle.black);
+        candle.SetHighLeft(Constants.Candle.black);
+        break;
       case 1:
         candle.SetLowLeft(color);
         candle.SetMidLeft(Constants.Candle.black);

@@ -83,7 +83,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RS_FRR"
+                        "pathName": "RSF_FRR"
                       }
                     }
                   ]
@@ -99,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetLeft"
+                  "name": "SetRight"
                 }
               },
               {
@@ -165,7 +165,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RS_FRR"
+                        "pathName": "RSF_FRL"
                       }
                     }
                   ]
@@ -181,7 +181,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetRight"
+                  "name": "SetLeft"
                 }
               },
               {

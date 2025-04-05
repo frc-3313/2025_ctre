@@ -123,6 +123,8 @@ public class RobotContainer {
 
         manipulator.x().onTrue(new ReturnToNormal(coral, elevator, drivetrain));
 
+        manipulator.povLeft().onTrue(
+            new InstantCommand(() -> stateMachine.setScoreHeight(0)));
         manipulator.povDown().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(1)));
         manipulator.povRight().onTrue(

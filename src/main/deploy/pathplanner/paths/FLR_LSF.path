@@ -4,23 +4,23 @@
     {
       "anchor": {
         "x": 3.629659090909091,
-        "y": 5.4958096590909085
+        "y": 5.146803977272728
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.640006312495985,
-        "y": 6.4033641721634655
+        "y": 6.054358490345285
       },
       "isLocked": false,
-      "linkedName": "Front Left Reef"
+      "linkedName": "FLR"
     },
     {
       "anchor": {
-        "x": 1.6054261363636366,
+        "x": 1.4857670454545455,
         "y": 7.420326704545454
       },
       "prevControl": {
-        "x": 2.3537371389509834,
+        "x": 2.2340780480418925,
         "y": 6.7171063385422505
       },
       "nextControl": null,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -60.94539590092291
   },
   "useDefaultConstraints": true
 }

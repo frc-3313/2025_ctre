@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.245056818181819,
-        "y": 2.594076704545454
+        "x": 5.0356534090909095,
+        "y": 2.7237073863636363
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.411378079161085,
-        "y": 2.0785776153969895
+        "x": 4.201974670070175,
+        "y": 2.208208297215172
       },
       "isLocked": false,
       "linkedName": "BR-Score-point"
     },
     {
       "anchor": {
-        "x": 1.435909090909091,
-        "y": 0.7493323863636363
+        "x": 1.3760795454545454,
+        "y": 0.6994744318181813
       },
       "prevControl": {
-        "x": 2.998942341273536,
-        "y": 1.5068415807583393
+        "x": 2.93911279581899,
+        "y": 1.4569836262128844
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

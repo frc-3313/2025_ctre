@@ -48,6 +48,10 @@ public class ScoreCoralCMD extends Command
         {
           coral.RunIntake(-25);
         }
+        else if (stateMachine.getScoreHeight() == 0)
+        {
+          coral.RunIntake(-15);
+        }
         else 
         {
           coral.RunIntake(-30);
