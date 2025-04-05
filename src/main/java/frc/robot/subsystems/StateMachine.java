@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -90,7 +91,7 @@ public class StateMachine extends SubsystemBase
   }
   public void periodic()
   { 
-    
+    SmartDashboard.putBoolean("Smart", smartDrive);
     if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
     {
       candle.SetLowLeft(Constants.Candle.purple);

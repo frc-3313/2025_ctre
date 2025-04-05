@@ -22,7 +22,7 @@ public class DriveToAprilTag extends Command {
   // private final SwerveRequest.FieldCentricFacingAngle driveRequest = new FieldCentricFacingAngle()
   // .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
   private final SwerveRequest.RobotCentric driveRequest = new SwerveRequest.RobotCentric()
-    .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.Velocity);
+    .withDriveRequestType(com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType.OpenLoopVoltage);
 
   private final PIDController xController;
   private final PIDController yController;
@@ -32,20 +32,21 @@ public class DriveToAprilTag extends Command {
   // private double offsetRightY = -0.061; //-0.001
   // private double offsetLeftX = 0.002; //0.039
   // private double offsetLeftY = -0.032; //0.0005
-  private double offsetRightX = 0.054;
-  private double offsetRightY = -0.001;
-  private double offsetLeftX = -0.014; //0.057
-  private double offsetLeftY = 0.002; //0.016
-  private double kp = .25;
+  private double offsetRightX = 0.1905;
+  private double offsetRightY = -0.051;
+  private double offsetLeftX = -0.017; //0.057
+  private double offsetLeftY = -0.014; //0.016
+  private double kp = .11;
+  private double kd = .006;
   private double offsetX, offsetY;
 
-  private double txError = 0.15, tyError = 1;
+  private double txError = 0.3, tyError = .3;
 
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
-    this.xController = new PIDController(kp, 0.0, 0.0);
-    this.yController = new PIDController(kp, 0.0, 0.0);
+    this.xController = new PIDController(kp, 0.0, kd);
+    this.yController = new PIDController(kp, 0.0, kd);
     this.rotController = new PIDController(kp, 0.0, 0.0);
 
     addRequirements(swerveDrive);
