@@ -19,6 +19,7 @@ import frc.robot.subsystems.CANdleSystem.Color;
 public class StateMachine extends SubsystemBase 
 {
   private int scoreHeight = 1;
+  private int AlgaeHeight = 0;
   private boolean scoreLeft = true;
   private boolean killCommands;
   private boolean runIntake;
@@ -37,6 +38,10 @@ public class StateMachine extends SubsystemBase
   //Score Height Methods
   public void setScoreHeight(int input) { scoreHeight = input; }
   public int getScoreHeight() { return scoreHeight; }
+
+  //Score Height Methods
+  public void setAlgaeHeight(int input) { AlgaeHeight = input; }
+  public int getAlgaeHeight() { return AlgaeHeight; }
 
   // Score Side Methods
   public void setScoreLeft(boolean isLeft) { scoreLeft = isLeft; }

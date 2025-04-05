@@ -21,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BasicCommands.*;
+import frc.robot.commands.BasicCommands.Algae.AlgaeHeightCMD;
+import frc.robot.commands.BasicCommands.Algae.AlgaeIntake;
+import frc.robot.commands.BasicCommands.Algae.AlgaeScore;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.*;
 
@@ -41,6 +44,7 @@ public class RobotContainer {
     private final Coral coral = new Coral(stateMachine);
     private final Elevator elevator = new Elevator(stateMachine);
     private final Climber climber = new Climber(stateMachine);
+    private final Algae algae = new Algae(stateMachine);
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController driveController = new CommandXboxController(0);
@@ -131,6 +135,25 @@ public class RobotContainer {
             new InstantCommand(() -> stateMachine.setScoreHeight(2)));
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
+        //algae commands
+        manipulator.leftStick().onTrue(
+            new InstantCommand(() -> stateMachine.setAlgaeHeight(0)));
+        manipulator.rightStick().onTrue(
+            new InstantCommand(() -> stateMachine.setAlgaeHeight(1)));
+        //Button Right bumper - Intakes Algae
+        manipulator.rightBumper().whileTrue(
+                new SequentialCommandGroup(
+                   // new AlgaeHeightCMD(elevator, stateMachine, true),
+                    new AlgaeIntake(algae, elevator, stateMachine)
+                )    
+        );
+        manipulator.leftBumper().onTrue(
+            new SequentialCommandGroup(
+               // new AlgaeHeightCMD(elevator, stateMachine, false),
+                new AlgaeScore(algae, elevator, stateMachine)
+            )    
+        );
+
 
         //manipulator
             //Button A - Intake
