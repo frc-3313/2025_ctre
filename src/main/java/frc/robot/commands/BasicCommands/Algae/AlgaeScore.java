@@ -58,8 +58,7 @@ public class AlgaeScore extends Command
 
     elevator.setHeight(Constants.Elevator.BottomPosition);
     algae.setPos(Constants.Algae.TilterStorePos);
-
-    stateMachine.SetReadyToScore(false);
+    algae.StopIntake();
   }
 
   // Returns true when the command should end.
