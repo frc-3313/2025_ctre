@@ -18,18 +18,12 @@ public class AlgaeIntake extends Command
   public Elevator elevator;
   public StateMachine stateMachine;
   
-  double scoreSpeed;
-  public boolean timerStarted;
-  private final PIDController pidController;
-  private double kp = .1;
-  private double kd = .00;
 
   public AlgaeIntake(Algae m_algae,Elevator elevator, StateMachine stateMachine)
   {
     this.algae = m_algae;
     this.elevator = elevator;
     this.stateMachine = stateMachine;
-    this.pidController = new PIDController(kp, 0.0, kd);
 
     addRequirements(algae, elevator); 
   }

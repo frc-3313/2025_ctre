@@ -122,7 +122,7 @@ public class Algae extends SubsystemBase {
     tilterPidController.setD(stateMachine.getKd());
     tilterPidController.setD(stateMachine.getKi());
     tilterPidController.setD(stateMachine.getKp());
-    return MathUtil.clamp(tilterPidController.calculate(getEncoder(), newTargetPosition), -0.05, 0.05);
+    return MathUtil.clamp(tilterPidController.calculate(getEncoder(), newTargetPosition), -0.05, 0.05) * -1;
 
   }
 }

@@ -125,7 +125,7 @@ public class RobotContainer {
         manipulator.leftBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(true)));
 
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, drivetrain));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algae, drivetrain));
 
         manipulator.povLeft().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(0)));
@@ -226,5 +226,11 @@ public class RobotContainer {
         // An example command will be run in autonomous
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
+    }
+    public void setAlgaeStow()
+    {
+        // An example command will be run in autonomous
+        /* Run the path selected from the auto chooser */
+        algae.setPos(Constants.Algae.TilterStorePos);
     }
 }

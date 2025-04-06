@@ -7,6 +7,7 @@ package frc.robot.commands.BasicCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
+import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Coral;
@@ -14,13 +15,15 @@ import frc.robot.subsystems.Coral;
 public class ReturnToNormal extends InstantCommand {
   public Elevator elevator;
   public Coral coral;
+  public Algae algae;
   public Timer timer;
   public CommandSwerveDrivetrain drivetrain;
 
   /** Creates a new AmpScoreCMD. */
-  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, CommandSwerveDrivetrain drivetrain){
+  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, Algae algae, CommandSwerveDrivetrain drivetrain){
     elevator = m_Elevator;
     coral = m_Coral;
+    this.algae = algae;
     this.drivetrain = drivetrain;
     addRequirements(elevator, coral, drivetrain);
     
@@ -32,5 +35,6 @@ public class ReturnToNormal extends InstantCommand {
   {
     coral.StopIntake();
     elevator.setHeight(Constants.Elevator.BottomPosition);
+    algae.setPos(Constants.Algae.TilterStorePos);
   }
 }

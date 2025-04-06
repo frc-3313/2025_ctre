@@ -9,29 +9,20 @@ import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.StateMachine;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Timer;
 
 public class AlgaeScore extends Command 
 {
   
-  public Timer timer;
   public Algae algae;
   public Boolean endBoolean;
   public StateMachine stateMachine;
   public Elevator elevator;
-  private final PIDController pidController;
-  private double kp = .1;
-  private double kd = .00;
 
   public AlgaeScore(Algae algae, Elevator elevator, StateMachine stateMachine) {
-    timer = new Timer();
-    timer.reset();
-    timer.start();
+
     this.algae = algae;
     this.stateMachine = stateMachine;
     this.elevator = elevator;
-    this.pidController = new PIDController(kp, 0.0, kd);
 
     addRequirements(algae, elevator);
   }
