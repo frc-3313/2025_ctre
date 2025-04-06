@@ -30,11 +30,29 @@ public class StateMachine extends SubsystemBase
   private boolean readyToScore = false;
   private boolean coralPartialAquired = false;
   private CANdleSystem candle;
+  private double kp, ki, kd, kS, kG, kV, kA;
 
   //Initialization
 
-  public StateMachine(CANdleSystem candle){this.candle = candle;}
+  public StateMachine(CANdleSystem candle)
+  {
+    this.candle = candle;
+    SmartDashboard.putNumber("StateMachine KP", kp);
+    SmartDashboard.putNumber("StateMachine KI", ki);
+    SmartDashboard.putNumber("StateMachine KD", kd);
+    SmartDashboard.putNumber("StateMachine KS", kS);
+    SmartDashboard.putNumber("StateMachine KG", kG);
+    SmartDashboard.putNumber("StateMachine KV", kV);
+    SmartDashboard.putNumber("StateMachine KA", kA);
+  }
 
+  public double getKp() { return kp; }
+  public double getKi() { return ki; }
+  public double getKd() { return kd; }
+  public double getKs() { return kS; }
+  public double getKg() { return kG; }
+  public double getKv() { return kV; }
+  public double getKa() { return kA; }
   //Score Height Methods
   public void setScoreHeight(int input) { scoreHeight = input; }
   public int getScoreHeight() { return scoreHeight; }
@@ -97,6 +115,13 @@ public class StateMachine extends SubsystemBase
   public void periodic()
   { 
     SmartDashboard.putBoolean("Smart", smartDrive);
+    SmartDashboard.getNumber("StateMachine KP", kp);
+    SmartDashboard.getNumber("StateMachine KI", ki);
+    SmartDashboard.getNumber("StateMachine KD", kd);
+    SmartDashboard.getNumber("StateMachine KS", kS);
+    SmartDashboard.getNumber("StateMachine KG", kG);
+    SmartDashboard.getNumber("StateMachine KV", kV);
+    SmartDashboard.getNumber("StateMachine KA", kA);
     if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
     {
       candle.SetLowLeft(Constants.Candle.purple);

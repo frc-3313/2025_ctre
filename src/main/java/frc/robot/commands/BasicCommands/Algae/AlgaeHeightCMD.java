@@ -55,6 +55,13 @@ public class AlgaeHeightCMD extends Command
   @Override
   public boolean isFinished() 
   {
-    return true;
+    if(elevator.atSetpoint())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }

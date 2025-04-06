@@ -39,15 +39,13 @@ public class AlgaeScore extends Command
   @Override
   public void initialize() 
   {
-    algae.setSpeed(pidController.calculate(Constants.Algae.TilterScorePos - algae.getEncoder(), 0)/100, Constants.Algae.TilterScorePos);
+    algae.setPos(Constants.Algae.TilterScorePos);
 
-    algae.RunIntake(-10);
   }
 
   @Override
   public void execute()
   {
-    algae.setSpeed(pidController.calculate(Constants.Algae.TilterScorePos - algae.getEncoder(), 0)/100, Constants.Algae.TilterScorePos);
     if(algae.tilterAtSetpoint())
     {
       algae.RunIntake(-10);
@@ -59,7 +57,7 @@ public class AlgaeScore extends Command
   {
 
     elevator.setHeight(Constants.Elevator.BottomPosition);
-    algae.setSpeed(0, Constants.Algae.TilterStorePos);
+    algae.setPos(Constants.Algae.TilterStorePos);
 
     stateMachine.SetReadyToScore(false);
   }
@@ -68,10 +66,7 @@ public class AlgaeScore extends Command
   @Override
   public boolean isFinished() 
   {
-    if(timer.hasElapsed(1))
-    {
-      return true;
-    }
+
     return false;
   }
 }

@@ -37,14 +37,13 @@ public class AlgaeIntake extends Command
   @Override
   public void initialize() 
   {
-    algae.setSpeed(pidController.calculate(Constants.Climber.climbPos - algae.getEncoder(), 0)/1000, Constants.Climber.climbPos);
+    algae.setPos(Constants.Algae.TilterIntakePos);
     algae.RunIntake(10);
   }
 
   @Override
   public void execute() 
   {
-    algae.setSpeed(pidController.calculate(Constants.Climber.climbPos - algae.getEncoder(), 0)/1000, Constants.Climber.climbPos);
 
   }
 
@@ -52,10 +51,8 @@ public class AlgaeIntake extends Command
   public void end(boolean interrupted) 
   {
       algae.StopIntake();
-      algae.setSpeed(0,Constants.Algae.TilterIntakePos);
-
+      algae.setPos(Constants.Algae.TilterStorePos);
       elevator.setHeight(Constants.Elevator.BottomPosition);
-      SmartDashboard.putBoolean("Algae intake is done", true);
   }
 
   @Override

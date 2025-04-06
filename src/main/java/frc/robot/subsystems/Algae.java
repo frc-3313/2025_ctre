@@ -13,6 +13,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Servo;
@@ -22,27 +25,24 @@ import frc.robot.subsystems.StateMachine;
 public class Algae extends SubsystemBase {
 
   private final TalonFX tilterMoter = new TalonFX(Constants.Algae.TilterMotor_ID, Constants.CANIVORE);
- private final MotionMagicVoltage TilterMagic = new MotionMagicVoltage(0);
- private final MotionMagicVoltage IntakeMagic = new MotionMagicVoltage(0);
+  private final MotionMagicVoltage IntakeMagic = new MotionMagicVoltage(0);
   private final MotionMagicVelocityDutyCycle IntakeMagic2 = new MotionMagicVelocityDutyCycle(0);
- 
  private final TalonFX intakeMotor = new TalonFX(Constants.Algae.IntakeMotor_ID, Constants.CANIVORE);
-
-  private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
 
   private double newTargetPosition = 0;
   private final StateMachine stateMachine;
   private DutyCycleEncoder thruBore;
-    private DigitalInput AlgaeAquired = new DigitalInput(4);
-
+  private DigitalInput AlgaeAquired = new DigitalInput(4);
+  private final PIDController tilterPidController;
 
   public Algae(StateMachine _stateMachine) 
   {
+    tilterPidController = new PIDController(Constants.Algae.TilterkP, Constants.Algae.TilterkI, Constants.Algae.TilterkD);
     //26//45//147
     stateMachine = _stateMachine;
     
     thruBore = new DutyCycleEncoder(3,360,320);
-    
+    newTargetPosition = getEncoder();
     TalonFXConfiguration TilterConfig = new TalonFXConfiguration();
     // Configure PID values
     TilterConfig.Slot0.kP = Constants.Algae.TilterkP;
@@ -71,10 +71,11 @@ public class Algae extends SubsystemBase {
 
   }
 
-  public void setSpeed(double speed, double pos)
+  public void setPos(double pos)
   {
     newTargetPosition = pos;
-    tilterMoter.set(-speed);
+    tilterMoter.set(getPidOutput());
+
   }
   public boolean tilterAtSetpoint()
   {
@@ -93,24 +94,35 @@ public class Algae extends SubsystemBase {
   public void RunIntake(double speed)
   {
     intakeMotor.setControl(IntakeMagic2.withVelocity(speed).withSlot(0));
-
-    //intakeMotor.set(speed);
    
   }
   public void StopIntake()
   {
     var targetPos = intakeMotor.getPosition().getValueAsDouble();
-    intakeMotor.setControl(IntakeMagic.withPosition(targetPos-.2).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+    intakeMotor.setControl(IntakeMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
 
   }
   @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Algae set", m_request.Position);
+  public void periodic() 
+  {
+
+    tilterMoter.set(getPidOutput());
+
+    SmartDashboard.putNumber("Algae set", newTargetPosition);
     SmartDashboard.putNumber("Algae encoder", thruBore.get());
     SmartDashboard.putBoolean("AlgaeAquired", AlgaeAcquired());
+
   }
   public double getEncoder()
   {
     return thruBore.get();
+  }
+  private double getPidOutput()
+  {
+    tilterPidController.setD(stateMachine.getKd());
+    tilterPidController.setD(stateMachine.getKi());
+    tilterPidController.setD(stateMachine.getKp());
+    return MathUtil.clamp(tilterPidController.calculate(getEncoder(), newTargetPosition), -0.05, 0.05);
+
   }
 }

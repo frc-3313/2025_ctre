@@ -6,21 +6,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.StateMachine;
 
 public class Climber extends SubsystemBase {
 
   private final TalonFX masterMotor = new TalonFX(Constants.Climber.ClimberMotor1_ID, Constants.CANIVORE);
- private final MotionMagicVoltage motionMagic = new MotionMagicVoltage(0);
-  private final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
 
   private double newTargetPosition = 0;
   private final StateMachine stateMachine;
@@ -53,26 +49,10 @@ public class Climber extends SubsystemBase {
     masterMotor.setPosition(320);
   }
 
-  public void Raise()
-  {
-    newTargetPosition = Constants.Climber.RAISE;
-    masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
-  }
-  public void lower()
-  {
-    newTargetPosition = Constants.Climber.LOWER;
-    masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
-
-  }
   public void setSpeed(double speed, double pos)
   {
     newTargetPosition = pos;
     masterMotor.set(-speed);
-  }
-  public void Motor_Release()
-  {
-    newTargetPosition = masterMotor.getPosition().getValueAsDouble() - 2;
-    masterMotor.setControl(motionMagic.withPosition(newTargetPosition).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
   }
   public void Release()
   {
@@ -116,11 +96,8 @@ public class Climber extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Climber set", m_request.Position);
-    SmartDashboard.putNumber("Climber current", getCurrentPosition());
-    SmartDashboard.putNumber("servo current", getServoPos());
-    SmartDashboard.putNumber("Climber encoder", thruBore.get());
+  public void periodic() 
+  {
   }
   public double getEncoder()
   {

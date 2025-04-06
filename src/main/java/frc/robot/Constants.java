@@ -167,6 +167,11 @@ public final class Constants
     public static final double TilterkP = 10;
     public static final double TilterkI = 0.00000;
     public static final double TilterkD = 0.0;
+    public static final double TilterkS = 0.0;
+    public static final double TilterkG = 0.0;
+    public static final double TilterkV = 0.0;
+    public static final double TilterkA = 0.0;
+
 
     public static final double TilterCRUISE_VELOCITY = 5;  // Units per 100ms
     public static final double TilterACCELERATION = 480;     // Units per 100ms²
