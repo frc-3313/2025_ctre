@@ -30,20 +30,20 @@ public class StateMachine extends SubsystemBase
   private boolean readyToScore = false;
   private boolean coralPartialAquired = false;
   private CANdleSystem candle;
-  private double kp, ki, kd, kS, kG, kV, kA;
+  private double kp = .005, ki, kd, kS, kG, kV, kA;
 
   //Initialization
 
   public StateMachine(CANdleSystem candle)
   {
     this.candle = candle;
-    SmartDashboard.putNumber("StateMachine KP", kp);
-    SmartDashboard.putNumber("StateMachine KI", ki);
-    SmartDashboard.putNumber("StateMachine KD", kd);
-    SmartDashboard.putNumber("StateMachine KS", kS);
-    SmartDashboard.putNumber("StateMachine KG", kG);
-    SmartDashboard.putNumber("StateMachine KV", kV);
-    SmartDashboard.putNumber("StateMachine KA", kA);
+    // SmartDashboard.putNumber("St-KP", kp);
+    // SmartDashboard.putNumber("St-KI", ki);
+    // SmartDashboard.putNumber("St-KD", kd);
+    // SmartDashboard.putNumber("St-KS", kS);
+    // SmartDashboard.putNumber("St-KG", kG);
+    // SmartDashboard.putNumber("St-KV", kV);
+    // SmartDashboard.putNumber("St-KA", kA);
   }
 
   public double getKp() { return kp; }
@@ -115,13 +115,13 @@ public class StateMachine extends SubsystemBase
   public void periodic()
   { 
     SmartDashboard.putBoolean("Smart", smartDrive);
-    SmartDashboard.getNumber("StateMachine KP", kp);
-    SmartDashboard.getNumber("StateMachine KI", ki);
-    SmartDashboard.getNumber("StateMachine KD", kd);
-    SmartDashboard.getNumber("StateMachine KS", kS);
-    SmartDashboard.getNumber("StateMachine KG", kG);
-    SmartDashboard.getNumber("StateMachine KV", kV);
-    SmartDashboard.getNumber("StateMachine KA", kA);
+    // kp = SmartDashboard.getNumber("St-KP", kp);
+    // ki = SmartDashboard.getNumber("St-KI", ki);
+    // kd = SmartDashboard.getNumber("St-KD", kd);
+    // kS = SmartDashboard.getNumber("St-KS", kS);
+    // kG = SmartDashboard.getNumber("St-KG", kG);
+    // kV = SmartDashboard.getNumber("St-KV", kV);
+    // kA = SmartDashboard.getNumber("St-KA", kA);
     if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
     {
       candle.SetLowLeft(Constants.Candle.purple);

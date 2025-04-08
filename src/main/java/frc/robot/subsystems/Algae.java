@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,7 +43,8 @@ public class Algae extends SubsystemBase {
     stateMachine = _stateMachine;
     
     thruBore = new DutyCycleEncoder(3,360,320);
-    newTargetPosition = getEncoder();
+    newTargetPosition = Constants.Algae.TilterStorePos;
+    //getEncoder();
     TalonFXConfiguration TilterConfig = new TalonFXConfiguration();
     // Configure PID values
     TilterConfig.Slot0.kP = Constants.Algae.TilterkP;
@@ -94,11 +96,13 @@ public class Algae extends SubsystemBase {
   public void RunIntake(double speed)
   {
     intakeMotor.setControl(IntakeMagic2.withVelocity(speed).withSlot(0));
-   
+    // var targetPos = intakeMotor.getPosition().getValueAsDouble() + speed;
+    // intakeMotor.setControl(IntakeMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
+
   }
   public void StopIntake()
   {
-    var targetPos = intakeMotor.getPosition().getValueAsDouble();
+    var targetPos = intakeMotor.getPosition().getValueAsDouble() - 10;
     intakeMotor.setControl(IntakeMagic.withPosition(targetPos).withSlot(0).withIgnoreHardwareLimits(true).withOverrideBrakeDurNeutral(true));
 
   }
@@ -111,6 +115,7 @@ public class Algae extends SubsystemBase {
     SmartDashboard.putNumber("Algae set", newTargetPosition);
     SmartDashboard.putNumber("Algae encoder", thruBore.get());
     SmartDashboard.putBoolean("AlgaeAquired", AlgaeAcquired());
+    SmartDashboard.putNumber("algae KP", tilterPidController.getP());
 
   }
   public double getEncoder()
@@ -119,10 +124,8 @@ public class Algae extends SubsystemBase {
   }
   private double getPidOutput()
   {
-    tilterPidController.setD(stateMachine.getKd());
-    tilterPidController.setD(stateMachine.getKi());
-    tilterPidController.setD(stateMachine.getKp());
-    return MathUtil.clamp(tilterPidController.calculate(getEncoder(), newTargetPosition), -0.05, 0.05) * -1;
+
+    return MathUtil.clamp(tilterPidController.calculate(getEncoder(), newTargetPosition), -0.065, 0.065);
 
   }
 }

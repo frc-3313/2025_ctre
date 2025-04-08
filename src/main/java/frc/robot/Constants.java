@@ -155,7 +155,7 @@ public final class Constants
     //SHOOTER
     public static final int IntakeMotor_ID = 30;
     //PID & Motion Magic Constants
-    public static final double IntakekP = 4.8;
+    public static final double IntakekP = 10;
     public static final double IntakekI = 0.00001;
     public static final double IntakekD = 0.1;
 
@@ -164,7 +164,7 @@ public final class Constants
 
     public static final int TilterMotor_ID = 31;
     //PID & Motion Magic Constants
-    public static final double TilterkP = 10;
+    public static final double TilterkP = .005;
     public static final double TilterkI = 0.00000;
     public static final double TilterkD = 0.0;
     public static final double TilterkS = 0.0;
@@ -176,12 +176,13 @@ public final class Constants
     public static final double TilterCRUISE_VELOCITY = 5;  // Units per 100ms
     public static final double TilterACCELERATION = 480;     // Units per 100ms²
 
-    public static final double TilterIntakePos = 219;
-    public static final double TilterScorePos = 219;
-    public static final double TilterStorePos = 300;
-    public static final double TilterStartPos = 335;
+    public static final double TilterIntakePos = 124;
+    public static final double TilterScorePos = 163;
+    public static final double TilterStorePos = 232;
+    public static final double TilterStartPos = 273;
 
 
 
   }
+
 }

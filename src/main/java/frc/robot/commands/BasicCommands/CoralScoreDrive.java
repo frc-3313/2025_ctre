@@ -88,7 +88,6 @@ public class CoralScoreDrive extends Command {
     double deltaY = y - targetReefCenterY;
 
     double angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
-    System.out.println(angle);
     if(isRedAlliance)
     {
       if(angle > 150 || angle < -150)

@@ -35,7 +35,6 @@ public class CANdleSystem extends SubsystemBase{
         config.brightnessScalar = 1;
         candle.configAllSettings(config, 100);
         candle.configLEDType(LEDStripType.GRB); //just added this after cd post
-        System.out.println("Candle Initialized");
     }
 
     public void SetLowRight(Color color)

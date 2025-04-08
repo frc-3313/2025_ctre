@@ -32,19 +32,17 @@ public class AlgaeIntake extends Command
   public void initialize() 
   {
     algae.setPos(Constants.Algae.TilterIntakePos);
-    algae.RunIntake(10);
+    algae.RunIntake(-10);
   }
 
   @Override
   public void execute() 
   {
-
   }
 
   @Override
   public void end(boolean interrupted) 
   {
-      algae.StopIntake();
       algae.setPos(Constants.Algae.TilterStorePos);
       elevator.setHeight(Constants.Elevator.BottomPosition);
   }

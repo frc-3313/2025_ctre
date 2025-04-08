@@ -147,6 +147,7 @@ public class RobotContainer {
                     new AlgaeIntake(algae, elevator, stateMachine)
                 )    
         );
+        manipulator.rightBumper().onFalse(new InstantCommand(() -> algae.StopIntake()));
         manipulator.leftBumper().whileTrue(
             new SequentialCommandGroup(
                // new AlgaeHeightCMD(elevator, stateMachine, false),

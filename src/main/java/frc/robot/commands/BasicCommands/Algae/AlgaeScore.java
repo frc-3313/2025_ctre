@@ -39,7 +39,7 @@ public class AlgaeScore extends Command
   {
     if(algae.tilterAtSetpoint())
     {
-      algae.RunIntake(-10);
+      algae.RunIntake(5);
     }
   }
 
