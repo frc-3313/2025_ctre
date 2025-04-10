@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
     //m_robotContainer.drivetrain.zeroGyro();
 
-    m_robotContainer.setAlgaeStow();
+    // m_robotContainer.setAlgaeStow();
     if (m_autonomousCommand != null) 
     {
       SequentialCommandGroup autoCommand;
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() 
   {
-    m_robotContainer.setAlgaeStow();
+    // m_robotContainer.setAlgaeStow();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

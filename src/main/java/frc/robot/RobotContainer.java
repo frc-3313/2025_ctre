@@ -44,7 +44,7 @@ public class RobotContainer {
     private final Coral coral = new Coral(stateMachine);
     private final Elevator elevator = new Elevator(stateMachine);
     private final Climber climber = new Climber(stateMachine);
-    private final Algae algae = new Algae(stateMachine);
+    //private final Algae algae = new Algae(stateMachine);
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController driveController = new CommandXboxController(0);
@@ -125,7 +125,7 @@ public class RobotContainer {
         manipulator.leftBumper().onTrue(
             new InstantCommand(() -> stateMachine.setScoreLeft(true)));
 
-        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, algae, drivetrain));
+        manipulator.x().onTrue(new ReturnToNormal(coral, elevator, drivetrain));
 
         manipulator.povLeft().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(0)));
@@ -136,24 +136,24 @@ public class RobotContainer {
         manipulator.povUp().onTrue(
             new InstantCommand(() -> stateMachine.setScoreHeight(3)));
         //algae commands
-        manipulator.leftStick().onTrue(
-            new InstantCommand(() -> stateMachine.setAlgaeHeight(0)));
-        manipulator.rightStick().onTrue(
-            new InstantCommand(() -> stateMachine.setAlgaeHeight(1)));
-        //Button Right bumper - Intakes Algae
-        manipulator.rightBumper().whileTrue(
-                new SequentialCommandGroup(
-                   // new AlgaeHeightCMD(elevator, stateMachine, true),
-                    new AlgaeIntake(algae, elevator, stateMachine)
-                )    
-        );
-        manipulator.rightBumper().onFalse(new InstantCommand(() -> algae.StopIntake()));
-        manipulator.leftBumper().whileTrue(
-            new SequentialCommandGroup(
-               // new AlgaeHeightCMD(elevator, stateMachine, false),
-                new AlgaeScore(algae, elevator, stateMachine)
-            )    
-        );
+        // manipulator.leftStick().onTrue(
+        //     new InstantCommand(() -> stateMachine.setAlgaeHeight(0)));
+        // manipulator.rightStick().onTrue(
+        //     new InstantCommand(() -> stateMachine.setAlgaeHeight(1)));
+        // //Button Right bumper - Intakes Algae
+        // manipulator.rightBumper().whileTrue(
+        //         new SequentialCommandGroup(
+        //            // new AlgaeHeightCMD(elevator, stateMachine, true),
+        //             new AlgaeIntake(algae, elevator, stateMachine)
+        //         )    
+        // );
+        // manipulator.rightBumper().onFalse(new InstantCommand(() -> algae.StopIntake()));
+        // manipulator.leftBumper().whileTrue(
+        //     new SequentialCommandGroup(
+        //        // new AlgaeHeightCMD(elevator, stateMachine, false),
+        //         new AlgaeScore(algae, elevator, stateMachine)
+        //     )    
+        // );
 
 
         //manipulator
@@ -228,10 +228,10 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }
-    public void setAlgaeStow()
-    {
-        // An example command will be run in autonomous
-        /* Run the path selected from the auto chooser */
-        algae.setPos(Constants.Algae.TilterStorePos);
-    }
+    // public void setAlgaeStow()
+    // {
+    //     // An example command will be run in autonomous
+    //     /* Run the path selected from the auto chooser */
+    //     algae.setPos(Constants.Algae.TilterStorePos);
+    // }
 }

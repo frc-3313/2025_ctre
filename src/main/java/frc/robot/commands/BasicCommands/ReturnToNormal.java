@@ -15,15 +15,13 @@ import frc.robot.subsystems.Coral;
 public class ReturnToNormal extends InstantCommand {
   public Elevator elevator;
   public Coral coral;
-  public Algae algae;
   public Timer timer;
   public CommandSwerveDrivetrain drivetrain;
 
   /** Creates a new AmpScoreCMD. */
-  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, Algae algae, CommandSwerveDrivetrain drivetrain){
+  public ReturnToNormal(Coral m_Coral, Elevator m_Elevator, CommandSwerveDrivetrain drivetrain){
     elevator = m_Elevator;
     coral = m_Coral;
-    this.algae = algae;
     this.drivetrain = drivetrain;
     addRequirements(elevator, coral, drivetrain);
     
@@ -35,6 +33,5 @@ public class ReturnToNormal extends InstantCommand {
   {
     coral.StopIntake();
     elevator.setHeight(Constants.Elevator.BottomPosition);
-    algae.setPos(Constants.Algae.TilterStorePos);
   }
 }
