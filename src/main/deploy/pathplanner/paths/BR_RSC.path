@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.245056818181819,
-        "y": 2.594076704545454
+        "x": 5.0356534090909095,
+        "y": 2.7237073863636363
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.802533783783784,
-        "y": 1.5446790540540531
+        "x": 4.593130374692874,
+        "y": 1.6743097358722356
       },
       "isLocked": false,
       "linkedName": "BR-Score-point"
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

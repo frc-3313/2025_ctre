@@ -62,6 +62,9 @@ public final class Constants
       public static final double Third = 39.3;
       public static final double Fourth = 71;
       public static final double elvHighest = 71.2; //max height 71.854980
+      public static final double AlgaeFirst = 10;
+      public static final double AlgaeSecond = 20.3;
+      public static final double AlgaeScore = 20.3;
 
       public static final int MASTER_MOTOR_ID = 10; // Update with actual CAN ID
       public static final int SLAVE_MOTOR_ID = 11;  // Update with actual CAN ID
@@ -147,4 +150,39 @@ public final class Constants
     public static final Color red = new Color(255, 0, 0);
     public static final Color orange = new Color(227, 110, 7);
   }
+  public static final class Algae
+  {
+    //SHOOTER
+    public static final int IntakeMotor_ID = 30;
+    //PID & Motion Magic Constants
+    public static final double IntakekP = 10;
+    public static final double IntakekI = 0.00001;
+    public static final double IntakekD = 0.1;
+
+    public static final double IntakeCRUISE_VELOCITY = 2000;  // Units per 100ms
+    public static final double IntakeACCELERATION = 480;     // Units per 100ms²
+
+    public static final int TilterMotor_ID = 31;
+    //PID & Motion Magic Constants
+    public static final double TilterkP = .005;
+    public static final double TilterkI = 0.00000;
+    public static final double TilterkD = 0.0;
+    public static final double TilterkS = 0.0;
+    public static final double TilterkG = 0.0;
+    public static final double TilterkV = 0.0;
+    public static final double TilterkA = 0.0;
+
+
+    public static final double TilterCRUISE_VELOCITY = 5;  // Units per 100ms
+    public static final double TilterACCELERATION = 480;     // Units per 100ms²
+
+    public static final double TilterIntakePos = 124;
+    public static final double TilterScorePos = 163;
+    public static final double TilterStorePos = 232;
+    public static final double TilterStartPos = 273;
+
+
+
+  }
+
 }

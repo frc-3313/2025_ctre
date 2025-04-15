@@ -35,30 +35,38 @@ public class CANdleSystem extends SubsystemBase{
         config.brightnessScalar = 1;
         candle.configAllSettings(config, 100);
         candle.configLEDType(LEDStripType.GRB); //just added this after cd post
-        System.out.println("Candle Initialized");
     }
 
-    public void SetLow(Color color)
+    public void SetLowRight(Color color)
     {
         LEDSegment.LowOne.setColor(color);
         LEDSegment.LowTwo.setColor(color);
+    }
+    public void SetLowLeft(Color color)
+    {
         LEDSegment.LowThree.setColor(color);
-        LEDSegment.LowFour.setColor(color);
+        LEDSegment.LowTwo_2.setColor(color);
 
     }
-    public void SetMid(Color color)
+    public void SetMidRight(Color color)
     {
         LEDSegment.MidOne.setColor(color);
         LEDSegment.MidTwo.setColor(color);
-        LEDSegment.MidThree.setColor(color);
-        LEDSegment.MidFour.setColor(color);
     }
-    public void SetHigh(Color color)
+    public void SetMidLeft(Color color)
+    {
+        LEDSegment.MidThree.setColor(color);
+        LEDSegment.MidTwo_2.setColor(color);
+    }
+    public void SetHighRight(Color color)
     {
         LEDSegment.HighOne.setColor(color);
         LEDSegment.HighTwo.setColor(color);
+    }
+    public void SetHighLeft(Color color)
+    {
         LEDSegment.HighThree.setColor(color);
-        LEDSegment.HighFour.setColor(color);
+        LEDSegment.HighTwo_2.setColor(color);
     }
     public void setRainbow() {
         LEDSegment.SegmentOne.setRainbowAnimation(.25);
@@ -80,15 +88,15 @@ public class CANdleSystem extends SubsystemBase{
         LowOne(8, 10, 1),
         MidOne(18, 10, 1),
         HighOne(28, 10, 1),
-        HighTwo(38, 10, 1),
-        MidTwo(48, 10, 1),
-        LowTwo(58, 10, 1),
+        LowTwo(38, 5, 1),
+        MidTwo(43, 5, 1),
+        HighTwo(48, 5, 1),
         LowThree(88, 10, 1),
         MidThree(78, 10, 1),
         HighThree(68, 10, 1),
-        HighFour(98, 10, 1),
-        MidFour(108, 10, 1),
-        LowFour(118, 10, 1),
+        HighTwo_2(53, 5, 1),
+        MidTwo_2(58, 5, 1),
+        LowTwo_2(63, 5, 1),
         SegmentOne(8,30,2),
         SegmentTwo(3,30,3),
         SegmentThree(68,30,4),

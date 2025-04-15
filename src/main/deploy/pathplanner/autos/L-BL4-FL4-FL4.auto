@@ -83,7 +83,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "LSF_FL"
+                        "pathName": "LSF_FLL"
                       }
                     }
                   ]
@@ -99,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetRight"
+                  "name": "SetLeft"
                 }
               },
               {
@@ -139,7 +139,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FL_LSF"
+            "pathName": "FLL_LSF"
           }
         },
         {
@@ -165,7 +165,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "LSF_FL"
+                        "pathName": "LSF_FLR"
                       }
                     }
                   ]
@@ -181,7 +181,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SetLeft"
+                  "name": "SetRight"
                 }
               },
               {
