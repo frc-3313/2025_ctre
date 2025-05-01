@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.064500000000001,
-        "y": 5.448499999999999
+        "x": 6.631107954545453,
+        "y": 5.95450284090909
       },
       "isLocked": false,
       "linkedName": "Back Reef"
     },
     {
       "anchor": {
-        "x": 4.9725,
-        "y": 7.29125
+        "x": 4.288682432432433,
+        "y": 7.108108108108107
       },
       "prevControl": {
-        "x": 5.0505,
-        "y": 6.930499999999999
+        "x": 4.521352886977888,
+        "y": 6.549145039926288
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.03,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.6,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

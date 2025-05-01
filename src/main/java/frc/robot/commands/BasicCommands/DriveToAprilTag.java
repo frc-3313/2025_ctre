@@ -32,22 +32,27 @@ public class DriveToAprilTag extends Command {
   // private double offsetRightY = -0.061; //-0.001
   // private double offsetLeftX = 0.002; //0.039
   // private double offsetLeftY = -0.032; //0.0005
-  private double offsetRightX = 0.1905;
-  private double offsetRightY = -0.051;
-  private double offsetLeftX = -0.017; //0.057
-  private double offsetLeftY = -0.014; //0.016
-  private double kp = .11;
-  private double kd = .006;
+  private double offsetRightX = -0.025695418938994408; //0.0430; //0.1905
+  private double offsetRightY = -0.02515939064323902;//-0.049; //-0.051
+  private double offsetLeftX = -0.008273792453110218;//0.0238; //-0.017
+  private double offsetLeftY = -0.02510916441679001;//0.0125; //-0.014
+  private double Xkp = .11; //.11
+  private double Xkd = .003;
+  private double ykp = .05; //.11
+  private double ykd = .003;
+  private double rotkp = .09; //.11
+  private double rotkd = .00;
   private double offsetX, offsetY;
 
-  private double txError = 0.3, tyError = .3;
+  private double txError = .2;//0.15;
+  private double tyError = 1.2; //.3
 
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
-    this.xController = new PIDController(kp, 0.0, kd);
-    this.yController = new PIDController(kp, 0.0, kd);
-    this.rotController = new PIDController(kp, 0.0, 0.0);
+    this.xController = new PIDController(Xkp, 0.0, Xkd);
+    this.yController = new PIDController(ykp, 0.0, ykd);
+    this.rotController = new PIDController(rotkp, 0.0, rotkd);
 
     addRequirements(swerveDrive);
   }
@@ -62,6 +67,7 @@ public class DriveToAprilTag extends Command {
     rotController.reset();
     if(stateMachine.isScoreLeft())
     {
+      
       limelight = Constants.Limelight.RIGHT;
       LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
       offsetX = offsetRightX;
@@ -124,7 +130,7 @@ public class DriveToAprilTag extends Command {
   public boolean isFinished() {
     if(LimelightHelpers.getTV(limelight))
     {
-      if(LimelightHelpers.getTX(limelight) <= txError && 
+      if(Math.abs(LimelightHelpers.getTX(limelight)) <= txError && 
       LimelightHelpers.getTY(limelight) <= tyError)
       {
         stateMachine.SetReadyToScore(true);

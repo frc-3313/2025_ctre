@@ -49,7 +49,7 @@ public class ClimbGrabPositionCMDPID extends Command
   public void execute() {
     if (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime) 
     {
-      if (timer.hasElapsed(.5)) {
+      if (timer.hasElapsed(.75)) {
         climber.setSpeed(pidController.calculate(Constants.Climber.grabPos - climber.getEncoder(), 0), Constants.Climber.grabPos);
       }
     }

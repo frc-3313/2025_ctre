@@ -30,8 +30,6 @@ public class ScoreCoralHeightCMD extends Command
   @Override
   public void initialize() 
   {
-    if(stateMachine.IsReadyToScore())
-    {
       if(coral.coralFullyAcquired() && !coral.coralPartiallyAcquired())
       {
         if (stateMachine.getScoreHeight() == 0)
@@ -43,7 +41,6 @@ public class ScoreCoralHeightCMD extends Command
         else if (stateMachine.getScoreHeight() == 3)
           elevator.setHeight(Constants.Elevator.Fourth); 
       }
-    }
   }
 
   @Override

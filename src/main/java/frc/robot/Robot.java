@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run(); 
     SmartDashboard.putData(CommandScheduler.getInstance());
     LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.LEFT);
-    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);;
+    LimelightHelpers.setLEDMode_ForceOn(Constants.Limelight.RIGHT);
 
   }
 
