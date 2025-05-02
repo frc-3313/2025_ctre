@@ -32,14 +32,6 @@ public class DriveToAprilTag extends Command {
   // private double offsetRightY = -0.061; //-0.001
   // private double offsetLeftX = 0.002; //0.039
   // private double offsetLeftY = -0.032; //0.0005
-<<<<<<< Updated upstream
-  private double offsetRightX = 0.1905;
-  private double offsetRightY = -0.051;
-  private double offsetLeftX = -0.017; //0.057
-  private double offsetLeftY = -0.014; //0.016
-  private double kp = .11;
-  private double kd = .006;
-=======
   private double offsetRightX = -0.025695418938994408; //0.0430; //0.1905
   private double offsetRightY = -0.02515939064323902;//-0.049; //-0.051
   private double offsetLeftX = -0.008273792453110218;//0.0238; //-0.017
@@ -54,7 +46,6 @@ public class DriveToAprilTag extends Command {
   private double ykd = .003;
   private double rotkp = .09; //.11
   private double rotkd = .00;
->>>>>>> Stashed changes
   private double offsetX, offsetY;
   private double rotSetpoint = 0;
 
@@ -63,9 +54,9 @@ public class DriveToAprilTag extends Command {
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
     this.stateMachine = stateMachine;
-    this.xController = new PIDController(kp, 0.0, kd);
-    this.yController = new PIDController(kp, 0.0, kd);
-    this.rotController = new PIDController(kp, 0.0, 0.0);
+    this.xController = new PIDController(Xkp, 0.0, Xkd);
+    this.yController = new PIDController(ykp, 0.0, ykd);
+    this.rotController = new PIDController(rotkp, 0.0, rotkd);
 
     addRequirements(swerveDrive);
   }
@@ -80,12 +71,7 @@ public class DriveToAprilTag extends Command {
     rotController.reset();
     if(stateMachine.isScoreLeft())
     {
-<<<<<<< Updated upstream
-      limelight = Constants.Limelight.RIGHT;
-      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
-      offsetX = offsetRightX;
-      offsetY = offsetRightY;
-=======
+
       if(stateMachine.getScoreHeight() == 0)
       {
         limelight = Constants.Limelight.RIGHT;
@@ -102,7 +88,6 @@ public class DriveToAprilTag extends Command {
         offsetY = offsetRightY;
         rotSetpoint = 0;
       }
->>>>>>> Stashed changes
     }
     else{
       if(stateMachine.getScoreHeight() == 0)
@@ -174,13 +159,8 @@ public class DriveToAprilTag extends Command {
   public boolean isFinished() {
     if(LimelightHelpers.getTV(limelight))
     {
-<<<<<<< Updated upstream
-      if(LimelightHelpers.getTX(limelight) <= txError && 
-      LimelightHelpers.getTY(limelight) <= tyError)
-=======
       if(Math.abs(LimelightHelpers.getTX(limelight)) <= txError && 
          Math.abs(LimelightHelpers.getTY(limelight)) <= tyError)
->>>>>>> Stashed changes
       {
         stateMachine.SetReadyToScore(true);
         return true;

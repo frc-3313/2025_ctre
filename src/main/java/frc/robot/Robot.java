@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
     DriverStation.silenceJoystickConnectionWarning(true);
-    SignalLogger.setPath("/media/sda1/");
+    //SignalLogger.setPath("/media/sda1/");
     SignalLogger.start();
     m_robotContainer.drivetrain.zeroGyroAuto();
   }
