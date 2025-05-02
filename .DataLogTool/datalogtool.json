@@ -1,7 +1,6 @@
 {
   "download": {
-    "deleteAfter": false,
-    "localDir": "C:\\Users\\3313c\\OneDrive\\Desktop\\logs",
+    "localDir": "C:\\Users\\3313c\\OneDrive\\Desktop\\logs\\from rio",
     "remoteDir": "/media/sda1/logs",
     "serverTeam": "3313"
   }

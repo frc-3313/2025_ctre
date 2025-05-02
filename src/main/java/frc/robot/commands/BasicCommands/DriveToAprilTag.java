@@ -136,6 +136,8 @@ public class DriveToAprilTag extends Command {
       driveRequest.RotationalRate = -rotbotRot;
 
       swerveDrive.setControl(driveRequest);
+      SmartDashboard.putNumber("drive to april rotationalRate", rotbotRot);
+
     }
 
     SmartDashboard.putBoolean("drive to apirl rot", rotController.atSetpoint());
