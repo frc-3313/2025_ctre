@@ -55,7 +55,7 @@ public class DriveToAprilTag extends Command {
     this.stateMachine = stateMachine;
     this.xController = new PIDController(Xkp, 0.0, Xkd);
     this.yController = new PIDController(ykp, 0.0, ykd);
-    this.rotController = new PIDController(rotkp, 0.0, 0.0);
+    this.rotController = new PIDController(rotkp, 0.0, rotkd);
 
     addRequirements(swerveDrive);
   }
@@ -70,12 +70,11 @@ public class DriveToAprilTag extends Command {
     rotController.reset();
     if(stateMachine.isScoreLeft())
     {
-
         limelight = Constants.Limelight.RIGHT;
         LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
         offsetX = offsetRightX;
         offsetY = offsetRightY;
-      
+
     }
     else{
       limelight = Constants.Limelight.LEFT;
@@ -134,7 +133,7 @@ public class DriveToAprilTag extends Command {
   public boolean isFinished() {
     if(LimelightHelpers.getTV(limelight))
     {
-      if(LimelightHelpers.getTX(limelight) <= txError && 
+      if(Math.abs(LimelightHelpers.getTX(limelight)) <= txError && 
       LimelightHelpers.getTY(limelight) <= tyError)
       {
         stateMachine.SetReadyToScore(true);

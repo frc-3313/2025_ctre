@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -183,8 +184,11 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(false)),
                     //new GoToScoringPosition(drivetrain, stateMachine),
-                    new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ParallelCommandGroup
+                    (
+                        new DriveToAprilTag(drivetrain, stateMachine),
+                        new ScoreCoralHeightCMD(coral, elevator, stateMachine)
+                    ),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),                                                  // Smart mode (none for onTrue, handled onFalse)
                 new ScoreCoralCMD(coral, elevator, stateMachine),                // Manual mode
@@ -198,12 +202,15 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> stateMachine.setScoreLeft(true)),
                     //new GoToScoringPosition(drivetrain, stateMachine),
-                    new DriveToAprilTag(drivetrain, stateMachine),
-                    new ScoreCoralHeightCMD(coral, elevator, stateMachine),
+                    new ParallelCommandGroup
+                    (
+                        new DriveToAprilTag(drivetrain, stateMachine),
+                        new ScoreCoralHeightCMD(coral, elevator, stateMachine)
+                    ),
                     new ScoreCoralCMD(coral, elevator, stateMachine)
                 ),
-            new ScoreCoralCMD(coral, elevator, stateMachine),
-            stateMachine::IsDriveModeSmart
+                new ScoreCoralCMD(coral, elevator, stateMachine),
+                stateMachine::IsDriveModeSmart
             )
         );
 

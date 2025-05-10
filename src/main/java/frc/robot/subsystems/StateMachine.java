@@ -6,6 +6,9 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -122,26 +125,27 @@ public class StateMachine extends SubsystemBase
     // kG = SmartDashboard.getNumber("St-KG", kG);
     // kV = SmartDashboard.getNumber("St-KV", kV);
     // kA = SmartDashboard.getNumber("St-KA", kA);
-    if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
-    {
-      candle.SetLowLeft(Constants.Candle.purple);
-      candle.SetMidLeft(Constants.Candle.purple);
-      candle.SetHighLeft(Constants.Candle.purple);
-      candle.SetLowRight(Constants.Candle.purple);
-      candle.SetMidRight(Constants.Candle.purple);
-      candle.SetHighRight(Constants.Candle.purple);
-    }
-    else if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime
-        && DriverStation.getMatchTime() > 0)) 
-    {
-      candle.SetLowLeft(Constants.Candle.yellow);
-      candle.SetMidLeft(Constants.Candle.yellow);
-      candle.SetHighLeft(Constants.Candle.yellow);
-      candle.SetLowRight(Constants.Candle.yellow);
-      candle.SetMidRight(Constants.Candle.yellow);
-      candle.SetHighRight(Constants.Candle.yellow);
-    }
-    else if(DriverStation.isDisabled())
+    // if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= 15 && DriverStation.getMatchTime() > 0)) 
+    // {
+    //   candle.SetLowLeft(Constants.Candle.purple);
+    //   candle.SetMidLeft(Constants.Candle.purple);
+    //   candle.SetHighLeft(Constants.Candle.purple);
+    //   candle.SetLowRight(Constants.Candle.purple);
+    //   candle.SetMidRight(Constants.Candle.purple);
+    //   candle.SetHighRight(Constants.Candle.purple);
+    // }
+    // else if (DriverStation.isAutonomous() && (DriverStation.getMatchTime() <= Constants.Climber.MaxMatchTime
+    //     && DriverStation.getMatchTime() > 0)) 
+    // {
+    //   candle.SetLowLeft(Constants.Candle.yellow);
+    //   candle.SetMidLeft(Constants.Candle.yellow);
+    //   candle.SetHighLeft(Constants.Candle.yellow);
+    //   candle.SetLowRight(Constants.Candle.yellow);
+    //   candle.SetMidRight(Constants.Candle.yellow);
+    //   candle.SetHighRight(Constants.Candle.yellow);
+    // }
+    //else 
+    if(DriverStation.isDisabled())
     {
       if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       {
@@ -192,9 +196,18 @@ public class StateMachine extends SubsystemBase
     switch(scoreHeight) 
     {
       case 0:
-        candle.SetLowRight(Constants.Candle.yellow);
-        candle.SetMidRight(Constants.Candle.black);
-        candle.SetHighRight(Constants.Candle.black);
+        if(IsDriveModeSmart())
+        {
+          candle.SetLowRight(Constants.Candle.white);
+          candle.SetMidRight(Constants.Candle.black);
+          candle.SetHighRight(Constants.Candle.black);
+        }
+        else
+        {
+          candle.SetLowRight(Constants.Candle.white);
+          candle.SetMidRight(Constants.Candle.red);
+          candle.SetHighRight(Constants.Candle.red);
+        }
         break;
       case 1:
         candle.SetLowRight(color);
@@ -218,9 +231,18 @@ public class StateMachine extends SubsystemBase
     switch(scoreHeight) 
     {
       case 0:
-        candle.SetLowLeft(Constants.Candle.yellow);
-        candle.SetMidLeft(Constants.Candle.black);
-        candle.SetHighLeft(Constants.Candle.black);
+        if(IsDriveModeSmart())
+        {
+          candle.SetLowLeft(Constants.Candle.white);
+          candle.SetMidLeft(Constants.Candle.black);
+          candle.SetHighLeft(Constants.Candle.black);
+        }
+        else  
+        {
+          candle.SetLowLeft(Constants.Candle.white);
+          candle.SetMidLeft(Constants.Candle.red);
+          candle.SetHighLeft(Constants.Candle.red);
+        }
         break;
       case 1:
         candle.SetLowLeft(color);

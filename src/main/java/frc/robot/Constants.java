@@ -29,7 +29,7 @@ public final class Constants
 
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
-    public static final double MAX_SPEED = Units.feetToMeters(14.5);
+    public static final double MAX_SPEED = Units.feetToMeters(14.5); //max 14.5
     public static final double KPDrive = 10;
     public static final double KPSteer = 7;
   }
@@ -56,10 +56,10 @@ public final class Constants
       //ELEVATOR
       public static final int ElevatorMotor1_ID = 27;
       public static final int ElevatorMotor2_ID = 28;
-      public static final double BottomPosition = .25;
+      public static final double BottomPosition = .5;//.28
       public static final double First = 10;
       public static final double Second = 20.3;
-      public static final double Third = 39.3;
+      public static final double Third = 40.5;
       public static final double Fourth = 71;
       public static final double elvHighest = 71.2; //max height 71.854980
       public static final double AlgaeFirst = 10;
@@ -74,8 +74,8 @@ public final class Constants
       public static final double kI = 0.00001;
       public static final double kD = 0.1;
 
-      public static final double CRUISE_VELOCITY = 2000;  // Units per 100ms
-      public static final double ACCELERATION = 480;     // Units per 100ms²
+      public static final double CRUISE_VELOCITY = 3000;  // Units per 100ms
+      public static final double ACCELERATION = 1200;     // Units per 100ms²
 
       //Soft Limits
       public static final double MIN_HEIGHT = 0.0;
@@ -115,7 +115,7 @@ public final class Constants
       public static final double RAISE = 335; 
       public static final double LOWER = 500;
       public static final double StorePos = 26;
-      public static final double climbPos = 65;
+      public static final double climbPos = 63;
       public static final double grabPos = 155;    //26//45//147
 
       
