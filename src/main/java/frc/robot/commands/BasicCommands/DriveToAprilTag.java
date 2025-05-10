@@ -32,20 +32,23 @@ public class DriveToAprilTag extends Command {
   // private double offsetRightY = -0.061; //-0.001
   // private double offsetLeftX = 0.002; //0.039
   // private double offsetLeftY = -0.032; //0.0005
-  private double offsetRightX = -0.025695418938994408; //0.0430; //0.1905
-  private double offsetRightY = -0.02515939064323902;//-0.049; //-0.051
-  private double offsetLeftX = -0.008273792453110218;//0.0238; //-0.017
-  private double offsetLeftY = -0.02510916441679001;//0.0125; //-0.014
+  private double offsetRightX = 0.01495285052806139; //0.0430; //0.1905
+  private double offsetRightY = -0.020561281591653824;//-0.049; //-0.051
+  private double offsetLeftX = -0.0034890174865722656;//0.0238; //-0.017
+  private double offsetLeftY = -0.05534464493393898;//0.0125; //-0.014
+  private double offsetRightLevel1X = 0.5957528948783875;
+  private double offsetRightLevel1Y = -0.010251236148178577;
+  private double offsetLeftLevel1X = -0.614608883857727;
+  private double offsetLeftLevel1Y = -0.0038976033683866262;
   private double Xkp = .11; //.11
   private double Xkd = .003;
-  private double ykp = .05; //.11
+  private double ykp = .07; //.11
   private double ykd = .003;
   private double rotkp = .09; //.11
   private double rotkd = .00;
   private double offsetX, offsetY;
 
-  private double txError = .2;//0.15;
-  private double tyError = 1.2; //.3
+  private double txError = 0.55, tyError = 0.4;
 
   public DriveToAprilTag(CommandSwerveDrivetrain swerveDrive, StateMachine stateMachine) {
     this.swerveDrive = swerveDrive;
@@ -67,11 +70,11 @@ public class DriveToAprilTag extends Command {
     rotController.reset();
     if(stateMachine.isScoreLeft())
     {
-      
-      limelight = Constants.Limelight.RIGHT;
-      LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
-      offsetX = offsetRightX;
-      offsetY = offsetRightY;
+        limelight = Constants.Limelight.RIGHT;
+        LimelightHelpers.setFiducial3DOffset(Constants.Limelight.RIGHT, offsetRightX, offsetRightY, 0);
+        offsetX = offsetRightX;
+        offsetY = offsetRightY;
+
     }
     else{
       limelight = Constants.Limelight.LEFT;

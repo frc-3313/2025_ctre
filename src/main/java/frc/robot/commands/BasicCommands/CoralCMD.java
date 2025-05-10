@@ -45,7 +45,7 @@ public class CoralCMD extends Command
   public void end(boolean interrupted) 
   {
       coral.StopIntake();
-      SmartDashboard.putBoolean("intake is done", true);
+      //SmartDashboard.putBoolean("intake is done", true);
   }
 
   @Override

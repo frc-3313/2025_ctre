@@ -374,7 +374,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   {
     boolean doRejectUpdate = false;
 
-    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    //SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
     LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
     if (mt2 != null)
@@ -502,7 +502,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   {
     zeroGyroAuto();
     boolean doRejectUpdate = false;
-    SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
+    //SmartDashboard.putBoolean("Limelight 2", LimelightHelpers.getTV(Constants.Limelight.LEFT));
     LimelightHelpers.SetRobotOrientation(Constants.Limelight.LEFT, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Limelight.LEFT);
     if(mt2 != null)
