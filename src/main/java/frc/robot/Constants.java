@@ -134,9 +134,8 @@ public final class Constants
   public static final class Limelight
   {
 
-    public static final String LEFT = "limelight-mech";
+    public static final String LEFT = "limelight-mech";//FIXME
     public static final String RIGHT = "limelight-right";
-    //public static final String FRONT = "limelight-right";
 
   }
   public static final class Candle
