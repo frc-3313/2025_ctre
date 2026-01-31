@@ -114,7 +114,7 @@ public class Telemetry {
 
         /* Telemeterize the module states to a Mechanism2d */
         // for (int i = 0; i < 4; ++i) {
-        //     m_moduleSpeeds[i].setAngle(state.ModuleStates[i].angle);
+        //    m_moduleSpeeds[i].setAngle(state.ModuleStates[i].angle);
         //     m_moduleDirections[i].setAngle(state.ModuleStates[i].angle);
         //     m_moduleSpeeds[i].setLength(state.ModuleStates[i].speedMetersPerSecond / (2 * MaxSpeed));
 
